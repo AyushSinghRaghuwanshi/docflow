@@ -1,0 +1,35 @@
+{
+  "id": "doc_037",
+  "fault": "due_before_issue",
+  "expected_error_codes": [
+    "DUE_BEFORE_ISSUE"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Rhein B\u00fcrotechnik GmbH",
+    "invoice_number": "NG-32591",
+    "invoice_date": "2026-04-10",
+    "due_date": "2026-04-05",
+    "currency": "EUR",
+    "subtotal": "1035.16",
+    "vat_rate": "20",
+    "vat_amount": "207.03",
+    "total": "1242.19",
+    "line_items": [
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "1",
+        "unit_price": "446.5",
+        "amount": "446.50"
+      },
+      {
+        "description": "Laptop docking station",
+        "quantity": "6",
+        "unit_price": "98.11",
+        "amount": "588.66"
+      }
+    ]
+  },
+  "file": "doc_037.pdf",
+  "layout": "pdf-stacked"
+}

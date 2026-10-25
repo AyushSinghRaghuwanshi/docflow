@@ -1,0 +1,35 @@
+{
+  "id": "doc_051",
+  "fault": "duplicate",
+  "expected_error_codes": [
+    "DUPLICATE"
+  ],
+  "expected_decision": "rejected",
+  "invoice": {
+    "supplier_name": "Avon Catering Co.",
+    "invoice_number": "SI-35736",
+    "invoice_date": "2026-04-16",
+    "due_date": "2026-04-30",
+    "currency": "GBP",
+    "subtotal": "1470.33",
+    "vat_rate": "20",
+    "vat_amount": "294.07",
+    "total": "1764.40",
+    "line_items": [
+      {
+        "description": "Business cards (500)",
+        "quantity": "3",
+        "unit_price": "51.72",
+        "amount": "155.16"
+      },
+      {
+        "description": "Laptop docking station",
+        "quantity": "9",
+        "unit_price": "146.13",
+        "amount": "1315.17"
+      }
+    ]
+  },
+  "file": "doc_051.pdf",
+  "layout": "pdf-messy"
+}

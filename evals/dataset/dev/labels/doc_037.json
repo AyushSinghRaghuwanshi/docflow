@@ -1,0 +1,35 @@
+{
+  "id": "doc_037",
+  "fault": "due_before_issue",
+  "expected_error_codes": [
+    "DUE_BEFORE_ISSUE"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "BL-48127",
+    "invoice_date": "2026-08-13",
+    "due_date": "2026-07-25",
+    "currency": "EUR",
+    "subtotal": "3853.86",
+    "vat_rate": "19",
+    "vat_amount": "732.23",
+    "total": "4586.09",
+    "line_items": [
+      {
+        "description": "Toner cartridge",
+        "quantity": "2",
+        "unit_price": "56.61",
+        "amount": "113.22"
+      },
+      {
+        "description": "Network switch",
+        "quantity": "12",
+        "unit_price": "311.72",
+        "amount": "3740.64"
+      }
+    ]
+  },
+  "file": "doc_037.pdf",
+  "layout": "pdf-standard"
+}

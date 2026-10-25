@@ -1,0 +1,39 @@
+{
+  "id": "doc_003",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Brightline Cleaning Services",
+    "invoice_number": "NG-29593",
+    "invoice_date": "2026-08-21",
+    "due_date": "2026-09-04",
+    "currency": "GBP",
+    "subtotal": "776.13",
+    "vat_rate": "20",
+    "vat_amount": "155.23",
+    "total": "931.36",
+    "line_items": [
+      {
+        "description": "Business cards (500)",
+        "quantity": "9",
+        "unit_price": "30.9",
+        "amount": "278.10"
+      },
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "11",
+        "unit_price": "23.13",
+        "amount": "254.43"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "12",
+        "unit_price": "20.3",
+        "amount": "243.60"
+      }
+    ]
+  },
+  "file": "doc_003.pdf",
+  "layout": "pdf-inline"
+}

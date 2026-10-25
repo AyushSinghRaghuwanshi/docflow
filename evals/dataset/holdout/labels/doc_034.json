@@ -1,0 +1,27 @@
+{
+  "id": "doc_034",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Avon Catering Co.",
+    "invoice_number": "NG-68608",
+    "invoice_date": "2026-08-28",
+    "due_date": "2026-09-27",
+    "currency": "GBP",
+    "subtotal": "23.54",
+    "vat_rate": "5",
+    "vat_amount": "1.18",
+    "total": "24.72",
+    "line_items": [
+      {
+        "description": "Software licence (seat)",
+        "quantity": "1",
+        "unit_price": "23.54",
+        "amount": "23.54"
+      }
+    ]
+  },
+  "file": "doc_034.pdf",
+  "layout": "pdf-inline"
+}

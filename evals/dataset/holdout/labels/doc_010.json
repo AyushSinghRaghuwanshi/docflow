@@ -1,0 +1,27 @@
+{
+  "id": "doc_010",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "INV-81076",
+    "invoice_date": "2026-04-14",
+    "due_date": "2026-04-28",
+    "currency": "EUR",
+    "subtotal": "1177.98",
+    "vat_rate": "20",
+    "vat_amount": "235.60",
+    "total": "1413.58",
+    "line_items": [
+      {
+        "description": "Desk chair",
+        "quantity": "6",
+        "unit_price": "196.33",
+        "amount": "1177.98"
+      }
+    ]
+  },
+  "file": "doc_010.pdf",
+  "layout": "pdf-inline"
+}

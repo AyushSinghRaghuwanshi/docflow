@@ -1,0 +1,39 @@
+{
+  "id": "doc_032",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Avon Catering Co.",
+    "invoice_number": "SI-69649",
+    "invoice_date": "2026-04-19",
+    "due_date": "2026-06-18",
+    "currency": "GBP",
+    "subtotal": "4124.51",
+    "vat_rate": "20",
+    "vat_amount": "824.90",
+    "total": "4949.41",
+    "line_items": [
+      {
+        "description": "Desk chair",
+        "quantity": "1",
+        "unit_price": "225.14",
+        "amount": "225.14"
+      },
+      {
+        "description": "Network switch",
+        "quantity": "12",
+        "unit_price": "308.09",
+        "amount": "3697.08"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "11",
+        "unit_price": "18.39",
+        "amount": "202.29"
+      }
+    ]
+  },
+  "file": "doc_032.pdf",
+  "layout": "pdf-messy"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "doc_004",
+  "fault": "duplicate",
+  "expected_error_codes": [
+    "DUPLICATE"
+  ],
+  "expected_decision": "rejected",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "NG-46020",
+    "invoice_date": "2026-06-11",
+    "due_date": "2026-08-10",
+    "currency": "EUR",
+    "subtotal": "4908.42",
+    "vat_rate": "20",
+    "vat_amount": "981.68",
+    "total": "5890.10",
+    "line_items": [
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "1",
+        "unit_price": "20.84",
+        "amount": "20.84"
+      },
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "2",
+        "unit_price": "815.74",
+        "amount": "1631.48"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "10",
+        "unit_price": "325.61",
+        "amount": "3256.10"
+      }
+    ]
+  },
+  "file": "doc_004.pdf",
+  "layout": "pdf-messy"
+}

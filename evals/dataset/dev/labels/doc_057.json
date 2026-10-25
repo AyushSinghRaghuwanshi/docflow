@@ -1,0 +1,33 @@
+{
+  "id": "doc_057",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Atlas Data Services LLC",
+    "invoice_number": "BL-22062",
+    "invoice_date": "2026-09-30",
+    "due_date": "2026-10-30",
+    "currency": "USD",
+    "subtotal": "712.10",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "712.10",
+    "line_items": [
+      {
+        "description": "Laptop docking station",
+        "quantity": "2",
+        "unit_price": "138.21",
+        "amount": "276.42"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "1",
+        "unit_price": "435.68",
+        "amount": "435.68"
+      }
+    ]
+  },
+  "file": "doc_057.csv",
+  "layout": "csv"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "doc_007",
+  "fault": "total_mismatch",
+  "expected_error_codes": [
+    "TOTAL_MISMATCH"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Kestrel IT Solutions Ltd",
+    "invoice_number": "SI-20781",
+    "invoice_date": "2026-06-28",
+    "due_date": "2026-08-27",
+    "currency": "GBP",
+    "subtotal": "3264.75",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "3289.75",
+    "line_items": [
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "5",
+        "unit_price": "21.23",
+        "amount": "106.15"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "7",
+        "unit_price": "355.12",
+        "amount": "2485.84"
+      },
+      {
+        "description": "Catering platter",
+        "quantity": "11",
+        "unit_price": "61.16",
+        "amount": "672.76"
+      }
+    ]
+  },
+  "file": "doc_007.pdf",
+  "layout": "pdf-standard"
+}

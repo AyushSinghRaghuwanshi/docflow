@@ -1,0 +1,29 @@
+{
+  "id": "doc_019",
+  "fault": "duplicate",
+  "expected_error_codes": [
+    "DUPLICATE"
+  ],
+  "expected_decision": "rejected",
+  "invoice": {
+    "supplier_name": "Northgate Office Supplies Ltd",
+    "invoice_number": "SI-8982",
+    "invoice_date": "2026-09-02",
+    "due_date": "2026-10-02",
+    "currency": "GBP",
+    "subtotal": "258.24",
+    "vat_rate": "20",
+    "vat_amount": "51.65",
+    "total": "309.89",
+    "line_items": [
+      {
+        "description": "Catering platter",
+        "quantity": "8",
+        "unit_price": "32.28",
+        "amount": "258.24"
+      }
+    ]
+  },
+  "file": "doc_019.xlsx",
+  "layout": "xlsx"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "doc_036",
+  "fault": "due_before_issue",
+  "expected_error_codes": [
+    "DUE_BEFORE_ISSUE"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Atlas Data Services LLC",
+    "invoice_number": "NG-20023",
+    "invoice_date": "2026-10-03",
+    "due_date": "2026-09-14",
+    "currency": "USD",
+    "subtotal": "5413.68",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "5413.68",
+    "line_items": [
+      {
+        "description": "Desk chair",
+        "quantity": "2",
+        "unit_price": "152.25",
+        "amount": "304.50"
+      },
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "7",
+        "unit_price": "606.02",
+        "amount": "4242.14"
+      },
+      {
+        "description": "Toner cartridge",
+        "quantity": "8",
+        "unit_price": "108.38",
+        "amount": "867.04"
+      }
+    ]
+  },
+  "file": "doc_036.pdf",
+  "layout": "pdf-inline"
+}

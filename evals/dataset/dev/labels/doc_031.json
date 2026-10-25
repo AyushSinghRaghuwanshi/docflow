@@ -1,0 +1,39 @@
+{
+  "id": "doc_031",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Harbour Logistics plc",
+    "invoice_number": "SI-12073",
+    "invoice_date": "2026-06-13",
+    "due_date": "2026-06-27",
+    "currency": "GBP",
+    "subtotal": "2180.61",
+    "vat_rate": "20",
+    "vat_amount": "436.12",
+    "total": "2616.73",
+    "line_items": [
+      {
+        "description": "Toner cartridge",
+        "quantity": "10",
+        "unit_price": "48.41",
+        "amount": "484.10"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "7",
+        "unit_price": "14.23",
+        "amount": "99.61"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "5",
+        "unit_price": "319.38",
+        "amount": "1596.90"
+      }
+    ]
+  },
+  "file": "doc_031.pdf",
+  "layout": "pdf-messy"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "doc_035",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Avon Catering Co.",
+    "invoice_number": "NG-44289",
+    "invoice_date": "2026-05-20",
+    "due_date": "2026-06-19",
+    "currency": "GBP",
+    "subtotal": "2805.71",
+    "vat_rate": "20",
+    "vat_amount": "561.14",
+    "total": "3366.85",
+    "line_items": [
+      {
+        "description": "Laptop docking station",
+        "quantity": "11",
+        "unit_price": "150.23",
+        "amount": "1652.53"
+      },
+      {
+        "description": "Network switch",
+        "quantity": "7",
+        "unit_price": "164.74",
+        "amount": "1153.18"
+      }
+    ]
+  },
+  "file": "doc_035.pdf",
+  "layout": "pdf-inline"
+}

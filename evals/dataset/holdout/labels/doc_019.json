@@ -1,0 +1,33 @@
+{
+  "id": "doc_019",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "NG-16133",
+    "invoice_date": "2026-06-01",
+    "due_date": "2026-07-31",
+    "currency": "EUR",
+    "subtotal": "1154.54",
+    "vat_rate": "19",
+    "vat_amount": "219.36",
+    "total": "1373.90",
+    "line_items": [
+      {
+        "description": "Toner cartridge",
+        "quantity": "11",
+        "unit_price": "96.87",
+        "amount": "1065.57"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "7",
+        "unit_price": "12.71",
+        "amount": "88.97"
+      }
+    ]
+  },
+  "file": "doc_019.pdf",
+  "layout": "pdf-inline"
+}

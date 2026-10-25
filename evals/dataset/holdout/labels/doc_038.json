@@ -1,0 +1,39 @@
+{
+  "id": "doc_038",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Midlands Print & Design",
+    "invoice_number": "SI-40617",
+    "invoice_date": "2026-05-22",
+    "due_date": "2026-07-21",
+    "currency": "GBP",
+    "subtotal": "1226.43",
+    "vat_rate": "5",
+    "vat_amount": "61.32",
+    "total": "1287.75",
+    "line_items": [
+      {
+        "description": "Desk chair",
+        "quantity": "9",
+        "unit_price": "94.17",
+        "amount": "847.53"
+      },
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "2",
+        "unit_price": "20.71",
+        "amount": "41.42"
+      },
+      {
+        "description": "Toner cartridge",
+        "quantity": "4",
+        "unit_price": "84.37",
+        "amount": "337.48"
+      }
+    ]
+  },
+  "file": "doc_038.pdf",
+  "layout": "pdf-stacked"
+}

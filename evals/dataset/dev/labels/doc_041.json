@@ -1,0 +1,33 @@
+{
+  "id": "doc_041",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Midlands Print & Design",
+    "invoice_number": "BL-97866",
+    "invoice_date": "2026-06-18",
+    "due_date": "2026-07-02",
+    "currency": "GBP",
+    "subtotal": "3348.27",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "3348.27",
+    "line_items": [
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "7",
+        "unit_price": "17.51",
+        "amount": "122.57"
+      },
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "5",
+        "unit_price": "645.14",
+        "amount": "3225.70"
+      }
+    ]
+  },
+  "file": "doc_041.xlsx",
+  "layout": "xlsx"
+}

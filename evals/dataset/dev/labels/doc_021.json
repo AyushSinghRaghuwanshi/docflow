@@ -1,0 +1,39 @@
+{
+  "id": "doc_021",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Brightline Cleaning Services",
+    "invoice_number": "SI-22163",
+    "invoice_date": "2026-09-11",
+    "due_date": "2026-10-11",
+    "currency": "GBP",
+    "subtotal": "5983.93",
+    "vat_rate": "20",
+    "vat_amount": "1196.79",
+    "total": "7180.72",
+    "line_items": [
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "12",
+        "unit_price": "14.96",
+        "amount": "179.52"
+      },
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "7",
+        "unit_price": "769.33",
+        "amount": "5385.31"
+      },
+      {
+        "description": "Laptop docking station",
+        "quantity": "3",
+        "unit_price": "139.7",
+        "amount": "419.10"
+      }
+    ]
+  },
+  "file": "doc_021.txt",
+  "layout": "txt-messy"
+}

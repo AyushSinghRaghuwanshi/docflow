@@ -1,0 +1,18 @@
+[project]
+name = "docflow"
+version = "0.1.0"
+description = "AI agent that turns messy invoices into validated, structured data"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Ayush Singh Raghuwanshi" }]
+
+[tool.ruff]
+line-length = 140
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["B008"]  # FastAPI dependency-injection defaults (File, Query) are idiomatic
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

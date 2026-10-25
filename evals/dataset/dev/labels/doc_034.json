@@ -1,0 +1,27 @@
+{
+  "id": "doc_034",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Brightline Cleaning Services",
+    "invoice_number": "SI-97970",
+    "invoice_date": "2026-04-13",
+    "due_date": "2026-06-12",
+    "currency": "GBP",
+    "subtotal": "69.60",
+    "vat_rate": "20",
+    "vat_amount": "13.92",
+    "total": "83.52",
+    "line_items": [
+      {
+        "description": "Courier delivery",
+        "quantity": "4",
+        "unit_price": "17.4",
+        "amount": "69.60"
+      }
+    ]
+  },
+  "file": "doc_034.pdf",
+  "layout": "pdf-messy"
+}

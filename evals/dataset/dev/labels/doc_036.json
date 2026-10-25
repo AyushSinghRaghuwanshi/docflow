@@ -1,0 +1,45 @@
+{
+  "id": "doc_036",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "INV-38956",
+    "invoice_date": "2026-08-13",
+    "due_date": "2026-08-27",
+    "currency": "EUR",
+    "subtotal": "2458.88",
+    "vat_rate": "19",
+    "vat_amount": "467.19",
+    "total": "2926.07",
+    "line_items": [
+      {
+        "description": "Courier delivery",
+        "quantity": "8",
+        "unit_price": "28.1",
+        "amount": "224.80"
+      },
+      {
+        "description": "Catering platter",
+        "quantity": "2",
+        "unit_price": "74.98",
+        "amount": "149.96"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "4",
+        "unit_price": "141.06",
+        "amount": "564.24"
+      },
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "2",
+        "unit_price": "759.94",
+        "amount": "1519.88"
+      }
+    ]
+  },
+  "file": "doc_036.csv",
+  "layout": "csv"
+}

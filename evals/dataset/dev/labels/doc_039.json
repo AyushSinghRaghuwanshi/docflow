@@ -1,0 +1,41 @@
+{
+  "id": "doc_039",
+  "fault": "total_mismatch",
+  "expected_error_codes": [
+    "TOTAL_MISMATCH"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Brightline Cleaning Services",
+    "invoice_number": "INV-37783",
+    "invoice_date": "2026-08-31",
+    "due_date": "2026-09-14",
+    "currency": "GBP",
+    "subtotal": "2595.23",
+    "vat_rate": "20",
+    "vat_amount": "519.05",
+    "total": "3214.28",
+    "line_items": [
+      {
+        "description": "Business cards (500)",
+        "quantity": "7",
+        "unit_price": "49.13",
+        "amount": "343.91"
+      },
+      {
+        "description": "Toner cartridge",
+        "quantity": "2",
+        "unit_price": "74.54",
+        "amount": "149.08"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "7",
+        "unit_price": "300.32",
+        "amount": "2102.24"
+      }
+    ]
+  },
+  "file": "doc_039.xlsx",
+  "layout": "xlsx"
+}

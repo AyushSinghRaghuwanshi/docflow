@@ -1,0 +1,41 @@
+{
+  "id": "doc_039",
+  "fault": "total_mismatch",
+  "expected_error_codes": [
+    "TOTAL_MISMATCH"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Brightline Cleaning Services",
+    "invoice_number": "BL-28678",
+    "invoice_date": "2026-07-18",
+    "due_date": "2026-08-17",
+    "currency": "GBP",
+    "subtotal": "832.58",
+    "vat_rate": "20",
+    "vat_amount": "166.52",
+    "total": "1099.10",
+    "line_items": [
+      {
+        "description": "Laptop docking station",
+        "quantity": "3",
+        "unit_price": "123.8",
+        "amount": "371.40"
+      },
+      {
+        "description": "Toner cartridge",
+        "quantity": "4",
+        "unit_price": "75.16",
+        "amount": "300.64"
+      },
+      {
+        "description": "Network switch",
+        "quantity": "1",
+        "unit_price": "160.54",
+        "amount": "160.54"
+      }
+    ]
+  },
+  "file": "doc_039.pdf",
+  "layout": "pdf-stacked"
+}

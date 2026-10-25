@@ -1,0 +1,39 @@
+{
+  "id": "doc_008",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "INV-60853",
+    "invoice_date": "2026-05-23",
+    "due_date": "2026-06-22",
+    "currency": "EUR",
+    "subtotal": "1641.38",
+    "vat_rate": "20",
+    "vat_amount": "328.28",
+    "total": "1969.66",
+    "line_items": [
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "9",
+        "unit_price": "25.56",
+        "amount": "230.04"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "10",
+        "unit_price": "19.79",
+        "amount": "197.90"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "6",
+        "unit_price": "202.24",
+        "amount": "1213.44"
+      }
+    ]
+  },
+  "file": "doc_008.xlsx",
+  "layout": "xlsx"
+}

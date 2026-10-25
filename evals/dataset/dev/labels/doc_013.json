@@ -1,0 +1,27 @@
+{
+  "id": "doc_013",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Harbour Logistics plc",
+    "invoice_number": "BL-26381",
+    "invoice_date": "2026-08-30",
+    "due_date": "2026-10-29",
+    "currency": "GBP",
+    "subtotal": "138.35",
+    "vat_rate": "20",
+    "vat_amount": "27.67",
+    "total": "166.02",
+    "line_items": [
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "5",
+        "unit_price": "27.67",
+        "amount": "138.35"
+      }
+    ]
+  },
+  "file": "doc_013.txt",
+  "layout": "txt-messy"
+}

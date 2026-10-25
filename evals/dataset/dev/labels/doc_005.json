@@ -1,0 +1,27 @@
+{
+  "id": "doc_005",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Brightline Cleaning Services",
+    "invoice_number": "NG-38302",
+    "invoice_date": "2026-09-27",
+    "due_date": "2026-10-27",
+    "currency": "GBP",
+    "subtotal": "292.08",
+    "vat_rate": "5",
+    "vat_amount": "14.60",
+    "total": "306.68",
+    "line_items": [
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "12",
+        "unit_price": "24.34",
+        "amount": "292.08"
+      }
+    ]
+  },
+  "file": "doc_005.csv",
+  "layout": "csv"
+}

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DocFlow</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --ink:#1b1f24; --muted:#5b6470; --line:#e3e6ea; --accent:#1f3864;
+          --ok:#1e7a46; --warn:#a15c00; --bad:#b42318; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#111418; --card:#1a1f25; --ink:#e8ebef; --muted:#9aa4af;
+          --line:#2a3038; --accent:#8fb0e6; --ok:#4cc38a; --warn:#f0a94b; --bad:#ff7a70; } }
+  * { box-sizing:border-box } body { margin:0; font:15px/1.5 system-ui, sans-serif; background:var(--bg); color:var(--ink) }
+  header { padding:20px 24px; border-bottom:1px solid var(--line); display:flex; gap:16px; align-items:baseline; flex-wrap:wrap }
+  h1 { margin:0; font-size:22px; color:var(--accent) } .sub { color:var(--muted) }
+  main { max-width:1100px; margin:0 auto; padding:20px 16px; display:grid; gap:16px }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px }
+  .stat b { display:block; font-size:22px } .stat span { color:var(--muted); font-size:13px }
+  .drop { border:2px dashed var(--line); border-radius:10px; padding:24px; text-align:center; cursor:pointer }
+  .drop.hover { border-color:var(--accent) } button { font:inherit; padding:6px 12px; border-radius:6px; border:1px solid var(--line);
+          background:var(--card); color:var(--ink); cursor:pointer } button.primary { background:var(--accent); color:#fff; border-color:var(--accent) }
+  table { width:100%; border-collapse:collapse } td, th { padding:8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top }
+  th { color:var(--muted); font-weight:600; font-size:13px } tr.sel { outline:2px solid var(--accent) }
+  .pill { padding:2px 8px; border-radius:99px; font-size:12px; font-weight:600; white-space:nowrap }
+  .auto_approved,.approved { color:var(--ok) } .needs_review,.pending { color:var(--warn) } .rejected { color:var(--bad) }
+  .issues li { margin:4px 0 } .error { color:var(--bad) } .warning { color:var(--warn) }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:8px 16px }
+  label { font-size:13px; color:var(--muted) } input { width:100%; font:inherit; padding:6px 8px; border:1px solid var(--line);
+          border-radius:6px; background:var(--bg); color:var(--ink) } .row { display:flex; gap:8px; flex-wrap:wrap }
+  .scroll { overflow-x:auto }
+</style>
+</head>
+<body>
+<header><h1>DocFlow</h1><span class="sub">AI agent for messy invoices: extract, validate, review</span>
+  <span class="sub" id="engine"></span></header>
+<main>
+  <section class="card stats" id="stats"></section>
+  <section class="card">
+    <div class="drop" id="drop">Drop a PDF, XLSX, CSV or TXT invoice here, or click to choose a file
+      <input type="file" id="file" accept=".pdf,.xlsx,.csv,.txt" hidden></div>
+  </section>
+  <section class="card scroll">
+    <div class="row" style="justify-content:space-between;margin-bottom:8px"><b>Documents</b>
+      <div class="row"><button data-f="">All</button><button data-f="pending">Review queue</button>
+        <button data-f="approved">Approved</button><button data-f="rejected">Rejected</button></div></div>
+    <table><thead><tr><th>#</th><th>File</th><th>Supplier</th><th>Total</th><th>Decision</th><th>Status</th><th>Cost</th></tr></thead>
+      <tbody id="rows"></tbody></table>
+  </section>
+  <section class="card" id="detail" hidden></section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const FIELDS = ["supplier_name","invoice_number","invoice_date","due_date","currency","subtotal","vat_rate","vat_amount","total"];
+let filter = "", current = null;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+async function refresh() {
+  const [docs, m, h] = await Promise.all([fetch("/documents" + (filter ? "?status=" + filter : "")).then(r => r.json()),
+                                          fetch("/metrics").then(r => r.json()), fetch("/health").then(r => r.json())]);
+  $("#engine").textContent = "Engine: " + h.extractor;
+  $("#stats").innerHTML = [["Documents", m.documents], ["Straight-through", Math.round(m.straight_through_rate * 100) + "%"],
+    ["Waiting for review", m.by_decision.needs_review], ["Injections blocked", m.injections_blocked],
+    ["Avg cost / doc", "$" + m.avg_cost_per_document_usd.toFixed(4)]]
+    .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
+  $("#rows").innerHTML = docs.map(d => `<tr data-id="${d.id}" class="${current === d.id ? "sel" : ""}" style="cursor:pointer">
+    <td>${d.id}</td><td>${esc(d.name)}</td><td>${esc(d.result.invoice.supplier_name)}</td>
+    <td>${esc(d.result.invoice.currency)} ${esc(d.result.invoice.total)}</td>
+    <td><span class="pill ${d.decision}">${d.decision.replace("_", " ")}</span></td>
+    <td><span class="pill ${d.status}">${d.status}</span></td><td>$${d.result.usage.cost_usd.toFixed(4)}</td></tr>`).join("");
+  document.querySelectorAll("#rows tr").forEach(tr => tr.onclick = () => show(+tr.dataset.id));
+}
+
+async function show(id) {
+  current = id;
+  const d = await fetch("/documents/" + id).then(r => r.json());
+  const inv = d.reviewed || d.result.invoice;
+  $("#detail").hidden = false;
+  $("#detail").innerHTML = `<b>${esc(d.name)}</b> <span class="pill ${d.decision}">${d.decision.replace("_", " ")}</span>
+    <span class="sub">via ${esc(d.result.extractor)} · ${d.result.usage.llm_calls} LLM call(s) · repair attempts ${d.result.repair_attempts}</span>
+    <ul class="issues">${d.result.issues.map(i => `<li class="${i.severity}">[${i.code}] ${esc(i.message)}</li>`).join("") || "<li>No issues found.</li>"}</ul>
+    <div class="grid2">${FIELDS.map(f => `<div><label>${f}</label><input id="f_${f}" value="${esc(inv[f])}"></div>`).join("")}</div>
+    <p class="sub">Line items: ${inv.line_items.map(li => `${esc(li.description)} (${li.quantity} × ${li.unit_price} = ${li.amount})`).join("; ") || "none"}</p>
+    ${d.status === "pending" ? `<div class="row"><button class="primary" id="approve">Approve with edits</button><button id="reject">Reject</button></div>` : ""}`;
+  if (d.status === "pending") {
+    $("#approve").onclick = () => decide(id, true, inv);
+    $("#reject").onclick = () => decide(id, false, null);
+  }
+  refresh();
+}
+
+async function decide(id, approve, inv) {
+  let corrected = null;
+  if (inv) { corrected = { ...inv }; FIELDS.forEach(f => corrected[f] = $("#f_" + f).value || null); }
+  await fetch(`/documents/${id}/review`, { method: "POST", headers: { "Content-Type": "application/json" },
+                                           body: JSON.stringify({ approve, corrected }) });
+  show(id);
+}
+
+async function upload(file) {
+  const fd = new FormData(); fd.append("file", file);
+  const r = await fetch("/documents", { method: "POST", body: fd });
+  const body = await r.json();
+  if (!r.ok) { alert(body.detail || "Upload failed"); return; }
+  show(body.id);
+}
+
+const drop = $("#drop");
+drop.onclick = () => $("#file").click();
+$("#file").onchange = e => e.target.files[0] && upload(e.target.files[0]);
+drop.ondragover = e => { e.preventDefault(); drop.classList.add("hover"); };
+drop.ondragleave = () => drop.classList.remove("hover");
+drop.ondrop = e => { e.preventDefault(); drop.classList.remove("hover"); e.dataTransfer.files[0] && upload(e.dataTransfer.files[0]); };
+document.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { filter = b.dataset.f; refresh(); });
+refresh();
+</script>
+</body>
+</html>

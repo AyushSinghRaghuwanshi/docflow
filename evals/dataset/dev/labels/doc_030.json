@@ -1,0 +1,41 @@
+{
+  "id": "doc_030",
+  "fault": "total_mismatch",
+  "expected_error_codes": [
+    "TOTAL_MISMATCH"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "BL-51020",
+    "invoice_date": "2026-10-20",
+    "due_date": "2026-11-19",
+    "currency": "EUR",
+    "subtotal": "468.99",
+    "vat_rate": "20",
+    "vat_amount": "93.80",
+    "total": "662.79",
+    "line_items": [
+      {
+        "description": "Catering platter",
+        "quantity": "1",
+        "unit_price": "55.35",
+        "amount": "55.35"
+      },
+      {
+        "description": "Business cards (500)",
+        "quantity": "4",
+        "unit_price": "39.6",
+        "amount": "158.40"
+      },
+      {
+        "description": "Laptop docking station",
+        "quantity": "3",
+        "unit_price": "85.08",
+        "amount": "255.24"
+      }
+    ]
+  },
+  "file": "doc_030.pdf",
+  "layout": "pdf-messy"
+}

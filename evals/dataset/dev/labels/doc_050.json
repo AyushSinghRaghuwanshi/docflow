@@ -1,0 +1,45 @@
+{
+  "id": "doc_050",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Atlas Data Services LLC",
+    "invoice_number": "INV-25130",
+    "invoice_date": "2026-09-03",
+    "due_date": "2026-10-03",
+    "currency": "USD",
+    "subtotal": "2140.17",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "2140.17",
+    "line_items": [
+      {
+        "description": "Software licence (seat)",
+        "quantity": "7",
+        "unit_price": "14.22",
+        "amount": "99.54"
+      },
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "4",
+        "unit_price": "18.48",
+        "amount": "73.92"
+      },
+      {
+        "description": "Network switch",
+        "quantity": "10",
+        "unit_price": "186.5",
+        "amount": "1865.00"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "7",
+        "unit_price": "14.53",
+        "amount": "101.71"
+      }
+    ]
+  },
+  "file": "doc_050.csv",
+  "layout": "csv"
+}

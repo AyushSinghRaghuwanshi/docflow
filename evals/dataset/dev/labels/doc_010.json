@@ -1,0 +1,41 @@
+{
+  "id": "doc_010",
+  "fault": "total_mismatch",
+  "expected_error_codes": [
+    "TOTAL_MISMATCH"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Brightline Cleaning Services",
+    "invoice_number": "NG-41875",
+    "invoice_date": "2026-08-28",
+    "due_date": "2026-10-27",
+    "currency": "GBP",
+    "subtotal": "2189.70",
+    "vat_rate": "20",
+    "vat_amount": "437.94",
+    "total": "2637.64",
+    "line_items": [
+      {
+        "description": "Business cards (500)",
+        "quantity": "8",
+        "unit_price": "30.03",
+        "amount": "240.24"
+      },
+      {
+        "description": "Network switch",
+        "quantity": "2",
+        "unit_price": "299.93",
+        "amount": "599.86"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "8",
+        "unit_price": "168.7",
+        "amount": "1349.60"
+      }
+    ]
+  },
+  "file": "doc_010.xlsx",
+  "layout": "xlsx"
+}

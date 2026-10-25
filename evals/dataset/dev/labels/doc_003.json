@@ -1,0 +1,45 @@
+{
+  "id": "doc_003",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "NG-46020",
+    "invoice_date": "2026-04-29",
+    "due_date": "2026-06-28",
+    "currency": "EUR",
+    "subtotal": "8364.83",
+    "vat_rate": "20",
+    "vat_amount": "1672.97",
+    "total": "10037.80",
+    "line_items": [
+      {
+        "description": "Network switch",
+        "quantity": "4",
+        "unit_price": "198.9",
+        "amount": "795.60"
+      },
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "12",
+        "unit_price": "609.97",
+        "amount": "7319.64"
+      },
+      {
+        "description": "Business cards (500)",
+        "quantity": "2",
+        "unit_price": "48.52",
+        "amount": "97.04"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "5",
+        "unit_price": "30.51",
+        "amount": "152.55"
+      }
+    ]
+  },
+  "file": "doc_003.pdf",
+  "layout": "pdf-standard"
+}

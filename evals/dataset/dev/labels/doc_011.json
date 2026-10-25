@@ -1,0 +1,27 @@
+{
+  "id": "doc_011",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Midlands Print & Design",
+    "invoice_number": "SI-91448",
+    "invoice_date": "2026-06-20",
+    "due_date": "2026-07-20",
+    "currency": "GBP",
+    "subtotal": "1031.67",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "1031.67",
+    "line_items": [
+      {
+        "description": "Laptop docking station",
+        "quantity": "9",
+        "unit_price": "114.63",
+        "amount": "1031.67"
+      }
+    ]
+  },
+  "file": "doc_011.pdf",
+  "layout": "pdf-standard"
+}

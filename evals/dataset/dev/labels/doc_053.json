@@ -1,0 +1,27 @@
+{
+  "id": "doc_053",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Rhein B\u00fcrotechnik GmbH",
+    "invoice_number": "SI-49852",
+    "invoice_date": "2026-07-21",
+    "due_date": "2026-08-20",
+    "currency": "EUR",
+    "subtotal": "332.28",
+    "vat_rate": "20",
+    "vat_amount": "66.46",
+    "total": "398.74",
+    "line_items": [
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "12",
+        "unit_price": "27.69",
+        "amount": "332.28"
+      }
+    ]
+  },
+  "file": "doc_053.pdf",
+  "layout": "pdf-messy"
+}

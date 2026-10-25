@@ -1,0 +1,39 @@
+{
+  "id": "doc_005",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Atlas Data Services LLC",
+    "invoice_number": "INV-96799",
+    "invoice_date": "2026-09-01",
+    "due_date": "2026-09-15",
+    "currency": "USD",
+    "subtotal": "9711.99",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "9711.99",
+    "line_items": [
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "12",
+        "unit_price": "789.15",
+        "amount": "9469.80"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "8",
+        "unit_price": "16.53",
+        "amount": "132.24"
+      },
+      {
+        "description": "Business cards (500)",
+        "quantity": "3",
+        "unit_price": "36.65",
+        "amount": "109.95"
+      }
+    ]
+  },
+  "file": "doc_005.pdf",
+  "layout": "pdf-inline"
+}

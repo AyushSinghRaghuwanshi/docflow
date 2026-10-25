@@ -1,0 +1,45 @@
+{
+  "id": "doc_045",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Northgate Office Supplies Ltd",
+    "invoice_number": "SI-69467",
+    "invoice_date": "2026-09-18",
+    "due_date": "2026-10-02",
+    "currency": "GBP",
+    "subtotal": "8455.96",
+    "vat_rate": "5",
+    "vat_amount": "422.80",
+    "total": "8878.76",
+    "line_items": [
+      {
+        "description": "Network switch",
+        "quantity": "7",
+        "unit_price": "312.96",
+        "amount": "2190.72"
+      },
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "8",
+        "unit_price": "744.22",
+        "amount": "5953.76"
+      },
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "4",
+        "unit_price": "20.23",
+        "amount": "80.92"
+      },
+      {
+        "description": "Toner cartridge",
+        "quantity": "4",
+        "unit_price": "57.64",
+        "amount": "230.56"
+      }
+    ]
+  },
+  "file": "doc_045.pdf",
+  "layout": "pdf-standard"
+}

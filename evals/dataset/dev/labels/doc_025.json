@@ -1,0 +1,27 @@
+{
+  "id": "doc_025",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Midlands Print & Design",
+    "invoice_number": "BL-16948",
+    "invoice_date": "2026-10-16",
+    "due_date": "2026-10-30",
+    "currency": "GBP",
+    "subtotal": "647.32",
+    "vat_rate": "20",
+    "vat_amount": "129.46",
+    "total": "776.78",
+    "line_items": [
+      {
+        "description": "Network switch",
+        "quantity": "4",
+        "unit_price": "161.83",
+        "amount": "647.32"
+      }
+    ]
+  },
+  "file": "doc_025.pdf",
+  "layout": "pdf-messy"
+}

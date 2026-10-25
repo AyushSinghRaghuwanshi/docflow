@@ -1,0 +1,29 @@
+{
+  "id": "doc_030",
+  "fault": "total_mismatch",
+  "expected_error_codes": [
+    "TOTAL_MISMATCH"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Midlands Print & Design",
+    "invoice_number": "NG-7919",
+    "invoice_date": "2026-07-15",
+    "due_date": "2026-08-14",
+    "currency": "GBP",
+    "subtotal": "405.70",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "400.70",
+    "line_items": [
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "2",
+        "unit_price": "202.85",
+        "amount": "405.70"
+      }
+    ]
+  },
+  "file": "doc_030.pdf",
+  "layout": "pdf-inline"
+}

@@ -1,0 +1,13 @@
+From: Midlands Print & Design
+Ref: SI-68401
+Date of issue Jul 24, 2026
+Customer: Acme Retail Ltd
+Payment due Aug 07, 2026 by bank transfer
+
+Services and goods supplied:
+- A4 copier paper (box): 1 @ £28.35 = £28.35
+
+Net amount £28.35
+Tax @ 20% £5.67
+Amount payable £34.02
+Thank you for your business.

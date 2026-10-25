@@ -1,0 +1,29 @@
+{
+  "id": "doc_026",
+  "fault": "total_mismatch",
+  "expected_error_codes": [
+    "TOTAL_MISMATCH"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Midlands Print & Design",
+    "invoice_number": "BL-69278",
+    "invoice_date": "2026-06-01",
+    "due_date": "2026-07-01",
+    "currency": "GBP",
+    "subtotal": "87.36",
+    "vat_rate": "20",
+    "vat_amount": "17.47",
+    "total": "114.83",
+    "line_items": [
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "3",
+        "unit_price": "29.12",
+        "amount": "87.36"
+      }
+    ]
+  },
+  "file": "doc_026.pdf",
+  "layout": "pdf-inline"
+}

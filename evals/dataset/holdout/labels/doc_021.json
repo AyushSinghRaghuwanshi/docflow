@@ -1,0 +1,33 @@
+{
+  "id": "doc_021",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Harbour Logistics plc",
+    "invoice_number": "INV-93140",
+    "invoice_date": "2026-09-22",
+    "due_date": "2026-11-21",
+    "currency": "GBP",
+    "subtotal": "176.02",
+    "vat_rate": "20",
+    "vat_amount": "35.20",
+    "total": "211.22",
+    "line_items": [
+      {
+        "description": "Courier delivery",
+        "quantity": "9",
+        "unit_price": "10.82",
+        "amount": "97.38"
+      },
+      {
+        "description": "Software licence (seat)",
+        "quantity": "4",
+        "unit_price": "19.66",
+        "amount": "78.64"
+      }
+    ]
+  },
+  "file": "doc_021.pdf",
+  "layout": "pdf-stacked"
+}

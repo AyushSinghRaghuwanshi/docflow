@@ -1,0 +1,14 @@
+From: Lumière Conseil SARL
+Ref: SI-54044
+Date of issue 2026-06-03
+Customer: Acme Retail Ltd
+Payment due 2026-08-02 by bank transfer
+
+Services and goods supplied:
+- Laptop docking station: 4 @ 153,18 € = 612,72 €
+- Business cards (500): 12 @ 54,85 € = 658,20 €
+
+Net amount 1.270,92 €
+Tax @ 20% 254,18 €
+Amount payable 1.525,10 €
+Thank you for your business.

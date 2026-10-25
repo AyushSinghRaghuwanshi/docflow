@@ -1,0 +1,39 @@
+{
+  "id": "doc_022",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Pacific Cloud Hosting Inc.",
+    "invoice_number": "BL-91148",
+    "invoice_date": "2026-09-12",
+    "due_date": "2026-11-11",
+    "currency": "USD",
+    "subtotal": "2471.78",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "2471.78",
+    "line_items": [
+      {
+        "description": "Network switch",
+        "quantity": "1",
+        "unit_price": "305.66",
+        "amount": "305.66"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "11",
+        "unit_price": "179.22",
+        "amount": "1971.42"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "10",
+        "unit_price": "19.47",
+        "amount": "194.70"
+      }
+    ]
+  },
+  "file": "doc_022.pdf",
+  "layout": "pdf-inline"
+}

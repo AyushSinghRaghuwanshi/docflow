@@ -1,0 +1,39 @@
+{
+  "id": "doc_017",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Rhein B\u00fcrotechnik GmbH",
+    "invoice_number": "NG-77370",
+    "invoice_date": "2026-05-03",
+    "due_date": "2026-05-17",
+    "currency": "EUR",
+    "subtotal": "9953.59",
+    "vat_rate": "19",
+    "vat_amount": "1891.18",
+    "total": "11844.77",
+    "line_items": [
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "11",
+        "unit_price": "679.93",
+        "amount": "7479.23"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "9",
+        "unit_price": "225.8",
+        "amount": "2032.20"
+      },
+      {
+        "description": "Toner cartridge",
+        "quantity": "4",
+        "unit_price": "110.54",
+        "amount": "442.16"
+      }
+    ]
+  },
+  "file": "doc_017.pdf",
+  "layout": "pdf-inline"
+}

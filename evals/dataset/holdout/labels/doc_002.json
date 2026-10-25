@@ -1,0 +1,45 @@
+{
+  "id": "doc_002",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Northgate Office Supplies Ltd",
+    "invoice_number": "NG-60647",
+    "invoice_date": "2026-10-08",
+    "due_date": "2026-12-07",
+    "currency": "GBP",
+    "subtotal": "898.32",
+    "vat_rate": "20",
+    "vat_amount": "179.66",
+    "total": "1077.98",
+    "line_items": [
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "1",
+        "unit_price": "366.66",
+        "amount": "366.66"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "5",
+        "unit_price": "25.89",
+        "amount": "129.45"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "3",
+        "unit_price": "123.02",
+        "amount": "369.06"
+      },
+      {
+        "description": "Software licence (seat)",
+        "quantity": "1",
+        "unit_price": "33.15",
+        "amount": "33.15"
+      }
+    ]
+  },
+  "file": "doc_002.pdf",
+  "layout": "pdf-stacked"
+}

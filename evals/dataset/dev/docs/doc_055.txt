@@ -1,0 +1,13 @@
+From: Avon Catering Co.
+Ref: NG-94791
+Date of issue 11 August 2026
+Customer: Acme Retail Ltd
+Payment due 10 September 2026 by bank transfer
+
+Services and goods supplied:
+- A4 copier paper (box): 4 @ £20.19 = £80.76
+
+Net amount £80.76
+Tax @ 20% £16.15
+Amount payable £96.91
+Thank you for your business.

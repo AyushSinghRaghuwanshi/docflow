@@ -1,0 +1,35 @@
+{
+  "id": "doc_008",
+  "fault": "total_mismatch",
+  "expected_error_codes": [
+    "TOTAL_MISMATCH"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Harbour Logistics plc",
+    "invoice_number": "INV-27202",
+    "invoice_date": "2026-05-28",
+    "due_date": "2026-06-11",
+    "currency": "GBP",
+    "subtotal": "3903.55",
+    "vat_rate": "20",
+    "vat_amount": "780.71",
+    "total": "4694.26",
+    "line_items": [
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "5",
+        "unit_price": "736.7",
+        "amount": "3683.50"
+      },
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "9",
+        "unit_price": "24.45",
+        "amount": "220.05"
+      }
+    ]
+  },
+  "file": "doc_008.pdf",
+  "layout": "pdf-stacked"
+}

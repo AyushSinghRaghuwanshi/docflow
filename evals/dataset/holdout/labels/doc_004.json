@@ -1,0 +1,33 @@
+{
+  "id": "doc_004",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Harbour Logistics plc",
+    "invoice_number": "NG-42022",
+    "invoice_date": "2026-09-05",
+    "due_date": "2026-10-05",
+    "currency": "GBP",
+    "subtotal": "489.38",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "489.38",
+    "line_items": [
+      {
+        "description": "Business cards (500)",
+        "quantity": "9",
+        "unit_price": "30.02",
+        "amount": "270.18"
+      },
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "8",
+        "unit_price": "27.4",
+        "amount": "219.20"
+      }
+    ]
+  },
+  "file": "doc_004.pdf",
+  "layout": "pdf-stacked"
+}

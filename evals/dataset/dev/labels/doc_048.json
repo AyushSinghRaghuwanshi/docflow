@@ -1,0 +1,39 @@
+{
+  "id": "doc_048",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Pacific Cloud Hosting Inc.",
+    "invoice_number": "SI-88471",
+    "invoice_date": "2026-08-18",
+    "due_date": "2026-09-01",
+    "currency": "USD",
+    "subtotal": "2213.53",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "2213.53",
+    "line_items": [
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "8",
+        "unit_price": "31.81",
+        "amount": "254.48"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "11",
+        "unit_price": "158.81",
+        "amount": "1746.91"
+      },
+      {
+        "description": "Laptop docking station",
+        "quantity": "2",
+        "unit_price": "106.07",
+        "amount": "212.14"
+      }
+    ]
+  },
+  "file": "doc_048.pdf",
+  "layout": "pdf-messy"
+}

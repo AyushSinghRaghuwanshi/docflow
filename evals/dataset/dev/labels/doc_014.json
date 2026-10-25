@@ -1,0 +1,33 @@
+{
+  "id": "doc_014",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Avon Catering Co.",
+    "invoice_number": "INV-63845",
+    "invoice_date": "2026-09-30",
+    "due_date": "2026-10-30",
+    "currency": "GBP",
+    "subtotal": "4592.54",
+    "vat_rate": "20",
+    "vat_amount": "918.51",
+    "total": "5511.05",
+    "line_items": [
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "6",
+        "unit_price": "583.93",
+        "amount": "3503.58"
+      },
+      {
+        "description": "Laptop docking station",
+        "quantity": "8",
+        "unit_price": "136.12",
+        "amount": "1088.96"
+      }
+    ]
+  },
+  "file": "doc_014.pdf",
+  "layout": "pdf-messy"
+}

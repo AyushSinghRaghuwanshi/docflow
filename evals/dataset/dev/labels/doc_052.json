@@ -1,0 +1,27 @@
+{
+  "id": "doc_052",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "NG-17214",
+    "invoice_date": "2026-09-07",
+    "due_date": "2026-09-21",
+    "currency": "EUR",
+    "subtotal": "46.78",
+    "vat_rate": "19",
+    "vat_amount": "8.89",
+    "total": "55.67",
+    "line_items": [
+      {
+        "description": "Courier delivery",
+        "quantity": "2",
+        "unit_price": "23.39",
+        "amount": "46.78"
+      }
+    ]
+  },
+  "file": "doc_052.xlsx",
+  "layout": "xlsx"
+}

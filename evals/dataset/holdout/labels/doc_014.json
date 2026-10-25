@@ -1,0 +1,33 @@
+{
+  "id": "doc_014",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Avon Catering Co.",
+    "invoice_number": "NG-64942",
+    "invoice_date": "2026-05-13",
+    "due_date": "2026-05-27",
+    "currency": "GBP",
+    "subtotal": "2809.78",
+    "vat_rate": "5",
+    "vat_amount": "140.49",
+    "total": "2950.27",
+    "line_items": [
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "2",
+        "unit_price": "502.25",
+        "amount": "1004.50"
+      },
+      {
+        "description": "Network switch",
+        "quantity": "8",
+        "unit_price": "225.66",
+        "amount": "1805.28"
+      }
+    ]
+  },
+  "file": "doc_014.pdf",
+  "layout": "pdf-inline"
+}

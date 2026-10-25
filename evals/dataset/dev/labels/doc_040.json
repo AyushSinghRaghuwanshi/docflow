@@ -1,0 +1,39 @@
+{
+  "id": "doc_040",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Kestrel IT Solutions Ltd",
+    "invoice_number": "INV-7484",
+    "invoice_date": "2026-08-18",
+    "due_date": "2026-09-17",
+    "currency": "GBP",
+    "subtotal": "2886.57",
+    "vat_rate": "5",
+    "vat_amount": "144.33",
+    "total": "3030.90",
+    "line_items": [
+      {
+        "description": "Laptop docking station",
+        "quantity": "1",
+        "unit_price": "151.51",
+        "amount": "151.51"
+      },
+      {
+        "description": "Business cards (500)",
+        "quantity": "11",
+        "unit_price": "41.38",
+        "amount": "455.18"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "9",
+        "unit_price": "253.32",
+        "amount": "2279.88"
+      }
+    ]
+  },
+  "file": "doc_040.pdf",
+  "layout": "pdf-messy"
+}

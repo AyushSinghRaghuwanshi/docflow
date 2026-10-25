@@ -1,0 +1,33 @@
+{
+  "id": "doc_017",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Northgate Office Supplies Ltd",
+    "invoice_number": "SI-8982",
+    "invoice_date": "2026-08-17",
+    "due_date": "2026-09-16",
+    "currency": "GBP",
+    "subtotal": "2005.97",
+    "vat_rate": "20",
+    "vat_amount": "401.19",
+    "total": "2407.16",
+    "line_items": [
+      {
+        "description": "Network switch",
+        "quantity": "5",
+        "unit_price": "318.37",
+        "amount": "1591.85"
+      },
+      {
+        "description": "Business cards (500)",
+        "quantity": "7",
+        "unit_price": "59.16",
+        "amount": "414.12"
+      }
+    ]
+  },
+  "file": "doc_017.pdf",
+  "layout": "pdf-messy"
+}

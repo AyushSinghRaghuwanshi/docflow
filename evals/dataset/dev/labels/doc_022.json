@@ -1,0 +1,27 @@
+{
+  "id": "doc_022",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Rhein B\u00fcrotechnik GmbH",
+    "invoice_number": "BL-73620",
+    "invoice_date": "2026-08-31",
+    "due_date": "2026-09-30",
+    "currency": "EUR",
+    "subtotal": "559.14",
+    "vat_rate": "20",
+    "vat_amount": "111.83",
+    "total": "670.97",
+    "line_items": [
+      {
+        "description": "Desk chair",
+        "quantity": "6",
+        "unit_price": "93.19",
+        "amount": "559.14"
+      }
+    ]
+  },
+  "file": "doc_022.xlsx",
+  "layout": "xlsx"
+}

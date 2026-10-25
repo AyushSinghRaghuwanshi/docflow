@@ -1,0 +1,45 @@
+{
+  "id": "doc_024",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Northgate Office Supplies Ltd",
+    "invoice_number": "NG-4328",
+    "invoice_date": "2026-08-17",
+    "due_date": "2026-10-16",
+    "currency": "GBP",
+    "subtotal": "4988.61",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "4988.61",
+    "line_items": [
+      {
+        "description": "Software licence (seat)",
+        "quantity": "7",
+        "unit_price": "33.21",
+        "amount": "232.47"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "10",
+        "unit_price": "17.89",
+        "amount": "178.90"
+      },
+      {
+        "description": "Business cards (500)",
+        "quantity": "1",
+        "unit_price": "40.07",
+        "amount": "40.07"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "11",
+        "unit_price": "412.47",
+        "amount": "4537.17"
+      }
+    ]
+  },
+  "file": "doc_024.pdf",
+  "layout": "pdf-stacked"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "doc_018",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Pacific Cloud Hosting Inc.",
+    "invoice_number": "BL-90434",
+    "invoice_date": "2026-09-17",
+    "due_date": "2026-10-17",
+    "currency": "USD",
+    "subtotal": "3935.71",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "3935.71",
+    "line_items": [
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "3",
+        "unit_price": "15.44",
+        "amount": "46.32"
+      },
+      {
+        "description": "Network switch",
+        "quantity": "8",
+        "unit_price": "342.86",
+        "amount": "2742.88"
+      },
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "12",
+        "unit_price": "20.46",
+        "amount": "245.52"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "9",
+        "unit_price": "100.11",
+        "amount": "900.99"
+      }
+    ]
+  },
+  "file": "doc_018.pdf",
+  "layout": "pdf-messy"
+}

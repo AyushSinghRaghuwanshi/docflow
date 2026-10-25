@@ -1,0 +1,33 @@
+{
+  "id": "doc_002",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Rhein B\u00fcrotechnik GmbH",
+    "invoice_number": "INV-72793",
+    "invoice_date": "2026-09-14",
+    "due_date": "2026-09-28",
+    "currency": "EUR",
+    "subtotal": "2021.38",
+    "vat_rate": "20",
+    "vat_amount": "404.28",
+    "total": "2425.66",
+    "line_items": [
+      {
+        "description": "Toner cartridge",
+        "quantity": "10",
+        "unit_price": "97.33",
+        "amount": "973.30"
+      },
+      {
+        "description": "Network switch",
+        "quantity": "4",
+        "unit_price": "262.02",
+        "amount": "1048.08"
+      }
+    ]
+  },
+  "file": "doc_002.pdf",
+  "layout": "pdf-messy"
+}

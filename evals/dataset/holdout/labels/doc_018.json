@@ -1,0 +1,33 @@
+{
+  "id": "doc_018",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Atlas Data Services LLC",
+    "invoice_number": "NG-32003",
+    "invoice_date": "2026-07-09",
+    "due_date": "2026-08-08",
+    "currency": "USD",
+    "subtotal": "601.37",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "601.37",
+    "line_items": [
+      {
+        "description": "Desk chair",
+        "quantity": "5",
+        "unit_price": "108.49",
+        "amount": "542.45"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "4",
+        "unit_price": "14.73",
+        "amount": "58.92"
+      }
+    ]
+  },
+  "file": "doc_018.pdf",
+  "layout": "pdf-stacked"
+}

@@ -1,0 +1,29 @@
+{
+  "id": "doc_023",
+  "fault": "total_mismatch",
+  "expected_error_codes": [
+    "TOTAL_MISMATCH"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Rhein B\u00fcrotechnik GmbH",
+    "invoice_number": "BL-36641",
+    "invoice_date": "2026-07-28",
+    "due_date": "2026-08-27",
+    "currency": "EUR",
+    "subtotal": "183.76",
+    "vat_rate": "19",
+    "vat_amount": "34.91",
+    "total": "243.67",
+    "line_items": [
+      {
+        "description": "Laptop docking station",
+        "quantity": "2",
+        "unit_price": "91.88",
+        "amount": "183.76"
+      }
+    ]
+  },
+  "file": "doc_023.pdf",
+  "layout": "pdf-standard"
+}

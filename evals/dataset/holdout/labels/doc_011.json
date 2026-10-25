@@ -1,0 +1,39 @@
+{
+  "id": "doc_011",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Rhein B\u00fcrotechnik GmbH",
+    "invoice_number": "SI-50450",
+    "invoice_date": "2026-07-22",
+    "due_date": "2026-08-21",
+    "currency": "EUR",
+    "subtotal": "2175.75",
+    "vat_rate": "20",
+    "vat_amount": "435.15",
+    "total": "2610.90",
+    "line_items": [
+      {
+        "description": "Network switch",
+        "quantity": "7",
+        "unit_price": "231",
+        "amount": "1617.00"
+      },
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "3",
+        "unit_price": "30.7",
+        "amount": "92.10"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "5",
+        "unit_price": "93.33",
+        "amount": "466.65"
+      }
+    ]
+  },
+  "file": "doc_011.pdf",
+  "layout": "pdf-inline"
+}

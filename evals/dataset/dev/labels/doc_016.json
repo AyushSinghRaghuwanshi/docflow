@@ -1,0 +1,45 @@
+{
+  "id": "doc_016",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Kestrel IT Solutions Ltd",
+    "invoice_number": "INV-70020",
+    "invoice_date": "2026-10-13",
+    "due_date": "2026-11-12",
+    "currency": "GBP",
+    "subtotal": "2454.29",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "2454.29",
+    "line_items": [
+      {
+        "description": "Software licence (seat)",
+        "quantity": "11",
+        "unit_price": "26.35",
+        "amount": "289.85"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "3",
+        "unit_price": "19.61",
+        "amount": "58.83"
+      },
+      {
+        "description": "Network switch",
+        "quantity": "9",
+        "unit_price": "182.92",
+        "amount": "1646.28"
+      },
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "1",
+        "unit_price": "459.33",
+        "amount": "459.33"
+      }
+    ]
+  },
+  "file": "doc_016.pdf",
+  "layout": "pdf-standard"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "doc_020",
+  "fault": "due_before_issue",
+  "expected_error_codes": [
+    "DUE_BEFORE_ISSUE"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Pacific Cloud Hosting Inc.",
+    "invoice_number": "BL-84400",
+    "invoice_date": "2026-04-17",
+    "due_date": "2026-04-11",
+    "currency": "USD",
+    "subtotal": "586.44",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "586.44",
+    "line_items": [
+      {
+        "description": "Courier delivery",
+        "quantity": "10",
+        "unit_price": "19.32",
+        "amount": "193.20"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "3",
+        "unit_price": "131.08",
+        "amount": "393.24"
+      }
+    ]
+  },
+  "file": "doc_020.pdf",
+  "layout": "pdf-inline"
+}

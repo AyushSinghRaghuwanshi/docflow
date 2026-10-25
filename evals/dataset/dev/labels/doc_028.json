@@ -1,0 +1,33 @@
+{
+  "id": "doc_028",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "SI-54044",
+    "invoice_date": "2026-06-03",
+    "due_date": "2026-08-02",
+    "currency": "EUR",
+    "subtotal": "1270.92",
+    "vat_rate": "20",
+    "vat_amount": "254.18",
+    "total": "1525.10",
+    "line_items": [
+      {
+        "description": "Laptop docking station",
+        "quantity": "4",
+        "unit_price": "153.18",
+        "amount": "612.72"
+      },
+      {
+        "description": "Business cards (500)",
+        "quantity": "12",
+        "unit_price": "54.85",
+        "amount": "658.20"
+      }
+    ]
+  },
+  "file": "doc_028.txt",
+  "layout": "txt-messy"
+}

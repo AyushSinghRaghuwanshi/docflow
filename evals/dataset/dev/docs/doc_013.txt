@@ -1,0 +1,13 @@
+From: Harbour Logistics plc
+Ref: BL-26381
+Date of issue 30 August 2026
+Customer: Acme Retail Ltd
+Payment due 29 October 2026 by bank transfer
+
+Services and goods supplied:
+- A4 copier paper (box): 5 @ £27.67 = £138.35
+
+Net amount £138.35
+Tax @ 20% £27.67
+Amount payable £166.02
+Thank you for your business.

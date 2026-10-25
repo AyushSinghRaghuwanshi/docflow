@@ -1,0 +1,45 @@
+{
+  "id": "doc_042",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Rhein B\u00fcrotechnik GmbH",
+    "invoice_number": "NG-44625",
+    "invoice_date": "2026-05-06",
+    "due_date": "2026-06-05",
+    "currency": "EUR",
+    "subtotal": "4749.76",
+    "vat_rate": "20",
+    "vat_amount": "949.95",
+    "total": "5699.71",
+    "line_items": [
+      {
+        "description": "Catering platter",
+        "quantity": "3",
+        "unit_price": "43.24",
+        "amount": "129.72"
+      },
+      {
+        "description": "Software licence (seat)",
+        "quantity": "2",
+        "unit_price": "20.51",
+        "amount": "41.02"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "9",
+        "unit_price": "445.76",
+        "amount": "4011.84"
+      },
+      {
+        "description": "Toner cartridge",
+        "quantity": "9",
+        "unit_price": "63.02",
+        "amount": "567.18"
+      }
+    ]
+  },
+  "file": "doc_042.pdf",
+  "layout": "pdf-messy"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "doc_001",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Pacific Cloud Hosting Inc.",
+    "invoice_number": "NG-7499",
+    "invoice_date": "2026-07-04",
+    "due_date": "2026-07-18",
+    "currency": "USD",
+    "subtotal": "2004.60",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "2004.60",
+    "line_items": [
+      {
+        "description": "Software licence (seat)",
+        "quantity": "10",
+        "unit_price": "14.53",
+        "amount": "145.30"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "10",
+        "unit_price": "185.93",
+        "amount": "1859.30"
+      }
+    ]
+  },
+  "file": "doc_001.pdf",
+  "layout": "pdf-standard"
+}

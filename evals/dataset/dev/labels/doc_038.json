@@ -1,0 +1,47 @@
+{
+  "id": "doc_038",
+  "fault": "due_before_issue",
+  "expected_error_codes": [
+    "DUE_BEFORE_ISSUE"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Avon Catering Co.",
+    "invoice_number": "NG-42428",
+    "invoice_date": "2026-08-22",
+    "due_date": "2026-08-09",
+    "currency": "GBP",
+    "subtotal": "6503.63",
+    "vat_rate": "5",
+    "vat_amount": "325.18",
+    "total": "6828.81",
+    "line_items": [
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "11",
+        "unit_price": "27.23",
+        "amount": "299.53"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "7",
+        "unit_price": "17.09",
+        "amount": "119.63"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "12",
+        "unit_price": "113.05",
+        "amount": "1356.60"
+      },
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "7",
+        "unit_price": "675.41",
+        "amount": "4727.87"
+      }
+    ]
+  },
+  "file": "doc_038.pdf",
+  "layout": "pdf-standard"
+}

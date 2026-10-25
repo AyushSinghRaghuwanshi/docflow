@@ -1,0 +1,39 @@
+{
+  "id": "doc_023",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Brightline Cleaning Services",
+    "invoice_number": "NG-4571",
+    "invoice_date": "2026-07-31",
+    "due_date": "2026-08-30",
+    "currency": "GBP",
+    "subtotal": "578.34",
+    "vat_rate": "20",
+    "vat_amount": "115.67",
+    "total": "694.01",
+    "line_items": [
+      {
+        "description": "Network switch",
+        "quantity": "1",
+        "unit_price": "316.75",
+        "amount": "316.75"
+      },
+      {
+        "description": "Toner cartridge",
+        "quantity": "2",
+        "unit_price": "86.02",
+        "amount": "172.04"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "5",
+        "unit_price": "17.91",
+        "amount": "89.55"
+      }
+    ]
+  },
+  "file": "doc_023.pdf",
+  "layout": "pdf-inline"
+}

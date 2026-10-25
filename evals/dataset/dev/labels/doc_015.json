@@ -1,0 +1,33 @@
+{
+  "id": "doc_015",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Brightline Cleaning Services",
+    "invoice_number": "NG-53610",
+    "invoice_date": "2026-07-13",
+    "due_date": "2026-08-12",
+    "currency": "GBP",
+    "subtotal": "1399.62",
+    "vat_rate": "5",
+    "vat_amount": "69.98",
+    "total": "1469.60",
+    "line_items": [
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "6",
+        "unit_price": "176.85",
+        "amount": "1061.10"
+      },
+      {
+        "description": "Software licence (seat)",
+        "quantity": "12",
+        "unit_price": "28.21",
+        "amount": "338.52"
+      }
+    ]
+  },
+  "file": "doc_015.pdf",
+  "layout": "pdf-standard"
+}

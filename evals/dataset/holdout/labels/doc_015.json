@@ -1,0 +1,45 @@
+{
+  "id": "doc_015",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Kestrel IT Solutions Ltd",
+    "invoice_number": "NG-49055",
+    "invoice_date": "2026-07-24",
+    "due_date": "2026-08-23",
+    "currency": "GBP",
+    "subtotal": "872.62",
+    "vat_rate": "5",
+    "vat_amount": "43.63",
+    "total": "916.25",
+    "line_items": [
+      {
+        "description": "Catering platter",
+        "quantity": "10",
+        "unit_price": "40.77",
+        "amount": "407.70"
+      },
+      {
+        "description": "Software licence (seat)",
+        "quantity": "1",
+        "unit_price": "12.41",
+        "amount": "12.41"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "8",
+        "unit_price": "34.77",
+        "amount": "278.16"
+      },
+      {
+        "description": "Business cards (500)",
+        "quantity": "5",
+        "unit_price": "34.87",
+        "amount": "174.35"
+      }
+    ]
+  },
+  "file": "doc_015.pdf",
+  "layout": "pdf-inline"
+}

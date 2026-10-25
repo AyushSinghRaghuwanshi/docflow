@@ -1,0 +1,27 @@
+{
+  "id": "doc_029",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Pacific Cloud Hosting Inc.",
+    "invoice_number": "NG-11723",
+    "invoice_date": "2026-10-06",
+    "due_date": "2026-11-05",
+    "currency": "USD",
+    "subtotal": "399.16",
+    "vat_rate": "0",
+    "vat_amount": "0.00",
+    "total": "399.16",
+    "line_items": [
+      {
+        "description": "Laptop docking station",
+        "quantity": "4",
+        "unit_price": "99.79",
+        "amount": "399.16"
+      }
+    ]
+  },
+  "file": "doc_029.pdf",
+  "layout": "pdf-inline"
+}

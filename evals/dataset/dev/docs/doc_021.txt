@@ -1,0 +1,15 @@
+From: Brightline Cleaning Services
+Ref: SI-22163
+Date of issue 11 September 2026
+Customer: Acme Retail Ltd
+Payment due 11 October 2026 by bank transfer
+
+Services and goods supplied:
+- Office cleaning (hours): 12 @ £14.96 = £179.52
+- Consulting (day rate): 7 @ £769.33 = £5,385.31
+- Laptop docking station: 3 @ £139.70 = £419.10
+
+Net amount £5,983.93
+Tax @ 20% £1,196.79
+Amount payable £7,180.72
+Thank you for your business.

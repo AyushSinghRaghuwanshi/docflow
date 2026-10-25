@@ -1,0 +1,45 @@
+{
+  "id": "doc_006",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "INV-3605",
+    "invoice_date": "2026-08-15",
+    "due_date": "2026-08-29",
+    "currency": "EUR",
+    "subtotal": "1111.34",
+    "vat_rate": "20",
+    "vat_amount": "222.27",
+    "total": "1333.61",
+    "line_items": [
+      {
+        "description": "Courier delivery",
+        "quantity": "3",
+        "unit_price": "33.64",
+        "amount": "100.92"
+      },
+      {
+        "description": "Software licence (seat)",
+        "quantity": "3",
+        "unit_price": "28.75",
+        "amount": "86.25"
+      },
+      {
+        "description": "Cloud hosting (monthly)",
+        "quantity": "2",
+        "unit_price": "439.24",
+        "amount": "878.48"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "3",
+        "unit_price": "15.23",
+        "amount": "45.69"
+      }
+    ]
+  },
+  "file": "doc_006.pdf",
+  "layout": "pdf-inline"
+}

@@ -1,0 +1,19 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check docflow evals tests
+      - run: pytest -q
+      - name: Offline evaluation (rules baseline, no API key needed)
+        run: |
+          python evals/generate_dataset.py --split dev --n 60
+          python evals/generate_dataset.py --split holdout --n 40
+          python evals/run_eval.py --extractor rules --split dev
+          python evals/run_eval.py --extractor rules --split holdout

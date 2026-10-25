@@ -1,0 +1,13 @@
+Supplier,Lumière Conseil SARL
+Invoice No.,INV-38956
+Invoice Date,2026-08-13
+Due Date,2026-08-27
+Currency,EUR
+Description,Qty,Unit price,Amount
+Courier delivery,8,28.1,224.80
+Catering platter,2,74.98,149.96
+Desk chair,4,141.06,564.24
+Consulting (day rate),2,759.94,1519.88
+Subtotal,2458.88
+VAT 19%,467.19
+Total Due,2926.07

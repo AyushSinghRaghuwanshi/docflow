@@ -1,0 +1,35 @@
+{
+  "id": "doc_024",
+  "fault": "total_mismatch",
+  "expected_error_codes": [
+    "TOTAL_MISMATCH"
+  ],
+  "expected_decision": "needs_review",
+  "invoice": {
+    "supplier_name": "Rhein B\u00fcrotechnik GmbH",
+    "invoice_number": "INV-37577",
+    "invoice_date": "2026-04-30",
+    "due_date": "2026-05-30",
+    "currency": "EUR",
+    "subtotal": "2428.06",
+    "vat_rate": "20",
+    "vat_amount": "485.61",
+    "total": "2938.67",
+    "line_items": [
+      {
+        "description": "Catering platter",
+        "quantity": "10",
+        "unit_price": "70.51",
+        "amount": "705.10"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "12",
+        "unit_price": "143.58",
+        "amount": "1722.96"
+      }
+    ]
+  },
+  "file": "doc_024.pdf",
+  "layout": "pdf-messy"
+}

@@ -1,0 +1,34 @@
+{
+  "extractor": "rules",
+  "documents": 60,
+  "field_accuracy": 1.0,
+  "per_field_accuracy": {
+    "supplier_name": 1.0,
+    "invoice_number": 1.0,
+    "invoice_date": 1.0,
+    "due_date": 1.0,
+    "currency": 1.0,
+    "subtotal": 1.0,
+    "vat_rate": 1.0,
+    "vat_amount": 1.0,
+    "total": 1.0
+  },
+  "per_layout_field_accuracy": {
+    "csv": 1.0,
+    "pdf-messy": 1.0,
+    "pdf-standard": 1.0,
+    "txt-messy": 1.0,
+    "xlsx": 1.0
+  },
+  "document_exact_match": 1.0,
+  "line_item_accuracy": 0.917,
+  "fault_detection_recall": 1.0,
+  "false_alarm_rate": 0.0,
+  "decision_accuracy": 1.0,
+  "injection_recall": 1.0,
+  "injection_false_positives": 0,
+  "avg_cost_usd": 0.0,
+  "avg_latency_ms": 10.2,
+  "failures": [],
+  "split": "dev"
+}

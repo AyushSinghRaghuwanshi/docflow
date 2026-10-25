@@ -1,0 +1,27 @@
+{
+  "id": "doc_031",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Kestrel IT Solutions Ltd",
+    "invoice_number": "SI-63995",
+    "invoice_date": "2026-07-01",
+    "due_date": "2026-08-30",
+    "currency": "GBP",
+    "subtotal": "3619.04",
+    "vat_rate": "20",
+    "vat_amount": "723.81",
+    "total": "4342.85",
+    "line_items": [
+      {
+        "description": "Consulting (day rate)",
+        "quantity": "8",
+        "unit_price": "452.38",
+        "amount": "3619.04"
+      }
+    ]
+  },
+  "file": "doc_031.pdf",
+  "layout": "pdf-stacked"
+}

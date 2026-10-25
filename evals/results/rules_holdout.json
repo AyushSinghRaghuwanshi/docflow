@@ -1,0 +1,795 @@
+{
+  "extractor": "rules",
+  "documents": 40,
+  "field_accuracy": 0.233,
+  "per_field_accuracy": {
+    "supplier_name": 0.4,
+    "invoice_number": 0.0,
+    "invoice_date": 0.0,
+    "due_date": 0.0,
+    "currency": 1.0,
+    "subtotal": 0.0,
+    "vat_rate": 0.6,
+    "vat_amount": 0.1,
+    "total": 0.0
+  },
+  "per_layout_field_accuracy": {
+    "pdf-inline": 0.222,
+    "pdf-stacked": 0.25
+  },
+  "document_exact_match": 0.0,
+  "line_item_accuracy": 0.0,
+  "fault_detection_recall": 0.5,
+  "false_alarm_rate": 1.0,
+  "decision_accuracy": 0.35,
+  "injection_recall": 1.0,
+  "injection_false_positives": 0,
+  "avg_cost_usd": 0.0,
+  "avg_latency_ms": 10.9,
+  "failures": [
+    {
+      "id": "doc_000",
+      "layout": "pdf-stacked",
+      "fault": "prompt_injection",
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD",
+        "PROMPT_INJECTION"
+      ]
+    },
+    {
+      "id": "doc_001",
+      "layout": "pdf-stacked",
+      "fault": "prompt_injection",
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD",
+        "PROMPT_INJECTION"
+      ]
+    },
+    {
+      "id": "doc_002",
+      "layout": "pdf-stacked",
+      "fault": null,
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_003",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_004",
+      "layout": "pdf-stacked",
+      "fault": null,
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_005",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_006",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_007",
+      "layout": "pdf-stacked",
+      "fault": "prompt_injection",
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD",
+        "PROMPT_INJECTION"
+      ]
+    },
+    {
+      "id": "doc_008",
+      "layout": "pdf-stacked",
+      "fault": "total_mismatch",
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_009",
+      "layout": "pdf-stacked",
+      "fault": null,
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_010",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_011",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_012",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_013",
+      "layout": "pdf-inline",
+      "fault": "prompt_injection",
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD",
+        "PROMPT_INJECTION"
+      ]
+    },
+    {
+      "id": "doc_014",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_015",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_016",
+      "layout": "pdf-inline",
+      "fault": "prompt_injection",
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD",
+        "PROMPT_INJECTION"
+      ]
+    },
+    {
+      "id": "doc_017",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_018",
+      "layout": "pdf-stacked",
+      "fault": null,
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_019",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_020",
+      "layout": "pdf-inline",
+      "fault": "due_before_issue",
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_021",
+      "layout": "pdf-stacked",
+      "fault": null,
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_022",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_023",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_024",
+      "layout": "pdf-stacked",
+      "fault": null,
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_025",
+      "layout": "pdf-stacked",
+      "fault": null,
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_026",
+      "layout": "pdf-inline",
+      "fault": "total_mismatch",
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_027",
+      "layout": "pdf-inline",
+      "fault": "prompt_injection",
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD",
+        "PROMPT_INJECTION"
+      ]
+    },
+    {
+      "id": "doc_028",
+      "layout": "pdf-inline",
+      "fault": "prompt_injection",
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD",
+        "PROMPT_INJECTION"
+      ]
+    },
+    {
+      "id": "doc_029",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_030",
+      "layout": "pdf-inline",
+      "fault": "total_mismatch",
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_031",
+      "layout": "pdf-stacked",
+      "fault": null,
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_032",
+      "layout": "pdf-stacked",
+      "fault": null,
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_033",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_034",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_035",
+      "layout": "pdf-inline",
+      "fault": null,
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_036",
+      "layout": "pdf-inline",
+      "fault": "due_before_issue",
+      "wrong_fields": [
+        "supplier_name",
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_037",
+      "layout": "pdf-stacked",
+      "fault": "due_before_issue",
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_038",
+      "layout": "pdf-stacked",
+      "fault": null,
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "auto_approved",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    },
+    {
+      "id": "doc_039",
+      "layout": "pdf-stacked",
+      "fault": "total_mismatch",
+      "wrong_fields": [
+        "invoice_number",
+        "invoice_date",
+        "due_date",
+        "subtotal",
+        "vat_rate",
+        "vat_amount",
+        "total"
+      ],
+      "decision": "needs_review",
+      "expected": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ]
+    }
+  ],
+  "split": "holdout"
+}

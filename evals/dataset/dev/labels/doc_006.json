@@ -1,0 +1,33 @@
+{
+  "id": "doc_006",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Avon Catering Co.",
+    "invoice_number": "BL-17952",
+    "invoice_date": "2026-10-15",
+    "due_date": "2026-12-14",
+    "currency": "GBP",
+    "subtotal": "1706.20",
+    "vat_rate": "20",
+    "vat_amount": "341.24",
+    "total": "2047.44",
+    "line_items": [
+      {
+        "description": "Network switch",
+        "quantity": "8",
+        "unit_price": "159.31",
+        "amount": "1274.48"
+      },
+      {
+        "description": "Toner cartridge",
+        "quantity": "4",
+        "unit_price": "107.93",
+        "amount": "431.72"
+      }
+    ]
+  },
+  "file": "doc_006.pdf",
+  "layout": "pdf-messy"
+}

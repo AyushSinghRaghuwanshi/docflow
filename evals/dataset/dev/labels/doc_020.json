@@ -1,0 +1,45 @@
+{
+  "id": "doc_020",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Harbour Logistics plc",
+    "invoice_number": "BL-10508",
+    "invoice_date": "2026-04-26",
+    "due_date": "2026-05-26",
+    "currency": "GBP",
+    "subtotal": "2148.29",
+    "vat_rate": "5",
+    "vat_amount": "107.41",
+    "total": "2255.70",
+    "line_items": [
+      {
+        "description": "Catering platter",
+        "quantity": "9",
+        "unit_price": "46.59",
+        "amount": "419.31"
+      },
+      {
+        "description": "Laptop docking station",
+        "quantity": "8",
+        "unit_price": "96.23",
+        "amount": "769.84"
+      },
+      {
+        "description": "Desk chair",
+        "quantity": "7",
+        "unit_price": "109.92",
+        "amount": "769.44"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "7",
+        "unit_price": "27.1",
+        "amount": "189.70"
+      }
+    ]
+  },
+  "file": "doc_020.pdf",
+  "layout": "pdf-messy"
+}

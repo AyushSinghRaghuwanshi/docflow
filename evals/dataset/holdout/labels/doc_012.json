@@ -1,0 +1,27 @@
+{
+  "id": "doc_012",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Lumi\u00e8re Conseil SARL",
+    "invoice_number": "NG-64797",
+    "invoice_date": "2026-06-22",
+    "due_date": "2026-07-22",
+    "currency": "EUR",
+    "subtotal": "2598.31",
+    "vat_rate": "19",
+    "vat_amount": "493.68",
+    "total": "3091.99",
+    "line_items": [
+      {
+        "description": "Network switch",
+        "quantity": "11",
+        "unit_price": "236.21",
+        "amount": "2598.31"
+      }
+    ]
+  },
+  "file": "doc_012.pdf",
+  "layout": "pdf-inline"
+}

@@ -1,0 +1,45 @@
+{
+  "id": "doc_049",
+  "fault": null,
+  "expected_error_codes": [],
+  "expected_decision": "auto_approved",
+  "invoice": {
+    "supplier_name": "Avon Catering Co.",
+    "invoice_number": "SI-35736",
+    "invoice_date": "2026-04-20",
+    "due_date": "2026-06-19",
+    "currency": "GBP",
+    "subtotal": "737.52",
+    "vat_rate": "20",
+    "vat_amount": "147.50",
+    "total": "885.02",
+    "line_items": [
+      {
+        "description": "Laptop docking station",
+        "quantity": "2",
+        "unit_price": "101.81",
+        "amount": "203.62"
+      },
+      {
+        "description": "A4 copier paper (box)",
+        "quantity": "8",
+        "unit_price": "22.1",
+        "amount": "176.80"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "5",
+        "unit_price": "16.94",
+        "amount": "84.70"
+      },
+      {
+        "description": "Catering platter",
+        "quantity": "4",
+        "unit_price": "68.1",
+        "amount": "272.40"
+      }
+    ]
+  },
+  "file": "doc_049.pdf",
+  "layout": "pdf-standard"
+}

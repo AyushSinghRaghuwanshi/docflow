@@ -1,0 +1,35 @@
+{
+  "id": "doc_026",
+  "fault": "duplicate",
+  "expected_error_codes": [
+    "DUPLICATE"
+  ],
+  "expected_decision": "rejected",
+  "invoice": {
+    "supplier_name": "Kestrel IT Solutions Ltd",
+    "invoice_number": "SI-20781",
+    "invoice_date": "2026-05-14",
+    "due_date": "2026-06-13",
+    "currency": "GBP",
+    "subtotal": "293.78",
+    "vat_rate": "20",
+    "vat_amount": "58.76",
+    "total": "352.54",
+    "line_items": [
+      {
+        "description": "Toner cartridge",
+        "quantity": "5",
+        "unit_price": "49.12",
+        "amount": "245.60"
+      },
+      {
+        "description": "Office cleaning (hours)",
+        "quantity": "3",
+        "unit_price": "16.06",
+        "amount": "48.18"
+      }
+    ]
+  },
+  "file": "doc_026.pdf",
+  "layout": "pdf-standard"
+}
