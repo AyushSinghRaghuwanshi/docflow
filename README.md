@@ -8,6 +8,16 @@ It combines an LLM extractor with deterministic business rules, a self-correctio
 
 ---
 
+## Headline result
+
+Measured on **40 invoices DocFlow had never seen** (independent set 5, made by a different AI tool, answer key written beforehand, code frozen before the run), using a free 3B-parameter model on a laptop CPU:
+
+| Decisions correct | Faulty invoices approved | Valid invoices held back | Prompt injections caught | Time per invoice |
+|---|---|---|---|---|
+| 77.5% | 5 of 20 | 4 of 20 | 3 of 6 | 36 s |
+
+It isn't production-ready, and the write-up below says exactly why. The point of the project is the method: every claim is measured on data the system wasn't built against, failures are reported as they came out, and each round of fixes is checked on a fresh set.
+
 ## Why this project
 
 Accounts teams still re-type invoice data by hand. LLMs are good at reading messy documents but they are not accountants: they can misread a number, and a hostile supplier can hide instructions inside a document. DocFlow is built around one idea:
@@ -145,6 +155,29 @@ The lesson: the guard's pattern list will always be one phrasing behind.
 
 With these changes, the rules extractor alone scores 1.0 on both independent sets, and the simulated perfect model sends no valid invoice to review on any of the four sets. Both independent sets have now been tuned against, so those numbers say nothing about new invoices. **Set 3 is needed for the next honest measurement.**
 
+## Set 2 re-run, and the final test on set 5
+
+**Set 2 after the fixes, real model** (`evals/results/independent/set2_llm_after_fixes.md`): 0 faulty invoices approved, 0 of 20 valid invoices held back, all 40 decisions right, 6 of 6 injections caught. This confirms the fixes work end to end with Qwen, but set 2 had been studied, so it says nothing about new invoices.
+
+**Set 5: the final, unseen test** (`evals/results/independent/set5_llm_first_run.md`). A fresh 40 from a new chat, checked to share no file and no supplier name with any earlier set, run once on the code above:
+
+| | Set 2, first run | **Set 5, first run** |
+|---|---|---|
+| Faulty invoices approved | 3 | **5** |
+| Valid invoices held back | 9 of 20 | **4 of 20** |
+| Decision accuracy | 0.70 | **0.775** |
+| Header-field accuracy | 0.938 | 0.841 |
+| Injections detected | 2 of 6 | 3 of 6 |
+
+**Reading it honestly:** the set-2 fixes partly generalised. Far fewer valid invoices are held back, but more faulty ones get through, because set 5's layouts exposed failures the earlier sets didn't have:
+
+- **A date accepted as the invoice number.** On several layouts the due date was read as the invoice number ("23.04.2026"), which left the due date empty. That hid a due-before-issue fault and a reformatted duplicate (which can't match on a wrong number).
+- **A missing invoice date filled with the due date.** The check added after set 2 didn't fire on this layout, so an invoice with no invoice date was approved.
+- **Injections:** the pattern guard caught 3 of 6 new phrasings, and two of the missed ones were on invoices with no other fault, so they were approved. The approval decision is never the model's, but a missed injection still means a manipulated invoice can go through.
+- **Odd parses on one layout family:** a "VAT" line read as a large negative number, and "BILLING VOUCHER" left in front of supplier names. These sent valid invoices to review rather than approving bad ones.
+
+**This is the final measurement for this version.** Set 5 now counts as studied. The obvious next steps are listed under *Roadmap*; any change made for them needs a fresh set to be measured.
+
 ## Independent test: AI-generated invoices
 
 To check generalisation without my own generator's bias, three fictional invoices were produced by a separate AI tool, using a brief that asked for unfamiliar layouts and deliberate faults (`tests/fixtures/`). They exposed real failures in v1 of the rules extractor, all now fixed and covered by regression tests (`tests/test_regressions.py`).
@@ -244,6 +277,8 @@ The generator above was written alongside DocFlow, so it shares its blind spots.
 
 ## Limitations
 
+- **Final unseen result (set 5): 5 of 20 faulty invoices approved.** Not safe for unattended use. The causes: two injections the pattern guard missed, two faults hidden because a date was accepted as the invoice number, and one missing invoice date filled with the due date.
+
 - The dataset is synthetic. Real invoices are noisier, and scanned images need OCR, which is out of scope.
 - The injection guard is a pattern list. It caught both injections in set 1 only after being extended, and a new phrasing can still get past it. What limits the damage is that the model never makes the approval decision.
 - Grounding proves a value is *in* the document, not that it is the right one. A wrong-but-printed value is caught only when the two extractors disagree; if both make the same mistake, it gets through.
@@ -252,6 +287,11 @@ The generator above was written alongside DocFlow, so it shares its blind spots.
 - SQLite keeps setup to zero. Swap in PostgreSQL for concurrent use.
 
 ## Roadmap
+
+- Never accept a value that parses as a date (or an amount) as the invoice number; require the due date to be found when a due-date label is printed
+- Sanity limits on amounts (VAT can't be negative or larger than the subtotal)
+- A second, model-based injection check alongside the pattern list, since the patterns are always a phrasing behind
+- Measure each of these on a fresh independent set 6
 
 - Rules-first routing: only call the LLM when the rules output fails validation (cuts cost and latency)
 - OCR for scanned PDFs

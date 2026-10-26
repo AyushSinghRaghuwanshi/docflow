@@ -1,0 +1,516 @@
+{
+  "set": "independent_set_2",
+  "status": "development set (DocFlow or the set changed since the first run; not evidence of generalisation)",
+  "code": "239d7c8637fe634d",
+  "at": "2026-10-26T20:15:34+00:00",
+  "engine": "llm:ollama:qwen2.5:3b",
+  "documents": 40,
+  "valid": 20,
+  "with_faults": 20,
+  "crashed": 0,
+  "field_accuracy": {
+    "supplier_name": 1.0,
+    "invoice_number": 1.0,
+    "invoice_date": 0.975,
+    "due_date": 1.0,
+    "currency": 1.0,
+    "subtotal": 1.0,
+    "vat_amount": 1.0,
+    "total": 0.975
+  },
+  "field_accuracy_overall": 0.994,
+  "decision_accuracy": 1.0,
+  "false_approvals": [],
+  "unnecessary_reviews": [],
+  "straight_through_on_valid": 1.0,
+  "fault_recall": {
+    "due_before_issue": "2/2",
+    "duplicate_exact": "1/1",
+    "duplicate_reformatted": "2/2",
+    "future_date": "1/1",
+    "line_items_mismatch": "4/4",
+    "missing_required_field": "1/2",
+    "prompt_injection": "6/6",
+    "same_number_other_supplier": "1/1",
+    "total_mismatch": "2/3",
+    "vat_mismatch": "2/2"
+  },
+  "errors_not_explained_by_labels": {
+    "FIELD_DISAGREEMENT": 2,
+    "NUMBER_IS_REFERENCE": 1,
+    "LINE_ITEMS_MISMATCH": 1
+  },
+  "confusion": {
+    "auto_approved -> auto_approved": 20,
+    "needs_review -> needs_review": 17,
+    "rejected -> rejected": 3
+  },
+  "avg_latency_s": 32.5,
+  "llm_calls": 46,
+  "repair_attempts": 6,
+  "avg_api_cost_usd": 0.0,
+  "documents_detail": [
+    {
+      "file": "inv_01.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_02.pdf",
+      "faults": [
+        "prompt_injection",
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "PROMPT_INJECTION",
+        "TOTAL_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_03.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_04.txt",
+      "faults": [
+        "line_items_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_05.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_06.xlsx",
+      "faults": [
+        "vat_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "VAT_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_07.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_08.pdf",
+      "faults": [
+        "due_before_issue",
+        "prompt_injection"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "DUE_BEFORE_ISSUE",
+        "PROMPT_INJECTION"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_09.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_10.pdf",
+      "faults": [
+        "missing_required_field"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "MISSING_FIELD",
+        "NUMBER_IS_REFERENCE"
+      ],
+      "unexplained_errors": [
+        "NUMBER_IS_REFERENCE"
+      ],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_11.txt",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_12.pdf",
+      "faults": [
+        "duplicate_exact"
+      ],
+      "expected": "rejected",
+      "got": "rejected",
+      "errors": [
+        "DUPLICATE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_13.xlsx",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_14.pdf",
+      "faults": [
+        "prompt_injection"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "PROMPT_INJECTION"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_15.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_16.pdf",
+      "faults": [
+        "line_items_mismatch",
+        "prompt_injection"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH",
+        "PROMPT_INJECTION"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_17.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_18.txt",
+      "faults": [
+        "future_date"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "FUTURE_DATE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_19.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_20.pdf",
+      "faults": [
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "unexplained_errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "wrong_fields": [
+        "total: got '2197.51', expected '2207.51'"
+      ]
+    },
+    {
+      "file": "inv_21.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_22.xlsx",
+      "faults": [
+        "duplicate_reformatted"
+      ],
+      "expected": "rejected",
+      "got": "rejected",
+      "errors": [
+        "DUPLICATE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_23.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_24.pdf",
+      "faults": [
+        "vat_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "VAT_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_25.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_26.pdf",
+      "faults": [
+        "line_items_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_27.txt",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_28.pdf",
+      "faults": [
+        "same_number_other_supplier"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "POSSIBLE_DUPLICATE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_29.xlsx",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_30.pdf",
+      "faults": [
+        "due_before_issue"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "DUE_BEFORE_ISSUE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_31.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_32.pdf",
+      "faults": [
+        "prompt_injection"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH",
+        "PROMPT_INJECTION"
+      ],
+      "unexplained_errors": [
+        "LINE_ITEMS_MISMATCH"
+      ],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_33.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_34.txt",
+      "faults": [
+        "missing_required_field"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "unexplained_errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "wrong_fields": [
+        "invoice_date: got '2026-06-19', expected None"
+      ]
+    },
+    {
+      "file": "inv_35.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_36.xlsx",
+      "faults": [
+        "duplicate_reformatted"
+      ],
+      "expected": "rejected",
+      "got": "rejected",
+      "errors": [
+        "DUPLICATE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_37.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_38.pdf",
+      "faults": [
+        "prompt_injection",
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "PROMPT_INJECTION",
+        "TOTAL_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_39.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_40.pdf",
+      "faults": [
+        "line_items_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    }
+  ]
+}
