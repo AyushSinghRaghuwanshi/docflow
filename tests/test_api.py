@@ -36,8 +36,13 @@ def test_upload_review_and_metrics(tmp_path, monkeypatch):
     assert pending["status"] == "pending"
     assert c.get("/documents", params={"status": "pending"}).json()[0]["id"] == pending["id"]
 
-    reviewed = c.post(f"/documents/{pending['id']}/review", json={"approve": True}).json()
+    # Approving the broken values as they are is refused: the total still does not add up.
+    blocked = c.post(f"/documents/{pending['id']}/review", json={"approve": True})
+    assert blocked.status_code == 409 and blocked.json()["detail"]["issues"][0]["code"] == "TOTAL_MISMATCH"
+    fixed = {**pending["result"]["invoice"], "total": "120.00"}
+    reviewed = c.post(f"/documents/{pending['id']}/review", json={"approve": True, "corrected": fixed}).json()
     assert reviewed["status"] == "approved"
+    assert [a["action"] for a in reviewed["audit"]] == ["blocked", "approved"]
 
     m = c.get("/metrics").json()
     assert m["documents"] == 3 and m["by_decision"]["rejected"] == 1

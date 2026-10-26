@@ -1,4 +1,4 @@
-"""Typed data models shared by every stage of the DocFlow pipeline."""
+"""Data models shared across the pipeline."""
 from __future__ import annotations
 
 from datetime import date
@@ -72,6 +72,8 @@ class ExtractionResult(BaseModel):
     invoice: Invoice
     issues: list[Issue] = Field(default_factory=list)
     injection_detected: bool = False
+    field_confidence: dict[str, str] = Field(default_factory=dict)
+    file_sha256: Optional[str] = None
     repair_attempts: int = 0
     decision: Decision = Decision.NEEDS_REVIEW
     usage: Usage = Field(default_factory=Usage)

@@ -7,7 +7,7 @@ license = { text = "MIT" }
 authors = [{ name = "Ayush Singh Raghuwanshi" }]
 
 [tool.ruff]
-line-length = 140
+line-length = 160
 target-version = "py310"
 
 [tool.ruff.lint]

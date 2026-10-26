@@ -1,7 +1,6 @@
-"""Turn PDFs, spreadsheets and text files into plain text the extractors can read.
+"""Turn PDF, XLSX, CSV and text files into plain text.
 
-Tables are flattened row by row with ' | ' separators so both the rules
-baseline and the LLM see line items in a consistent shape.
+Spreadsheet rows are joined with " | " so the extractors see tables the same way whatever the format.
 """
 from __future__ import annotations
 
@@ -17,12 +16,20 @@ class UnsupportedDocument(ValueError):
 
 
 def _pdf_to_text(data: bytes) -> str:
+    """Extract text with its layout kept, so columns stay separated by runs of spaces.
+
+    Plain extraction merges side-by-side columns ("From:  Bill to:" becomes one phrase),
+    which is the main reason two-column invoices were misread.
+    """
     import pdfplumber
 
     pages: list[str] = []
     with pdfplumber.open(io.BytesIO(data)) as pdf:
         for page in pdf.pages:
-            pages.append(page.extract_text() or "")
+            raw = page.extract_text(layout=True) or ""
+            lines = [ln.rstrip() for ln in raw.splitlines() if ln.strip()]
+            indent = min((len(ln) - len(ln.lstrip()) for ln in lines), default=0)
+            pages.append("\n".join(ln[indent:] for ln in lines))
     return "\n".join(pages)
 
 

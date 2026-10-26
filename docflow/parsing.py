@@ -1,4 +1,4 @@
-"""Tolerant parsers for the messy number and date formats found in real invoices."""
+"""Parsers for the number and date formats invoices actually use."""
 from __future__ import annotations
 
 import re

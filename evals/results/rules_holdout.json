@@ -1,44 +1,39 @@
 {
   "extractor": "rules",
   "documents": 40,
-  "field_accuracy": 0.233,
+  "field_accuracy": 0.756,
   "per_field_accuracy": {
-    "supplier_name": 0.4,
-    "invoice_number": 0.0,
+    "supplier_name": 1.0,
+    "invoice_number": 1.0,
     "invoice_date": 0.0,
-    "due_date": 0.0,
+    "due_date": 0.4,
     "currency": 1.0,
-    "subtotal": 0.0,
-    "vat_rate": 0.6,
-    "vat_amount": 0.1,
-    "total": 0.0
+    "subtotal": 0.4,
+    "vat_rate": 1.0,
+    "vat_amount": 1.0,
+    "total": 1.0
   },
   "per_layout_field_accuracy": {
-    "pdf-inline": 0.222,
-    "pdf-stacked": 0.25
+    "pdf-inline": 0.667,
+    "pdf-stacked": 0.889
   },
   "document_exact_match": 0.0,
   "line_item_accuracy": 0.0,
-  "fault_detection_recall": 0.5,
+  "fault_detection_recall": 0.643,
   "false_alarm_rate": 1.0,
   "decision_accuracy": 0.35,
   "injection_recall": 1.0,
   "injection_false_positives": 0,
   "avg_cost_usd": 0.0,
-  "avg_latency_ms": 10.9,
+  "avg_latency_ms": 27.6,
+  "processing_errors": 0,
   "failures": [
     {
       "id": "doc_000",
       "layout": "pdf-stacked",
       "fault": "prompt_injection",
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -52,13 +47,7 @@
       "layout": "pdf-stacked",
       "fault": "prompt_injection",
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -72,13 +61,7 @@
       "layout": "pdf-stacked",
       "fault": null,
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -91,13 +74,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -110,12 +89,7 @@
       "layout": "pdf-stacked",
       "fault": null,
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -128,13 +102,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -147,13 +117,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -166,13 +132,7 @@
       "layout": "pdf-stacked",
       "fault": "prompt_injection",
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -186,18 +146,13 @@
       "layout": "pdf-stacked",
       "fault": "total_mismatch",
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
       "errors": [
-        "MISSING_FIELD"
+        "MISSING_FIELD",
+        "TOTAL_MISMATCH"
       ]
     },
     {
@@ -205,13 +160,7 @@
       "layout": "pdf-stacked",
       "fault": null,
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -224,13 +173,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -243,13 +188,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -262,13 +203,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -281,13 +218,9 @@
       "layout": "pdf-inline",
       "fault": "prompt_injection",
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -301,13 +234,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -320,13 +249,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -339,13 +264,9 @@
       "layout": "pdf-inline",
       "fault": "prompt_injection",
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -359,13 +280,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -378,12 +295,7 @@
       "layout": "pdf-stacked",
       "fault": null,
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -396,13 +308,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -415,13 +323,9 @@
       "layout": "pdf-inline",
       "fault": "due_before_issue",
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -434,13 +338,7 @@
       "layout": "pdf-stacked",
       "fault": null,
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -453,13 +351,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -472,13 +366,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -491,12 +381,7 @@
       "layout": "pdf-stacked",
       "fault": null,
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -509,13 +394,7 @@
       "layout": "pdf-stacked",
       "fault": null,
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -528,13 +407,9 @@
       "layout": "pdf-inline",
       "fault": "total_mismatch",
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -547,13 +422,9 @@
       "layout": "pdf-inline",
       "fault": "prompt_injection",
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -567,13 +438,9 @@
       "layout": "pdf-inline",
       "fault": "prompt_injection",
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -587,13 +454,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -606,13 +469,9 @@
       "layout": "pdf-inline",
       "fault": "total_mismatch",
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -625,13 +484,7 @@
       "layout": "pdf-stacked",
       "fault": null,
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -644,12 +497,7 @@
       "layout": "pdf-stacked",
       "fault": null,
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -662,13 +510,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -681,13 +525,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -700,13 +540,9 @@
       "layout": "pdf-inline",
       "fault": null,
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -719,13 +555,9 @@
       "layout": "pdf-inline",
       "fault": "due_before_issue",
       "wrong_fields": [
-        "supplier_name",
-        "invoice_number",
         "invoice_date",
         "due_date",
-        "subtotal",
-        "vat_amount",
-        "total"
+        "subtotal"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -738,13 +570,7 @@
       "layout": "pdf-stacked",
       "fault": "due_before_issue",
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
@@ -757,13 +583,7 @@
       "layout": "pdf-stacked",
       "fault": null,
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "auto_approved",
@@ -776,18 +596,13 @@
       "layout": "pdf-stacked",
       "fault": "total_mismatch",
       "wrong_fields": [
-        "invoice_number",
-        "invoice_date",
-        "due_date",
-        "subtotal",
-        "vat_rate",
-        "vat_amount",
-        "total"
+        "invoice_date"
       ],
       "decision": "needs_review",
       "expected": "needs_review",
       "errors": [
-        "MISSING_FIELD"
+        "MISSING_FIELD",
+        "TOTAL_MISMATCH"
       ]
     }
   ],

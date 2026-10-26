@@ -1,7 +1,7 @@
-"""Per-model token prices used for cost-per-document tracking.
+"""Token prices for cost-per-document tracking.
 
-Prices are USD per 1M tokens and change often: check your provider's pricing page
-and override with DOCFLOW_PRICE_IN / DOCFLOW_PRICE_OUT if they differ.
+USD per million tokens. These change, so check your provider's pricing page; DOCFLOW_PRICE_IN and
+DOCFLOW_PRICE_OUT override them. A local model costs nothing in API fees, but it still uses your machine.
 """
 from __future__ import annotations
 

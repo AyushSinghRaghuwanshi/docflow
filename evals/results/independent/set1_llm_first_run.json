@@ -1,0 +1,537 @@
+{
+  "set": "independent_set_1",
+  "status": "held-out (first contact with this code)",
+  "code": "9d36dbc341e44a34",
+  "at": "2026-10-26T01:46:20+00:00",
+  "engine": "llm:ollama:qwen2.5:3b",
+  "documents": 40,
+  "valid": 20,
+  "with_faults": 20,
+  "crashed": 0,
+  "field_accuracy": {
+    "supplier_name": 0.625,
+    "invoice_number": 0.95,
+    "invoice_date": 1.0,
+    "due_date": 1.0,
+    "currency": 1.0,
+    "subtotal": 1.0,
+    "vat_amount": 1.0,
+    "total": 0.975
+  },
+  "field_accuracy_overall": 0.944,
+  "decision_accuracy": 0.825,
+  "false_approvals": [
+    "invoice_002.pdf",
+    "invoice_006.pdf",
+    "invoice_011.pdf",
+    "invoice_018.pdf",
+    "invoice_030.pdf",
+    "invoice_034.pdf"
+  ],
+  "unnecessary_reviews": [],
+  "straight_through_on_valid": 1.0,
+  "fault_recall": {
+    "due_before_issue": "3/3",
+    "duplicate_reformatted": "1/2",
+    "line_items_mismatch": "4/4",
+    "missing_required_field": "0/1",
+    "prompt_injection": "1/2",
+    "total_mismatch": "4/5",
+    "vat_mismatch": "0/3"
+  },
+  "errors_not_explained_by_labels": {
+    "UNGROUNDED_FIELD": 4,
+    "POSSIBLE_DUPLICATE": 1
+  },
+  "confusion": {
+    "auto_approved -> auto_approved": 20,
+    "needs_review -> auto_approved": 6,
+    "needs_review -> needs_review": 12,
+    "rejected -> needs_review": 1,
+    "rejected -> rejected": 1
+  },
+  "avg_latency_s": 40.0,
+  "llm_calls": 49,
+  "repair_attempts": 9,
+  "avg_api_cost_usd": 0.0,
+  "documents_detail": [
+    {
+      "file": "invoice_001.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_002.pdf",
+      "faults": [
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "total: got '687.25', expected '698.25'"
+      ]
+    },
+    {
+      "file": "invoice_003.pdf",
+      "faults": [
+        "line_items_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_004.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'Consulting Studio', expected 'Mosswhistle Consulting Studio'"
+      ]
+    },
+    {
+      "file": "invoice_005.pdf",
+      "faults": [
+        "due_before_issue"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "DUE_BEFORE_ISSUE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_006.pdf",
+      "faults": [
+        "vat_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'SERVICES', expected 'Silverhusk Workshop Supplies'"
+      ]
+    },
+    {
+      "file": "invoice_007.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_008.pdf",
+      "faults": [
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "TOTAL_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'BILLING Pineharbor Supply Collective', expected 'Pineharbor Supply Collective'"
+      ]
+    },
+    {
+      "file": "invoice_009.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_010.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_011.pdf",
+      "faults": [
+        "missing_required_field"
+      ],
+      "expected": "needs_review",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "invoice_number: got 'PO-19913', expected None"
+      ]
+    },
+    {
+      "file": "invoice_012.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'STATEMENT / INVOICE Kestrelwick Research Services', expected 'Kestrelwick Research Services'"
+      ]
+    },
+    {
+      "file": "invoice_013.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_014.pdf",
+      "faults": [
+        "prompt_injection"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "PROMPT_INJECTION"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'Services', expected 'Pebbleford Industrial Services Ltd'"
+      ]
+    },
+    {
+      "file": "invoice_015.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_016.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'BILLING Northstarling Lighting Partners', expected 'Northstarling Lighting Partners'"
+      ]
+    },
+    {
+      "file": "invoice_017.pdf",
+      "faults": [
+        "line_items_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH",
+        "UNGROUNDED_FIELD"
+      ],
+      "unexplained_errors": [
+        "UNGROUNDED_FIELD"
+      ],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_018.pdf",
+      "faults": [
+        "vat_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_019.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_020.pdf",
+      "faults": [
+        "due_before_issue"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "DUE_BEFORE_ISSUE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'Design Studio', expected 'Willowquay Design Studio'"
+      ]
+    },
+    {
+      "file": "invoice_021.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_022.pdf",
+      "faults": [
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "TOTAL_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'SERVICES', expected 'Copperreed Print Workshop'"
+      ]
+    },
+    {
+      "file": "invoice_023.pdf",
+      "faults": [
+        "line_items_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH",
+        "UNGROUNDED_FIELD"
+      ],
+      "unexplained_errors": [
+        "UNGROUNDED_FIELD"
+      ],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_024.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'BILLING Rainburrow Consulting Studio', expected 'Rainburrow Consulting Studio'"
+      ]
+    },
+    {
+      "file": "invoice_025.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_026.pdf",
+      "faults": [
+        "duplicate_reformatted"
+      ],
+      "expected": "rejected",
+      "got": "rejected",
+      "errors": [
+        "DUPLICATE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_027.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_028.pdf",
+      "faults": [
+        "due_before_issue"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "DUE_BEFORE_ISSUE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'Supply Collective', expected 'Cricketmere Supply Collective'"
+      ]
+    },
+    {
+      "file": "invoice_029.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_030.pdf",
+      "faults": [
+        "prompt_injection"
+      ],
+      "expected": "needs_review",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'SERVICES', expected 'Sageharbour Distribution Ltd'"
+      ]
+    },
+    {
+      "file": "invoice_031.pdf",
+      "faults": [
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "TOTAL_MISMATCH",
+        "UNGROUNDED_FIELD"
+      ],
+      "unexplained_errors": [
+        "UNGROUNDED_FIELD"
+      ],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_032.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'BILLING Parchmentwick Research Services', expected 'Parchmentwick Research Services'"
+      ]
+    },
+    {
+      "file": "invoice_033.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_034.pdf",
+      "faults": [
+        "vat_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_035.pdf",
+      "faults": [
+        "line_items_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH",
+        "UNGROUNDED_FIELD"
+      ],
+      "unexplained_errors": [
+        "UNGROUNDED_FIELD"
+      ],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_036.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'Lighting Partners', expected 'Duskberry Lighting Partners'"
+      ]
+    },
+    {
+      "file": "invoice_037.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "invoice_038.pdf",
+      "faults": [
+        "duplicate_reformatted"
+      ],
+      "expected": "rejected",
+      "got": "needs_review",
+      "errors": [
+        "POSSIBLE_DUPLICATE"
+      ],
+      "unexplained_errors": [
+        "POSSIBLE_DUPLICATE"
+      ],
+      "wrong_fields": [
+        "supplier_name: got 'SERVICES', expected 'Foxgrove Analytics Limited'"
+      ]
+    },
+    {
+      "file": "invoice_039.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "invoice_number: got 'PO-22237', expected 'CRE-2604-0739'"
+      ]
+    },
+    {
+      "file": "invoice_040.pdf",
+      "faults": [
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "TOTAL_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "supplier_name: got 'BILLING Paperhaven Design Studio', expected 'Paperhaven Design Studio'"
+      ]
+    }
+  ]
+}

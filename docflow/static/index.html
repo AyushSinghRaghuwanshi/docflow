@@ -38,12 +38,13 @@
   <section class="card">
     <div class="drop" id="drop">Drop a PDF, XLSX, CSV or TXT invoice here, or click to choose a file
       <input type="file" id="file" accept=".pdf,.xlsx,.csv,.txt" hidden></div>
+    <p class="error" id="status" style="margin:8px 0 0"></p>
   </section>
   <section class="card scroll">
     <div class="row" style="justify-content:space-between;margin-bottom:8px"><b>Documents</b>
       <div class="row"><button data-f="">All</button><button data-f="pending">Review queue</button>
         <button data-f="approved">Approved</button><button data-f="rejected">Rejected</button></div></div>
-    <table><thead><tr><th>#</th><th>File</th><th>Supplier</th><th>Total</th><th>Decision</th><th>Status</th><th>Cost</th></tr></thead>
+    <table><thead><tr><th>#</th><th>File</th><th>Supplier</th><th>Total</th><th>Decision</th><th>Status</th><th>Time · API cost</th></tr></thead>
       <tbody id="rows"></tbody></table>
   </section>
   <section class="card" id="detail" hidden></section>
@@ -60,13 +61,13 @@ async function refresh() {
   $("#engine").textContent = "Engine: " + h.extractor;
   $("#stats").innerHTML = [["Documents", m.documents], ["Straight-through", Math.round(m.straight_through_rate * 100) + "%"],
     ["Waiting for review", m.by_decision.needs_review], ["Injections blocked", m.injections_blocked],
-    ["Avg cost / doc", "$" + m.avg_cost_per_document_usd.toFixed(4)]]
+    ["Avg API cost / doc (excl. local compute)", "$" + m.avg_cost_per_document_usd.toFixed(4)]]
     .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
   $("#rows").innerHTML = docs.map(d => `<tr data-id="${d.id}" class="${current === d.id ? "sel" : ""}" style="cursor:pointer">
     <td>${d.id}</td><td>${esc(d.name)}</td><td>${esc(d.result.invoice.supplier_name)}</td>
     <td>${esc(d.result.invoice.currency)} ${esc(d.result.invoice.total)}</td>
     <td><span class="pill ${d.decision}">${d.decision.replace("_", " ")}</span></td>
-    <td><span class="pill ${d.status}">${d.status}</span></td><td>$${d.result.usage.cost_usd.toFixed(4)}</td></tr>`).join("");
+    <td><span class="pill ${d.status}">${d.status}</span></td><td>${(d.result.usage.latency_ms / 1000).toFixed(1)}s · $${d.result.usage.cost_usd.toFixed(4)}</td></tr>`).join("");
   document.querySelectorAll("#rows tr").forEach(tr => tr.onclick = () => show(+tr.dataset.id));
 }
 
@@ -75,12 +76,20 @@ async function show(id) {
   const d = await fetch("/documents/" + id).then(r => r.json());
   const inv = d.reviewed || d.result.invoice;
   $("#detail").hidden = false;
-  $("#detail").innerHTML = `<b>${esc(d.name)}</b> <span class="pill ${d.decision}">${d.decision.replace("_", " ")}</span>
-    <span class="sub">via ${esc(d.result.extractor)} · ${d.result.usage.llm_calls} LLM call(s) · repair attempts ${d.result.repair_attempts}</span>
+  $("#detail").innerHTML = `<b>${esc(d.name)}</b> <span class="pill ${d.decision}">${d.decision.replace("_", " ")}</span> <span class="pill ${d.status}">${d.status}</span>
+    <span class="sub">via ${esc(d.result.extractor)} · ${d.result.usage.llm_calls} LLM call(s) · repair attempts ${d.result.repair_attempts}
+      ${d.result.field_confidence && d.result.field_confidence.supplier_name ? " · supplier confidence " + esc(d.result.field_confidence.supplier_name) : ""}</span>
     <ul class="issues">${d.result.issues.map(i => `<li class="${i.severity}">[${i.code}] ${esc(i.message)}</li>`).join("") || "<li>No issues found.</li>"}</ul>
-    <div class="grid2">${FIELDS.map(f => `<div><label>${f}</label><input id="f_${f}" value="${esc(inv[f])}"></div>`).join("")}</div>
+    <div class="grid2">${FIELDS.map(f => `<div><label>${f}${d.result.field_confidence && d.result.field_confidence[f] ? " · " + esc(d.result.field_confidence[f]) + " confidence" : ""}</label><input id="f_${f}" value="${esc(inv[f])}"></div>`).join("")}</div>
     <p class="sub">Line items: ${inv.line_items.map(li => `${esc(li.description)} (${li.quantity} × ${li.unit_price} = ${li.amount})`).join("; ") || "none"}</p>
-    ${d.status === "pending" ? `<div class="row"><button class="primary" id="approve">Approve with edits</button><button id="reject">Reject</button></div>` : ""}`;
+    ${d.status === "pending" ? `<div style="margin:8px 0"><label>Reason (stored in the audit log; required to approve while errors remain)</label>
+      <input id="reason" placeholder="e.g. Supplier confirmed by phone that the total on the PDF is correct"></div>
+      <ul class="issues" id="blocked"></ul>
+      <div class="row"><button class="primary" id="approve">Approve</button><button id="reject">Reject</button></div>` : ""}
+    ${d.audit && d.audit.length ? `<p class="sub" style="margin-bottom:0">Audit log</p><ul class="issues">${d.audit.map(a =>
+      `<li>${esc(a.at.slice(0, 19).replace("T", " "))} · <b>${esc(a.action.replaceAll("_", " "))}</b>${a.reason ? " · " + esc(a.reason) : ""}
+       ${Object.keys(a.changes).length ? " · changed " + Object.entries(a.changes).map(([k, v]) => `${esc(k)}: ${esc(v[0])} → ${esc(v[1])}`).join(", ") : ""}
+       ${a.issues.filter(i => i.severity === "error").length ? " · open errors: " + a.issues.filter(i => i.severity === "error").map(i => esc(i.code)).join(", ") : ""}</li>`).join("")}</ul>` : ""}`;
   if (d.status === "pending") {
     $("#approve").onclick = () => decide(id, true, inv);
     $("#reject").onclick = () => decide(id, false, null);
@@ -90,18 +99,31 @@ async function show(id) {
 
 async function decide(id, approve, inv) {
   let corrected = null;
-  if (inv) { corrected = { ...inv }; FIELDS.forEach(f => corrected[f] = $("#f_" + f).value || null); }
-  await fetch(`/documents/${id}/review`, { method: "POST", headers: { "Content-Type": "application/json" },
-                                           body: JSON.stringify({ approve, corrected }) });
-  show(id);
+  if (inv) { corrected = { ...inv }; FIELDS.forEach(f => corrected[f] = $("#f_" + f).value.trim() || null); }
+  const r = await fetch(`/documents/${id}/review`, { method: "POST", headers: { "Content-Type": "application/json" },
+                                           body: JSON.stringify({ approve, corrected, reason: $("#reason").value || null }) });
+  if (r.ok) return show(id);
+  const body = await r.json();
+  const d = body.detail || {};
+  const lines = typeof d === "string" ? [d] : Array.isArray(d) ? d.map(e => `${(e.loc || []).slice(-1)}: ${e.msg}`)
+    : [d.message, ...(d.issues || []).map(i => `[${i.code}] ${i.message}`)];
+  $("#blocked").innerHTML = lines.map(l => `<li class="error">${esc(l)}</li>`).join("");
+  refresh();
 }
 
 async function upload(file) {
   const fd = new FormData(); fd.append("file", file);
-  const r = await fetch("/documents", { method: "POST", body: fd });
-  const body = await r.json();
-  if (!r.ok) { alert(body.detail || "Upload failed"); return; }
-  show(body.id);
+  const label = drop.firstChild.textContent;
+  drop.firstChild.textContent = `Processing ${file.name}… (a local model on CPU can take a minute or two)`;
+  drop.style.pointerEvents = "none";
+  try {
+    const r = await fetch("/documents", { method: "POST", body: fd });
+    const body = await r.json();
+    if (!r.ok) { $("#status").textContent = "Upload failed: " + (body.detail || r.status); return; }
+    $("#status").textContent = "";
+    show(body.id);
+  } catch (e) { $("#status").textContent = "Upload failed: " + e; }
+  finally { drop.firstChild.textContent = label; drop.style.pointerEvents = ""; $("#file").value = ""; }
 }
 
 const drop = $("#drop");

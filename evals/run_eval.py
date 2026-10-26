@@ -54,10 +54,21 @@ def run(extractor: str, dataset: Path) -> dict:
     faults = detected = clean = false_alarm = inj = inj_caught = clean_inj_flag = 0
     cost = latency = 0.0
     failures: list[dict] = []
+    errors = processed = 0
 
     for lab in labels:
         data = (dataset / "docs" / lab["file"]).read_bytes()
-        res = process(lab["file"], data, extractor=extractor, is_duplicate=store.is_duplicate, today=TODAY)
+        try:
+            res = process(lab["file"], data, extractor=extractor, find_duplicate=store.find_duplicate, today=TODAY)
+        except Exception as e:  # one bad document should not stop the whole evaluation
+            errors += 1
+            print(f"  ! {lab['id']}: {type(e).__name__}: {str(e)[:300]}", flush=True)
+            if errors == 3 and processed == 0:
+                raise SystemExit("Stopping: the first 3 documents all failed. Fix the error above and re-run.") from e
+            failures.append({"id": lab["id"], "layout": lab["layout"], "fault": lab["fault"], "error": str(e)[:300]})
+            continue
+        processed += 1
+        print(f"  {processed + errors}/{len(labels)} {lab['id']}: {res.decision.value}", flush=True)
         store.add(res)
         got = res.invoice.model_dump(mode="json")
         want = lab["invoice"]
@@ -106,6 +117,7 @@ def run(extractor: str, dataset: Path) -> dict:
         "injection_false_positives": clean_inj_flag,
         "avg_cost_usd": round(cost / n, 6),
         "avg_latency_ms": round(latency / n, 1),
+        "processing_errors": errors,
         "failures": failures,
     }
 

@@ -11,7 +11,7 @@
 | Prompt-injection recall | 1.0 |
 | Injection false positives | 0 |
 | Avg cost per document (USD) | 0.0 |
-| Avg latency per document (ms) | 10.2 |
+| Avg latency per document (ms) | 21.9 |
 
 | Layout | Field accuracy |
 |---|---|

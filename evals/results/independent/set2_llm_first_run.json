@@ -1,0 +1,588 @@
+{
+  "set": "independent_set_2",
+  "status": "held-out (first contact with this code)",
+  "code": "95aeaf1123b86487",
+  "at": "2026-10-26T18:53:36+00:00",
+  "engine": "llm:ollama:qwen2.5:3b",
+  "documents": 40,
+  "valid": 20,
+  "with_faults": 20,
+  "crashed": 0,
+  "field_accuracy": {
+    "supplier_name": 0.9,
+    "invoice_number": 0.975,
+    "invoice_date": 0.825,
+    "due_date": 0.825,
+    "currency": 1.0,
+    "subtotal": 1.0,
+    "vat_amount": 1.0,
+    "total": 0.975
+  },
+  "field_accuracy_overall": 0.938,
+  "decision_accuracy": 0.7,
+  "false_approvals": [
+    "inv_10.pdf",
+    "inv_14.pdf",
+    "inv_34.txt"
+  ],
+  "unnecessary_reviews": [
+    "inv_05.pdf",
+    "inv_11.txt",
+    "inv_13.xlsx",
+    "inv_15.pdf",
+    "inv_17.pdf",
+    "inv_23.pdf",
+    "inv_29.xlsx",
+    "inv_31.pdf",
+    "inv_35.pdf"
+  ],
+  "straight_through_on_valid": 0.55,
+  "fault_recall": {
+    "due_before_issue": "2/2",
+    "duplicate_exact": "1/1",
+    "duplicate_reformatted": "2/2",
+    "future_date": "1/1",
+    "line_items_mismatch": "4/4",
+    "missing_required_field": "0/2",
+    "prompt_injection": "2/6",
+    "same_number_other_supplier": "1/1",
+    "total_mismatch": "2/3",
+    "vat_mismatch": "2/2"
+  },
+  "errors_not_explained_by_labels": {
+    "FIELD_DISAGREEMENT": 8,
+    "MISSING_FIELD": 6
+  },
+  "confusion": {
+    "auto_approved -> auto_approved": 11,
+    "auto_approved -> needs_review": 9,
+    "needs_review -> auto_approved": 3,
+    "needs_review -> needs_review": 14,
+    "rejected -> rejected": 3
+  },
+  "avg_latency_s": 39.0,
+  "llm_calls": 57,
+  "repair_attempts": 17,
+  "avg_api_cost_usd": 0.0,
+  "documents_detail": [
+    {
+      "file": "inv_01.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_02.pdf",
+      "faults": [
+        "prompt_injection",
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "PROMPT_INJECTION",
+        "TOTAL_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_03.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_04.txt",
+      "faults": [
+        "line_items_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_05.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ],
+      "unexplained_errors": [
+        "MISSING_FIELD"
+      ],
+      "wrong_fields": [
+        "invoice_date: got None, expected '2026-08-14'",
+        "due_date: got None, expected '2026-09-04'"
+      ]
+    },
+    {
+      "file": "inv_06.xlsx",
+      "faults": [
+        "vat_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "VAT_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_07.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_08.pdf",
+      "faults": [
+        "due_before_issue",
+        "prompt_injection"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "DUE_BEFORE_ISSUE",
+        "PROMPT_INJECTION"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_09.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_10.pdf",
+      "faults": [
+        "missing_required_field"
+      ],
+      "expected": "needs_review",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "invoice_number: got 'ACCT-71670', expected None"
+      ]
+    },
+    {
+      "file": "inv_11.txt",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ],
+      "unexplained_errors": [
+        "MISSING_FIELD"
+      ],
+      "wrong_fields": [
+        "invoice_date: got None, expected '2026-04-12'",
+        "due_date: got None, expected '2026-05-27'"
+      ]
+    },
+    {
+      "file": "inv_12.pdf",
+      "faults": [
+        "duplicate_exact"
+      ],
+      "expected": "rejected",
+      "got": "rejected",
+      "errors": [
+        "DUPLICATE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_13.xlsx",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "needs_review",
+      "errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "unexplained_errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_14.pdf",
+      "faults": [
+        "prompt_injection"
+      ],
+      "expected": "needs_review",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_15.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "needs_review",
+      "errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "unexplained_errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_16.pdf",
+      "faults": [
+        "line_items_mismatch",
+        "prompt_injection"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "FIELD_DISAGREEMENT",
+        "LINE_ITEMS_MISMATCH"
+      ],
+      "unexplained_errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_17.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ],
+      "unexplained_errors": [
+        "MISSING_FIELD"
+      ],
+      "wrong_fields": [
+        "invoice_date: got None, expected '2026-08-10'",
+        "due_date: got None, expected '2026-08-31'"
+      ]
+    },
+    {
+      "file": "inv_18.txt",
+      "faults": [
+        "future_date"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "FUTURE_DATE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_19.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_20.pdf",
+      "faults": [
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "unexplained_errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "wrong_fields": [
+        "total: got '2197.51', expected '2207.51'"
+      ]
+    },
+    {
+      "file": "inv_21.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_22.xlsx",
+      "faults": [
+        "duplicate_reformatted"
+      ],
+      "expected": "rejected",
+      "got": "rejected",
+      "errors": [
+        "DUPLICATE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_23.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ],
+      "unexplained_errors": [
+        "MISSING_FIELD"
+      ],
+      "wrong_fields": [
+        "supplier_name: got 'INVOICE / BILLING RECORD Sundern Quay Studio', expected 'Sundern Quay Studio'",
+        "invoice_date: got None, expected '2026-04-17'",
+        "due_date: got None, expected '2026-06-01'"
+      ]
+    },
+    {
+      "file": "inv_24.pdf",
+      "faults": [
+        "vat_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "VAT_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_25.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_26.pdf",
+      "faults": [
+        "line_items_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_27.txt",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_28.pdf",
+      "faults": [
+        "same_number_other_supplier"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "POSSIBLE_DUPLICATE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_29.xlsx",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "needs_review",
+      "errors": [
+        "FIELD_DISAGREEMENT",
+        "MISSING_FIELD"
+      ],
+      "unexplained_errors": [
+        "FIELD_DISAGREEMENT",
+        "MISSING_FIELD"
+      ],
+      "wrong_fields": [
+        "supplier_name: got 'Tansyford Scientific Ltd, address', expected 'Tansyford Scientific Ltd'",
+        "invoice_date: got None, expected '2026-08-15'",
+        "due_date: got None, expected '2026-09-05'"
+      ]
+    },
+    {
+      "file": "inv_30.pdf",
+      "faults": [
+        "due_before_issue"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "DUE_BEFORE_ISSUE"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_31.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "needs_review",
+      "errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "unexplained_errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "wrong_fields": [
+        "supplier_name: got 'INVOICE / SUPPLY STATEMENT Hillspire Fixtures Ltd', expected 'Hillspire Fixtures Ltd'"
+      ]
+    },
+    {
+      "file": "inv_32.pdf",
+      "faults": [
+        "prompt_injection"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "unexplained_errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_33.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_34.txt",
+      "faults": [
+        "missing_required_field"
+      ],
+      "expected": "needs_review",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": [
+        "invoice_date: got '2026-06-19', expected None",
+        "due_date: got None, expected '2026-06-19'"
+      ]
+    },
+    {
+      "file": "inv_35.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "needs_review",
+      "errors": [
+        "MISSING_FIELD"
+      ],
+      "unexplained_errors": [
+        "MISSING_FIELD"
+      ],
+      "wrong_fields": [
+        "invoice_date: got None, expected '2026-04-07'",
+        "due_date: got None, expected '2026-05-22'"
+      ]
+    },
+    {
+      "file": "inv_36.xlsx",
+      "faults": [
+        "duplicate_reformatted"
+      ],
+      "expected": "rejected",
+      "got": "rejected",
+      "errors": [
+        "DUPLICATE",
+        "FIELD_DISAGREEMENT"
+      ],
+      "unexplained_errors": [
+        "FIELD_DISAGREEMENT"
+      ],
+      "wrong_fields": [
+        "supplier_name: got 'Hollowmere Logistics Ltd, 19 Copperwing Crescent, Penwold, ZZ0 7XZ, United Kingdom', expected 'Hollowmere Logistics Ltd'"
+      ]
+    },
+    {
+      "file": "inv_37.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_38.pdf",
+      "faults": [
+        "prompt_injection",
+        "total_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "TOTAL_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_39.pdf",
+      "faults": [],
+      "expected": "auto_approved",
+      "got": "auto_approved",
+      "errors": [],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    },
+    {
+      "file": "inv_40.pdf",
+      "faults": [
+        "line_items_mismatch"
+      ],
+      "expected": "needs_review",
+      "got": "needs_review",
+      "errors": [
+        "LINE_ITEMS_MISMATCH"
+      ],
+      "unexplained_errors": [],
+      "wrong_fields": []
+    }
+  ]
+}
