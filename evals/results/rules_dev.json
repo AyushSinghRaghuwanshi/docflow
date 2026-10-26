@@ -28,7 +28,7 @@
   "injection_recall": 1.0,
   "injection_false_positives": 0,
   "avg_cost_usd": 0.0,
-  "avg_latency_ms": 21.9,
+  "avg_latency_ms": 21.6,
   "processing_errors": 0,
   "failures": [],
   "split": "dev"

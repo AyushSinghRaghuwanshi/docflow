@@ -87,7 +87,7 @@ def load(folder: Path) -> list[dict]:
 def check_frozen(folder: Path, rows: list[dict], allow_changed: bool) -> dict:
     files = {r["file"]: _sha(folder / r["file"]) for r in rows} | {"expected.csv": _sha(folder / "expected.csv")}
     log_path = folder / "docflow_runs.json"
-    log = json.loads(log_path.read_text()) if log_path.exists() else {"manifest": files, "runs": []}
+    log = json.loads(log_path.read_text(encoding="utf-8")) if log_path.exists() else {"manifest": files, "runs": []}
     changed = sorted(k for k in files.keys() | log["manifest"].keys() if files.get(k) != log["manifest"].get(k))
     if changed and not allow_changed:
         raise SystemExit(f"The test set changed after its first run ({', '.join(changed[:5])}). A frozen set must not be "
@@ -235,12 +235,12 @@ def main() -> None:
     frozen["log"]["runs"].append({"at": at, "code": frozen["code"], "engine": meta["engine"],
                                   "false_approvals": len(res["false_approvals"]),
                                   "unnecessary_reviews": len(res["unnecessary_reviews"])})
-    frozen["path"].write_text(json.dumps(frozen["log"], indent=2))
+    frozen["path"].write_text(json.dumps(frozen["log"], indent=2), encoding="utf-8")
     out = a.folder / "results"
     out.mkdir(exist_ok=True)
     stem = f"{meta['engine'].replace(':', '_')}_{at[:19].replace(':', '')}"
-    (out / f"{stem}.json").write_text(json.dumps({**meta, **res}, indent=2, default=str))
-    (out / f"{stem}.md").write_text(to_markdown(res, meta))
+    (out / f"{stem}.json").write_text(json.dumps({**meta, **res}, indent=2, default=str), encoding="utf-8")
+    (out / f"{stem}.md").write_text(to_markdown(res, meta), encoding="utf-8")
     print(to_markdown(res, meta))
     print(f"Saved to {out / stem}.md")
 

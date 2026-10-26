@@ -8,6 +8,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+_DATE = re.compile(r"\d{1,2}[/.\-]\d{1,2}[/.\-]\d{2,4}|\d{4}-\d{2}-\d{2}|\d{1,2}(?:st|nd|rd|th)?[ \-][A-Za-z]{3,9},?[ \-]\d{4}"
+                   r"|[A-Za-z]{3,9} \d{1,2}(?:st|nd|rd|th)?,? \d{4}")
 _CELL = re.compile(r"(?:(?!\s{3,}|\s[|·•]\s).)+")  # cells are split by wide gaps or " | ", " · ", " • "
 
 
@@ -36,7 +38,15 @@ class Grid:
                 if not stripped:
                     continue
                 lead = len(raw) - len(raw.lstrip(" |"))
-                cells.append(Cell(r, m.start() + lead, m.start() + lead + len(stripped), " ".join(stripped.split())))
+                start = m.start() + lead
+                dates = list(_DATE.finditer(stripped))
+                # only a run of values ("Jun 05, 2026 Jul 20, 2026  EUR"), never a sentence with labels in it
+                if len(dates) >= 2 and not re.search(r"[a-z]{2}", _DATE.sub("", stripped)):
+                    # several dates squeezed into one cell under several labels: keep each piece at its own column
+                    cells += [Cell(r, start + x.start(), start + x.end(), x.group(0))
+                              for x in re.finditer(rf"{_DATE.pattern}|\S+", stripped)]
+                else:
+                    cells.append(Cell(r, start, start + len(stripped), " ".join(stripped.split())))
             if cells:
                 self.rows.append(cells)
 

@@ -18,7 +18,8 @@ from ..schema import Invoice, LineItem, Usage
 NOT_A_RATE = r"(?![\d,.]|\s*(?:%|per\s?cent))"  # "20%" and "20 percent" are rates, not amounts
 MONEY_RX = re.compile(rf"(?:[A-Z]{{3}}\s?)?[-(]?[£€$]?\s?\d[\d,.]*\d(?:\s?[£€$])?\)?{NOT_A_RATE}|[£€$]\s?\d{NOT_A_RATE}")
 DATE_RX = re.compile(
-    r"\d{1,2}[/.\-]\d{1,2}[/.\-]\d{2,4}|\d{4}-\d{2}-\d{2}|\d{1,2}(?:st|nd|rd|th)? [A-Za-z]{3,9},? \d{4}|[A-Za-z]{3,9} \d{1,2}(?:st|nd|rd|th)?,? \d{4}"
+    r"\d{1,2}[/.\-]\d{1,2}[/.\-]\d{2,4}|\d{4}-\d{2}-\d{2}|\d{1,2}(?:st|nd|rd|th)?[ \-][A-Za-z]{3,9},?[ \-]\d{4}"
+    r"|[A-Za-z]{3,9} \d{1,2}(?:st|nd|rd|th)?,? \d{4}"
 )
 ID_RX = re.compile(r"\b(?=[A-Z0-9\-/.]*\d)[A-Z0-9][A-Z0-9\-/.]{2,}[A-Z0-9]\b")
 
@@ -29,12 +30,12 @@ INVOICE_NO = [r"invoice\s*(?:no\.?|number|#|id|ref(?:erence)?)", r"bill\s*(?:#|n
 BARE_REF = [r"ref(?:erence)?(?:\s*no\.?)?"]
 PAYMENT_LINE = re.compile(r"\b(bank|account|acct|iban|swift|bic|sort\s*code|payment|remittance)\b", re.I)
 INVOICE_DATE = [r"invoice\s*date", r"date\s*of\s*issue", r"issue\s*date", r"issued(?:\s*on)?", r"tax\s*point", r"date(?!\s*of\s*supply)"]
-DUE_DATE = [r"due\s*date", r"payment\s*due", r"due\s*(?:by|on)?", r"pay(?:able)?\s*by"]
+DUE_DATE = [r"due\s*date", r"payment\s*due", r"due\s*(?:by|on)?", r"pay(?:able)?\s*by", r"settle(?:ment)?\s*(?:date|by)", r"please\s*settle\s*by"]
 TOTAL = [r"grand\s*total(?:\s*\(?inc[^)]*\)?)?", r"total\s*(?:due|payable|to\s*pay)", r"amount\s*(?:due|payable|to\s*pay)",
          r"balance\s*(?:due|to\s*pay)", r"invoice\s*total", r"total\s*(?:\(?inc(?:l|luding)?\.?\s*vat\)?)", r"total(?!\s*(?:excl|ex\b|net))"]
 SUBTOTAL = [r"sub[\s-]?total", r"net\s*(?:amount|total|value)", r"total\s*(?:net|excl(?:uding)?\.?\s*vat|ex\.?\s*vat)"]
 VAT = [r"(?:uk\s*)?vat(?!\s*(?:id|reg|registration|number|no\b|#))", r"tax(?!\s*(?:invoice|point|breakdown|id|reg))"]
-SUPPLIER_LABEL = [r"supplier", r"from", r"vendor", r"seller", r"issued\s*by", r"sold\s*by", r"payee"]
+SUPPLIER_LABEL = [r"supplier(?!\s*(?:address|ref|no|number|vat|id|code|account|reg))", r"from", r"vendor", r"seller", r"issued\s*by", r"sold\s*by", r"payee"]
 BUYER_LABEL = re.compile(r"^\W*(bill(?:ed)?\s*to|invoice\s*to|sold\s*to|ship\s*to|deliver\s*to|customer(?!\s*account)|client|buyer)\b", re.I)
 
 LABEL_WORDS = re.compile(
@@ -45,7 +46,9 @@ ADDRESS = re.compile(r"(^\d+\s+\w)|(\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b)|(\b(s
                      r"place|square|way|drive|court|united kingdom|uk)\b)|@|www\.|https?://|\+?\d[\d\s]{8,}", re.I)
 # Words that make up document titles such as "STATEMENT / INVOICE" or "BILLING DOCUMENT".
 TITLE_WORDS = {"invoice", "invoices", "tax", "vat", "statement", "account", "accounts", "services", "billing", "bill", "document",
-               "receipt", "sales", "customer", "copy", "original", "of", "and", "for", "pro", "forma", "proforma", "commercial"}
+               "receipt", "sales", "customer", "copy", "original", "of", "and", "for", "pro", "forma", "proforma", "commercial",
+               "client", "note", "charges", "service", "goods", "record", "supply", "summary", "advice", "request",
+               "payment", "remittance"}
 COMPANY_SUFFIX = re.compile(r"\b(ltd|limited|plc|llp|llc|inc|corp|gmbh|sarl|s\.?a\.?|b\.?v\.?|co\.?|company|group|studio|room|"
                             r"services|solutions|consulting|partners|associates|collective|trust)\b\.?$", re.I)
 
@@ -67,7 +70,9 @@ def _find(grid: Grid, alts: list[str], value: Callable[[str], Optional[object]],
                 continue
             if INCLUSIVE.search(cell.text[: m.start()]) and not INCLUSIVE.search(cell.text[: m.start()]).group(1).lower().startswith("plus"):
                 continue  # "Grand total (inc. VAT)" is a total, not a VAT line
-            neighbours = [c.text for c in grid.right_of(cell)[:1]] + [c.text for c in grid.below(cell, 1)]
+            # a label part-way along a cell ("Invoice date Due date") sits in its own column
+            anchor = Cell(cell.row, cell.start + m.start("label"), cell.end, cell.text) if m.start("label") else cell
+            neighbours = [c.text for c in grid.right_of(cell)[:1]] + [c.text for c in grid.below(anchor, 1)]
             if value is _money:  # a neighbouring cell only counts if it is a bare amount, not another labelled line
                 neighbours = [t for t in neighbours if not re.search(r"[a-z]", t)]
             for candidate in [m["rest"], *neighbours]:
@@ -124,7 +129,22 @@ def _rate(s: str) -> Optional[Decimal]:
 
 # Supplier
 def _clean_name(s: str) -> str:
-    return " ".join(s.replace("—", " ").strip(" -–—:|").split())
+    return tidy_supplier(" ".join(s.replace("—", " ").strip(" -–—:|·•").split()))
+
+
+def tidy_supplier(name: str) -> str:
+    """Drop a document title stuck to the front ("INVOICE / BILLING RECORD Sundern Quay Studio")
+    and an address stuck to the end ("Hollowmere Logistics Ltd, 19 Copperwing Crescent")."""
+    words = name.split()
+    i = 0
+    while i < len(words) and (words[i] in {"/", "&", "-", "|"} or (words[i].isupper() and words[i].lower() in TITLE_WORDS)):
+        i += 1
+    if 0 < i < len(words) and re.match(r"[A-Z][a-z]", words[i]):
+        name = " ".join(words[i:])
+    head, sep, tail = name.partition(",")
+    if sep and head.strip() and (ADDRESS.search(tail) or re.fullmatch(r"\s*address\s*", tail, re.I)):
+        name = head.strip()
+    return name
 
 
 def _name_like(s: str) -> bool:
@@ -168,6 +188,8 @@ def _supplier(grid: Grid) -> tuple[Optional[str], str]:
     for cell in grid.cells():
         if BUYER_LABEL.match(cell.text):
             for c in [*grid.below(cell, 1), *grid.column_block(cell)]:
+                if any(_label_rx([alt]).match(c.text) for alt in SUPPLIER_LABEL):
+                    break
                 buyer_cells.add((c.row, c.start))
             rest = BUYER_LABEL.sub("", cell.text).strip(" :")
             if rest:
@@ -228,9 +250,17 @@ def _is_num(s: str) -> bool:
 
 
 def _desc_like(row: list[Cell]) -> bool:
-    text = " ".join(c.text for c in row)
+    text = re.sub(r"^\d{1,3}[.)]\s+", "", " ".join(c.text for c in row))  # "01. Workshop tool hire"
     return (bool(re.search(r"[A-Za-z]{3}", text)) and _money(text) is None and not SUMMARY_LABEL.match(text)
             and not ITEMS_HEADER.fullmatch(text) and len(row) == 1)
+
+
+# A quantity line under its description: "Qty 2 | Price £145.25 | Line amount £290.50", "4 × £310.25 = £1,241.00",
+# "4 units x 120,75 € 483,00 €" or "Quantity 3 · Rate £425.50" (amount on the line above).
+QTY_LINE = re.compile(
+    r"^(?:qty|quantity)?\s*(?P<q>\d+(?:\.\d+)?)\s*(?:units?|pcs|hours?|hrs?|days?|items?|copies)?\s*"
+    r"[|·•,]?\s*(?:[x×@]|(?:unit\s*)?(?:price|rate)\b:?)\s*(?P<u>(?:[A-Z]{3}\s?)?-?[£€$]?\s?-?\d[\d.,]*(?:\s?[£€$])?)"
+    r"(?:\s*(?:each|/unit))?\s*(?:=|(?:line\s*)?amount:?)?\s*(?P<a>.*)$", re.I)
 
 
 def _split_amounts(texts: list[str]) -> list[str]:
@@ -238,7 +268,7 @@ def _split_amounts(texts: list[str]) -> list[str]:
     out = []
     for t in texts:
         amounts = [a.strip() for a in MONEY_RX.findall(t)]
-        if len(amounts) >= 2 and not DATE_RX.search(t) and not re.search(r"[a-z]", t) \
+        if len(amounts) >= 2 and not DATE_RX.search(t) and not MONEY_RX.sub("", t).strip() \
                 and all(re.search(r"[£€$]|[A-Z]{3}|[.,]\d{2}$", a) for a in amounts):
             out += amounts
         else:
@@ -248,6 +278,7 @@ def _split_amounts(texts: list[str]) -> list[str]:
 
 def _line_items(grid: Grid) -> list[LineItem]:
     items: list[LineItem] = []
+    used: set[int] = set()  # description rows already turned into an item
     rows = grid.rows
     for i, row in enumerate(rows):
         texts = _split_amounts([c.text for c in row])
@@ -275,6 +306,17 @@ def _line_items(grid: Grid) -> list[LineItem]:
             if unit is not None and amount is not None:
                 items.append(LineItem(description=rows[i - 1][0].text, quantity=Decimal(texts[0]), unit_price=unit, amount=amount))
                 continue
+        # e) description, then a quantity line (with the amount at its end, or alone on the line between)
+        q = QTY_LINE.match(joined)
+        if q and i > 0 and _money(q["u"]) is not None:
+            amount = _money(q["a"]) if q["a"].strip() else None
+            desc_row = i - 1
+            if amount is None and i > 1 and len(rows[i - 1]) == 1 and _money(rows[i - 1][0].text) is not None:
+                amount, desc_row = _money(rows[i - 1][0].text), i - 2
+            if amount is not None and _desc_like(rows[desc_row]) and desc_row not in used:
+                items.append(LineItem(description=rows[desc_row][0].text, quantity=Decimal(q["q"]),
+                                      unit_price=_money(q["u"]), amount=amount))
+                continue
         # d) description, then the amount alone, then "20 copies @ 28,00 € each"
         if len(texts) == 1 and _money(texts[0]) is not None and re.fullmatch(r"[^A-Za-z]*(?:[A-Z]{3})?[^A-Za-z]*", texts[0]) \
                 and i > 0 and _desc_like(rows[i - 1]) and i + 1 < len(rows):
@@ -282,6 +324,7 @@ def _line_items(grid: Grid) -> list[LineItem]:
             unit = _money(q["u"]) if q else None
             if q and unit is not None:
                 items.append(LineItem(description=rows[i - 1][0].text, quantity=Decimal(q["q"]), unit_price=unit, amount=_money(texts[0])))
+                used.add(i - 1)
     return items
 
 

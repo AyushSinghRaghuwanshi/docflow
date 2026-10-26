@@ -39,7 +39,7 @@ def load(folder: Path) -> list[tuple[Path, dict, bool]]:
         return out
     out = []
     for p in sorted((folder / "labels").glob("*.json")):
-        lab = json.loads(p.read_text())
+        lab = json.loads(p.read_text(encoding="utf-8"))
         out.append((folder / "docs" / lab["file"], lab["invoice"], not lab["fault"]))
     return out
 

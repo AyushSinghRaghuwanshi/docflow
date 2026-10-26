@@ -18,10 +18,20 @@ _PATTERNS = [
     r"(set|change|make) the (total|amount|subtotal|vat)[^.\n]{0,40}\b(to|=)\b",
     r"(approve|mark) (this|the) (invoice|document) (automatically|as approved|as paid)",
     r"do\s*n[o']t (flag|review|validate|escalate|report|question|check|query)\b",
-    r"\b(processing|automated|automation|ai|llm|extraction)\s+(assistant|system|agent|bot|model|tool|software)s?\b",
-    r"\btreat\b[^.\n]{0,80}\bas\s+(authoritative|correct|final|approved|verified)\b",
+    # anything addressed to the software rather than to a person
+    r"\b(processing|automated|automation|ai|llm|extraction)\s+(assistant|system|agent|bot|model|tool|software|reviewer|checker)s?\b",
+    r"\btreat\b[^.\n]{0,80}\bas\s+(the\s+)?(authoritative|correct|final|approved|verified)\b",
     r"\b(fast[\s-]?track|auto(matically)?[\s-]?approv\w*|pre[\s-]?approved)\b",
+    r"\b(grant|give)\s+(immediate\s+|instant\s+)?approval\b",
     r"\b(override|supersede)s?\b[^.\n]{0,40}\b(total|amount|figure|instructions?|checks?|rules)\b",
+    # fake status metadata such as "[processing note: status=approved]"
+    r"\bstatus\s*[:=]\s*(approved|paid|verified|accepted|cleared)\b",
+    r"\[[^\]\n]{0,60}\b(approv\w*|processing note|auto\w*)\b[^\]\n]{0,60}\]",
+    # the same requests in a few other languages
+    r"traitement automatique|sans (contr[oô]le|v[ée]rification)|marquer\b.{0,40}\bcomme (valid[ée]e?|pay[ée]e?|approuv[ée]e?)",
+    r"ohne (pr[üu]fung|kontrolle)|automatisch (freigeben|genehmigen)",
+    r"sin (revisi[oó]n|verificaci[oó]n)|aprobar autom[aá]ticamente",
+    r"senza (controllo|verifica)|approvare automaticamente|zonder controle",
     r"respond only with",
     r"</?(system|instructions?)>",
 ]
@@ -35,13 +45,17 @@ class GuardResult:
     sanitised_text: str = ""
 
 
+def _hit(text: str) -> bool:
+    return any(rx.search(text) for rx in _RX)
+
+
 def scan(text: str) -> GuardResult:
-    kept: list[str] = []
-    matches: list[str] = []
-    for line in text.splitlines():
-        hit = next((rx for rx in _RX if rx.search(line)), None)
-        if hit:
-            matches.append(line.strip()[:160])
-        else:
-            kept.append(line)
-    return GuardResult(flagged=bool(matches), matches=matches, sanitised_text="\n".join(kept))
+    lines = text.splitlines()
+    bad = {i for i, line in enumerate(lines) if _hit(line)}
+    # an instruction can be wrapped over two lines ("AI reviewer: grant immediate" / "approval")
+    for i in range(len(lines) - 1):
+        if i not in bad and i + 1 not in bad and _hit(lines[i].strip() + " " + lines[i + 1].strip()):
+            bad |= {i, i + 1}
+    matches = [lines[i].strip()[:160] for i in sorted(bad)]
+    kept = [line for i, line in enumerate(lines) if i not in bad]
+    return GuardResult(flagged=bool(bad), matches=matches, sanitised_text="\n".join(kept))

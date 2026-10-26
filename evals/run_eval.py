@@ -46,7 +46,7 @@ def same(field: str, got, want) -> bool:
 
 
 def run(extractor: str, dataset: Path) -> dict:
-    labels = [json.loads(p.read_text()) for p in sorted((dataset / "labels").glob("*.json"))]
+    labels = [json.loads(p.read_text(encoding="utf-8")) for p in sorted((dataset / "labels").glob("*.json"))]
     store = Store(":memory:")
     field_hits: dict[str, int] = defaultdict(int)
     per_layout: dict[str, list[int]] = defaultdict(lambda: [0, 0])
@@ -148,8 +148,8 @@ def main() -> None:
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     stem = f"{args.extractor}_{args.split}"
-    (out / f"{stem}.json").write_text(json.dumps(res, indent=2))
-    (out / f"{stem}.md").write_text(to_markdown(res))
+    (out / f"{stem}.json").write_text(json.dumps(res, indent=2), encoding="utf-8")
+    (out / f"{stem}.md").write_text(to_markdown(res), encoding="utf-8")
     print(f"[{args.split}] " + to_markdown(res))
 
 

@@ -11,7 +11,7 @@ _CURRENCY_CODES = {"GBP", "EUR", "USD"}
 
 _DATE_FORMATS = [
     "%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y", "%d.%m.%Y", "%d %b %Y", "%d %B %Y",
-    "%b %d, %Y", "%B %d, %Y", "%d %b, %Y", "%d/%m/%y",
+    "%b %d, %Y", "%B %d, %Y", "%d %b, %Y", "%d/%m/%y", "%d-%b-%Y", "%d-%B-%Y", "%d-%b-%y", "%b %d %Y",
 ]
 
 

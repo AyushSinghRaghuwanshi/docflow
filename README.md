@@ -52,7 +52,7 @@ The LLM columns use **Qwen2.5 3B running locally on a laptop CPU through Ollama*
 
 | Metric | Rules, **dev** (60 docs) | Rules, **held-out** (40 docs) | LLM, **dev** (60 docs) | LLM, **held-out** (40 docs) |
 |---|---|---|---|---|
-| Header-field accuracy | 1.000 | 0.756 | 0.985 | **0.975** |
+| Header-field accuracy | 1.000 | 0.822 | 0.985 | **0.975** |
 | Document exact match | 1.000 | 0.000 | 0.883 | **0.775** |
 | Line-item accuracy | 0.917 | 0.000 | 1.000 | **0.950** |
 | Fault detection recall | 1.000 | 0.643 | 0.913 | **0.857** |
@@ -64,10 +64,10 @@ The LLM columns use **Qwen2.5 3B running locally on a laptop CPU through Ollama*
 
 **Honest reading.**
 
-- **Generalisation is the real result.** The rules are perfect on the dev layouts they were tuned on. On held-out layouts they reach 76% field accuracy (up from 23% in v1) but still send every clean document for review. A 3B-parameter local model reaches **97.5%** on the same unseen layouts.
+- **Generalisation is the real result.** The rules are perfect on the dev layouts they were tuned on. On held-out layouts they reach 82% field accuracy (up from 23% in v1) but still send every clean document for review. A 3B-parameter local model reaches **97.5%** on the same unseen layouts.
 - **Defences hold for both.** The injection guard runs before extraction, so every hidden-instruction document was caught with either extractor.
 - **Where the model still slips.** Most remaining field errors are the VAT rate (for example reading "0%" as missing) and occasional date misreads. One dev document shows a subtle failure mode: the model "corrected" a deliberately wrong total instead of copying it, which hid the fault from validation. This is why the system prompt insists on copying printed values, and why validation, not the model, makes the final decision.
-- **Caveat on the held-out split for rules v2.** A few common real-world labels added to the rules in v2 (such as "amount to pay" and "total excluding VAT") also appear in the held-out generator, so for the rules it is no longer perfectly blind. Labels that exist only in the held-out templates were deliberately left out. The independent test below is fully blind.
+- **Caveat on the held-out split.** Some common real-world labels added to the rules since v2 (such as "amount to pay", "total excluding VAT" and "please settle by", the last found on independent set 2) also appear in the held-out generator, so for the rules it is no longer perfectly blind. Labels that exist only in the held-out templates were deliberately left out. The independent test below is fully blind.
 - **The LLM numbers in this table are older than the current code.** Re-run `make eval-llm` to refresh them. The independent results below are more current and more meaningful.
 - **Trade-off.** The rules are about 1,000 times faster. A sensible production design is rules first, with the LLM used when rules fail validation.
 
@@ -133,6 +133,18 @@ A new set from the same brief (20 valid, 20 with 24 deliberate faults, PDF, XLSX
 
 The lesson: the guard's pattern list will always be one phrasing behind.
 
+**What changed after set 2** (each with a pattern test in `tests/test_unseen_layouts.py`; set 2 is now a development set)
+
+- Dates such as `14-Aug-2026` are read, and so are two dates squeezed into one cell under two labels. A label part-way along a header cell ("Invoice date Due date") reads the value in its own column.
+- "Supplier address" is no longer taken as a supplier label. Title prefixes ("INVOICE / BILLING RECORD …") and trailing addresses are trimmed from names, and a "From:" line after the "Bill to" block is no longer mistaken for part of the buyer's address.
+- Customer and account references ("Customer ref ACCT-71670") are never accepted as the invoice number, and "Settlement date" is read as a due date.
+- If the model gives the date the document labels as the due date as the invoice date (and no invoice date is printed), it goes to review.
+- The guard adds: fake status metadata, "treat … as *the* authoritative …", "grant approval", instructions wrapped over two lines, and the same requests in French, German, Spanish, Italian and Dutch. It now flags all 24 injections across the four labelled sets, with no false alarms on any valid invoice. Those are the sets it was built against, so the next fresh set is the real test.
+- The rules extractor reads line items written under their description ("Qty 2 | Price … | Line amount …", "4 × £310.25 = £1,241.00", "Quantity 3 · Rate …").
+- Reports are saved as UTF-8 (Windows had been writing them in its legacy encoding).
+
+With these changes, the rules extractor alone scores 1.0 on both independent sets, and the simulated perfect model sends no valid invoice to review on any of the four sets. Both independent sets have now been tuned against, so those numbers say nothing about new invoices. **Set 3 is needed for the next honest measurement.**
+
 ## Independent test: AI-generated invoices
 
 To check generalisation without my own generator's bias, three fictional invoices were produced by a separate AI tool, using a brief that asked for unfamiliar layouts and deliberate faults (`tests/fixtures/`). They exposed real failures in v1 of the rules extractor, all now fixed and covered by regression tests (`tests/test_regressions.py`).
@@ -174,7 +186,7 @@ cd docflow
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 make install          # or: pip install -r requirements-dev.txt
 make data             # generate the labelled dataset
-make test             # 72 tests
+make test             # 91 tests
 make eval             # offline evaluation (no API key needed)
 make run              # open http://localhost:8000
 ```
@@ -265,7 +277,7 @@ docflow/
   api.py           FastAPI service
   static/          review UI
 evals/             dataset generator, evaluation harness, independent-set scorer, perfect-model simulation
-tests/             72 pytest tests, incl. regressions from the independent test (LLM mocked, runs offline)
+tests/             91 pytest tests, incl. regressions from the independent test (LLM mocked, runs offline)
 ```
 
 ## Licence

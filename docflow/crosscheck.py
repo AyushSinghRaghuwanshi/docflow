@@ -31,8 +31,8 @@ MUST_AGREE = {"supplier_name", "invoice_number", "invoice_date", "due_date", "su
 SYMBOLS = {"GBP": "£", "EUR": "€", "USD": "$"}
 NUMBER = re.compile(r"\d[\d,.]*")
 ANY_DATE = re.compile(f"(?=({DATE_RX.pattern}))")  # overlapping, so "INV-05 Raised 2026-08-15" still finds the date
-REFERENCE_LABEL = re.compile(r"(\bP\.?O\.?|purchase\s*order|order\s*(no\.?|number|#)|bank|account|payment\s*ref(erence)?)"
-                             r"[\s:#.\-]*$", re.I)
+REFERENCE_LABEL = re.compile(r"(\bP\.?O\.?|purchase\s*order|order\s*(no\.?|number|#)|bank|account(\s*(no\.?|number))?|acct|"
+                             r"payment\s*ref(erence)?|(customer|client)\s*(ref(erence)?|account|acct|no\.?|number|id))[\s:#.\-|]*$", re.I)
 
 
 class Evidence:
@@ -136,5 +136,13 @@ def reconcile(llm: Invoice, rules: Invoice, text: str) -> tuple[Invoice, list[Is
         issues.append(Issue(code="FIELD_DISAGREEMENT", severity=severity, field=f,
                             message=f"The model read {f} as '{ours}' but the rules extractor read '{theirs}'. "
                                     "Please check which is right."))
+
+    # The model sometimes fills a missing invoice date with the due date (or the other way round).
+    for f, other in (("invoice_date", "due_date"), ("due_date", "invoice_date")):
+        if getattr(llm, f) and getattr(rules, f) is None and getattr(llm, f) == getattr(rules, other):
+            confidence[f] = "low"
+            issues.append(Issue(code="FIELD_DISAGREEMENT", severity=Severity.ERROR, field=f,
+                                message=f"The model's {f} ({values[f]}) is the date the document labels as the "
+                                        f"{other.replace('_', ' ')}; the {f.replace('_', ' ')} may be missing."))
 
     return Invoice.model_validate(values), issues, confidence
