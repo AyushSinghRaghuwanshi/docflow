@@ -12,6 +12,9 @@ _CURRENCY_CODES = {"GBP", "EUR", "USD"}
 _DATE_FORMATS = [
     "%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y", "%d.%m.%Y", "%d %b %Y", "%d %B %Y",
     "%b %d, %Y", "%B %d, %Y", "%d %b, %Y", "%d/%m/%y", "%d-%b-%Y", "%d-%B-%Y", "%d-%b-%y", "%b %d %Y",
+    "%d-%m-%y", "%d.%m.%y", "%d/%b/%Y", "%d/%b/%y", "%d %b %y", "%Y/%m/%d", "%Y.%m.%d",
+    # tried last: US month-first (only matches when day-first is impossible, e.g. 12/28/2017) and compact forms
+    "%m/%d/%Y", "%Y%m%d", "%d%m%Y",
 ]
 
 

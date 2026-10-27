@@ -9,6 +9,12 @@ import io
 from pathlib import Path
 
 SUPPORTED = {".pdf", ".xlsx", ".csv", ".txt", ".md"}
+IMAGES = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}
+
+
+def image_type(name: str) -> str | None:
+    """The media type if the file is a photo or scan that has to be read by a vision model."""
+    return IMAGES.get(Path(name).suffix.lower())
 
 
 class UnsupportedDocument(ValueError):

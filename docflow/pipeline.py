@@ -10,7 +10,7 @@ from .duplicates import Match, file_hash
 from .extractors import rules
 from .extractors.llm import LLMExtractor, ProviderConfig, resolve_provider
 from .guard import scan
-from .ingest import document_to_text
+from .ingest import document_to_text, image_type
 from .schema import Decision, ExtractionResult, Invoice, Issue, Severity
 from .validate import validate
 
@@ -59,12 +59,16 @@ def process(
 ) -> ExtractionResult:
     started = time.perf_counter()
     sha = file_hash(data)
-    guard = scan(document_to_text(name, data))
-    text = guard.sanitised_text  # the model never sees the lines the guard removed
-
     cfg = provider or (resolve_provider() if extractor in ("auto", "llm") else None)
     if extractor == "llm" and cfg is None:
         raise RuntimeError("extractor='llm' was requested but no LLM provider is configured (see .env.example).")
+
+    media = image_type(name)
+    if media:
+        return _process_image(name, data, media, sha, cfg, find_duplicate, today)
+
+    guard = scan(document_to_text(name, data))
+    text = guard.sanitised_text  # the model never sees the lines the guard removed
 
     repairs = 0
     if cfg is not None and extractor != "rules":
@@ -111,3 +115,26 @@ def process(
     return ExtractionResult(document_name=name, extractor=used, invoice=invoice, issues=issues,
                             injection_detected=guard.flagged, repair_attempts=repairs,
                             field_confidence=confidence, file_sha256=sha, decision=decision, usage=usage)
+
+
+def _process_image(name, data, media, sha, cfg, find_duplicate, today) -> ExtractionResult:
+    """A photo or scan, read directly by a vision-language model.
+
+    There is no text layer, so the guard can't screen for injected instructions and the values
+    can't be checked against the document text. The arithmetic and duplicate checks still run,
+    but the result always goes to a person.
+    """
+    if cfg is None:
+        raise RuntimeError("Images need a vision-capable model; set DOCFLOW_PROVIDER and DOCFLOW_MODEL.")
+    agent = LLMExtractor(cfg)
+    invoice = agent.extract_image(data, media)
+    issues = validate(invoice, today)
+    issues.append(Issue(code="IMAGE_UNVERIFIED", severity=Severity.ERROR,
+                        message="Read from an image: values couldn't be checked against document text and the "
+                                "image couldn't be screened for injected instructions. Please check it."))
+    if find_duplicate:
+        issues += duplicate_issues(find_duplicate(invoice.supplier_name, invoice.invoice_number, sha))
+    decision = Decision.REJECTED if any(i.code == "DUPLICATE" for i in issues) else Decision.NEEDS_REVIEW
+    return ExtractionResult(document_name=name, extractor=f"vision:{cfg.provider}", invoice=invoice, issues=issues,
+                            injection_detected=False, repair_attempts=0, field_confidence={}, file_sha256=sha,
+                            decision=decision, usage=agent.usage)

@@ -6,6 +6,7 @@ than quietly saving a bad record.
 """
 from __future__ import annotations
 
+import base64
 import json
 import os
 import re
@@ -31,7 +32,7 @@ Field rules:
 - If you cannot find a field with confidence, use null rather than guessing.
 
 Return ONLY a JSON object with exactly these keys:
-supplier_name (string), invoice_number (string), invoice_date (YYYY-MM-DD),
+supplier_name (string), supplier_address (string, the seller's address as printed), invoice_number (string), invoice_date (YYYY-MM-DD),
 due_date (YYYY-MM-DD), currency (ISO 4217 code such as GBP, EUR, USD),
 subtotal (number), vat_rate (number, percent e.g. 20), vat_amount (number), total (number),
 line_items (array of {description, quantity, unit_price, amount}).
@@ -75,7 +76,7 @@ def resolve_provider() -> ProviderConfig | None:
 
 def _call(cfg: ProviderConfig, messages: list[dict]) -> tuple[str, int, int]:
     """Send a chat request and return (text, input_tokens, output_tokens)."""
-    with httpx.Client(timeout=90) as client:
+    with httpx.Client(timeout=float(os.getenv("DOCFLOW_TIMEOUT", "300"))) as client:
         if cfg.provider == "anthropic":
             r = client.post(
                 "https://api.anthropic.com/v1/messages",
@@ -121,6 +122,7 @@ def _to_invoice(raw: str) -> Invoice:
                               quantity=parse_money(it.get("quantity")) or 1, unit_price=unit, amount=amount))
     return Invoice(
         supplier_name=data.get("supplier_name"),
+        supplier_address=data.get("supplier_address") or None,
         invoice_number=(str(data["invoice_number"]) if data.get("invoice_number") else None),
         invoice_date=parse_date(data.get("invoice_date")),
         due_date=parse_date(data.get("due_date")),
@@ -151,6 +153,22 @@ class LLMExtractor:
     def extract(self, document_text: str) -> Invoice:
         started = time.perf_counter()
         self._history = [{"role": "user", "content": f"<document>\n{document_text}\n</document>"}]
+        return self._record(*_call(self.cfg, self._history), started)
+
+    def extract_image(self, image: bytes, media_type: str = "image/jpeg") -> Invoice:
+        """Read the document from its image with a vision-language model (no OCR step)."""
+        started = time.perf_counter()
+        b64 = base64.b64encode(image).decode()
+        ask = "The image is the document. Extract the fields from it."
+        if self.cfg.provider == "anthropic":
+            content = [{"type": "image", "source": {"type": "base64", "media_type": media_type, "data": b64}},
+                       {"type": "text", "text": ask}]
+            self._history = [{"role": "user", "content": content}]
+        elif self.cfg.provider == "openai":
+            content = [{"type": "text", "text": ask}, {"type": "image_url", "image_url": {"url": f"data:{media_type};base64,{b64}"}}]
+            self._history = [{"role": "user", "content": content}]
+        else:
+            self._history = [{"role": "user", "content": ask, "images": [b64]}]
         return self._record(*_call(self.cfg, self._history), started)
 
     def repair(self, issues: list[str]) -> Invoice:

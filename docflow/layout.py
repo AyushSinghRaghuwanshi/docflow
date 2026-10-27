@@ -9,7 +9,8 @@ import re
 from dataclasses import dataclass
 
 _DATE = re.compile(r"\d{1,2}[/.\-]\d{1,2}[/.\-]\d{2,4}|\d{4}-\d{2}-\d{2}|\d{1,2}(?:st|nd|rd|th)?[ \-][A-Za-z]{3,9},?[ \-]\d{4}"
-                   r"|[A-Za-z]{3,9} \d{1,2}(?:st|nd|rd|th)?,? \d{4}")
+                   r"|[A-Za-z]{3,9} \d{1,2}(?:st|nd|rd|th)?,? \d{4}"
+                   r"|\d{4}[/.]\d{2}[/.]\d{2}|\d{1,2}[/\-][A-Za-z]{3}[/\-]\d{2,4}|\d{1,2} [A-Za-z]{3} \d{2}(?!\d)")
 _CELL = re.compile(r"(?:(?!\s{3,}|\s[|·•]\s).)+")  # cells are split by wide gaps or " | ", " · ", " • "
 
 

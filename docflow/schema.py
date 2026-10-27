@@ -20,6 +20,7 @@ class Invoice(BaseModel):
     """The structured record DocFlow extracts from a messy document."""
 
     supplier_name: Optional[str] = None
+    supplier_address: Optional[str] = None
     invoice_number: Optional[str] = None
     invoice_date: Optional[date] = None
     due_date: Optional[date] = None

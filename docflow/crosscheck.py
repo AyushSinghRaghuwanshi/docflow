@@ -41,6 +41,7 @@ class Evidence:
     def __init__(self, text: str):
         self.text = text
         self.dates: set[date] = {d for m in ANY_DATE.finditer(text) if (d := parse_date(m.group(1)))}
+        self.dates |= {d for m in re.finditer(r"(?<!\d)\d{8}(?!\d)", text) if (d := parse_date(m.group(0)))}
         self.amounts: set[Decimal] = {a for m in MONEY_RX.finditer(text) if (a := parse_money(m.group(0))) is not None}
         self.numbers: set[Decimal] = {n for m in NUMBER.finditer(text) if (n := parse_money(m.group(0))) is not None}
         self.words = set(re.findall(r"[a-z0-9]+", text.lower()))
@@ -120,6 +121,14 @@ def reconcile(llm: Invoice, rules: Invoice, text: str) -> tuple[Invoice, list[Is
             continue
 
         if not ev.contains(f, ours):
+            if f == "supplier_name":
+                # A name can be printed in a logo that isn't in the text layer, and the rules extractor's guess
+                # is often worse (a cashier's name), so keep the model's reading and send it to a person.
+                confidence[f] = "low"
+                issues.append(Issue(code="UNGROUNDED_FIELD", severity=Severity.ERROR, field=f,
+                                    message=f"The supplier name '{ours}' isn't in the document text (it may be in a logo); "
+                                            "please confirm it."))
+                continue
             values[f] = theirs if theirs_found else None
             confidence[f] = "medium" if theirs_found else "low"
             instead = f"used '{theirs}' from the rules extractor instead" if theirs_found else "left it empty"
