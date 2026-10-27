@@ -143,6 +143,8 @@ def summarise(rows: list[dict]) -> dict:
 def to_markdown(s: dict, meta: dict, rows: list[dict]) -> str:
     out = [f"# SROIE evaluation: `{meta['mode']}` on the {meta['split']} split", "",
            f"- Engine: `{meta['engine']}` · {s['receipts']} receipts (seeded sample) · run {meta['at']}",
+           *(["- **Receipts that crashed in the first run were re-run after a fix; all other results are unchanged.**"]
+             if meta.get("retried_errors") else []),
            "- Correct = exact match after normalising case, spacing and punctuation; dates and totals compared by value.", "",
            "| Field | Accuracy |", "|---|---|"]
     out += [f"| {f} | {v} |" for f, v in s["field_accuracy"].items()]
@@ -167,6 +169,8 @@ def main() -> None:
     ap.add_argument("--mode", choices=["rules", "text", "vision"], required=True)
     ap.add_argument("--split", choices=["train", "test"], default="test")
     ap.add_argument("--n", type=int, default=100, help="receipts to score (seeded sample; 0 = all)")
+    ap.add_argument("--retry-errors", action="store_true",
+                    help="re-run only the receipts that crashed in an earlier run (written to a separate *_errors_retried report)")
     a = ap.parse_args()
 
     docs = sample(load(a.root / a.split), a.n)
@@ -178,6 +182,17 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     stem = f"{a.split}_{a.mode}_{engine.replace(':', '_').replace('/', '_')}_n{len(docs)}"
     progress = out / f"{stem}.progress.jsonl"
+    if a.retry_errors:
+        # Keep every receipt that ran, drop the ones that crashed, and score those again in a new report;
+        # the original report is left exactly as it was.
+        earlier = out / f"{stem}.json"
+        if not earlier.exists():
+            raise SystemExit(f"No earlier run to retry: {earlier}")
+        stem += "_errors_retried"
+        progress = out / f"{stem}.progress.jsonl"
+        if not progress.exists():
+            kept = [r for r in json.loads(earlier.read_text(encoding="utf-8"))["rows"] if "error" not in r["meta"]]
+            progress.write_text("".join(json.dumps(r) + "\n" for r in kept), encoding="utf-8")
     done = {}
     if progress.exists():
         for line in progress.read_text(encoding="utf-8").splitlines():
@@ -203,7 +218,8 @@ def main() -> None:
             print(f"  {i}/{len(docs)} {doc['id']}: {sum(v is True for v in ok.values())}/4 fields right ({meta['seconds']} s)", flush=True)
 
     s = summarise(rows)
-    meta = {"mode": a.mode, "split": a.split, "engine": engine, "at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+    meta = {"mode": a.mode, "split": a.split, "engine": engine, "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "retried_errors": a.retry_errors}
     (out / f"{stem}.json").write_text(json.dumps({**meta, **s, "rows": rows}, indent=2, default=str), encoding="utf-8")
     (out / f"{stem}.md").write_text(to_markdown(s, meta, rows), encoding="utf-8")
     print(to_markdown(s, meta, rows))

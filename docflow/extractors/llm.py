@@ -99,7 +99,7 @@ def _call(cfg: ProviderConfig, messages: list[dict]) -> tuple[str, int, int]:
             return body["choices"][0]["message"]["content"], body["usage"]["prompt_tokens"], body["usage"]["completion_tokens"]
         r = client.post(
             f"{cfg.base_url}/api/chat",
-            json={"model": cfg.model, "format": "json", "stream": False, "options": {"temperature": 0},
+            json={"model": cfg.model, "format": "json", "stream": False, "options": {"temperature": 0, "num_ctx": int(os.getenv("DOCFLOW_NUM_CTX", "8192"))},
                   "messages": [{"role": "system", "content": SYSTEM_PROMPT}, *messages]},
         )
         if r.status_code >= 400:
