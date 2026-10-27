@@ -29,6 +29,8 @@ Field rules:
   Give the full legal or trading name, even if it is split across lines in the header.
 - invoice_number is the supplier's own invoice / bill / document number. Never use a purchase-order
   number, customer account number or bank/payment reference. If no invoice number is printed, use null.
+- On a receipt, total is the final amount payable after tax and rounding, never the cash tendered, the
+  change, or a subtotal. supplier_name is the full name as printed, including any branch or location words.
 - If you cannot find a field with confidence, use null rather than guessing.
 
 Return ONLY a JSON object with exactly these keys:
@@ -155,11 +157,19 @@ class LLMExtractor:
         self._history = [{"role": "user", "content": f"<document>\n{document_text}\n</document>"}]
         return self._record(*_call(self.cfg, self._history), started)
 
-    def extract_image(self, image: bytes, media_type: str = "image/jpeg") -> Invoice:
-        """Read the document from its image with a vision-language model (no OCR step)."""
+    def extract_image(self, image: bytes, media_type: str = "image/jpeg", ocr_text: str | None = None) -> Invoice:
+        """Read the document from its image with a vision-language model.
+
+        With `ocr_text`, the model gets the image for layout and the OCR text for exact spellings and
+        digits; the OCR text is wrapped as untrusted data like any document text.
+        """
         started = time.perf_counter()
         b64 = base64.b64encode(image).decode()
         ask = "The image is the document. Extract the fields from it."
+        if ocr_text:
+            ask = ("The image is the document. Below is OCR text of the same document: use the image to understand the "
+                   "layout, and the OCR text for exact spellings and digits where they agree with the image.\n"
+                   f"<document>\n{ocr_text}\n</document>")
         if self.cfg.provider == "anthropic":
             content = [{"type": "image", "source": {"type": "base64", "media_type": media_type, "data": b64}},
                        {"type": "text", "text": ask}]

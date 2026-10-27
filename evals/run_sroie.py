@@ -6,6 +6,7 @@ the correct company, date, address and total. Three ways of reading them are com
   rules   the rules extractor on the provided OCR text (no model)
   text    the full DocFlow pipeline on the OCR text (LLM + cross-check + validation)
   vision  the full DocFlow pipeline on the receipt image (vision-language model, no OCR)
+  hybrid  the image and the OCR text together, so values can be checked against the text
 
 Protocol: anything tuned is tuned on the train split; the test split is scored as it comes.
 Progress is saved after every receipt, so an interrupted run carries on where it stopped.
@@ -114,7 +115,8 @@ def predict(doc: dict, mode: str) -> tuple[dict, dict]:
         inv, meta = res.invoice, {"decision": res.decision.value, "llm_calls": res.usage.llm_calls,
                                   "issues": sorted({i.code for i in res.issues if i.severity.value == "error"})}
     else:
-        res = process(doc["image"].name, doc["image"].read_bytes(), extractor="llm")
+        res = process(doc["image"].name, doc["image"].read_bytes(), extractor="llm",
+                      ocr_text=doc["text"] if mode == "hybrid" else None)
         inv, meta = res.invoice, {"decision": res.decision.value, "llm_calls": res.usage.llm_calls,
                                   "issues": sorted({i.code for i in res.issues if i.severity.value == "error"})}
     got = {"company": inv.supplier_name, "date": inv.invoice_date.isoformat() if inv.invoice_date else None,
@@ -166,7 +168,7 @@ def to_markdown(s: dict, meta: dict, rows: list[dict]) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("root", type=Path, help="the SROIE2019 folder (contains train/ and test/)")
-    ap.add_argument("--mode", choices=["rules", "text", "vision"], required=True)
+    ap.add_argument("--mode", choices=["rules", "text", "vision", "hybrid"], required=True)
     ap.add_argument("--split", choices=["train", "test"], default="test")
     ap.add_argument("--n", type=int, default=100, help="receipts to score (seeded sample; 0 = all)")
     ap.add_argument("--retry-errors", action="store_true",

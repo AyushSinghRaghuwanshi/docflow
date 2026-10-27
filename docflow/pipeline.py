@@ -56,7 +56,10 @@ def process(
     is_duplicate: DuplicateCheck | None = None,
     find_duplicate: DuplicateFinder | None = None,
     today: date | None = None,
+    ocr_text: str | None = None,
 ) -> ExtractionResult:
+    """Process one document. For an image, `ocr_text` (from a scanner or OCR engine) lets DocFlow screen it for
+    injections and check every value against the text, exactly as for a PDF."""
     started = time.perf_counter()
     sha = file_hash(data)
     cfg = provider or (resolve_provider() if extractor in ("auto", "llm") else None)
@@ -64,10 +67,12 @@ def process(
         raise RuntimeError("extractor='llm' was requested but no LLM provider is configured (see .env.example).")
 
     media = image_type(name)
-    if media:
+    if media and not ocr_text:
         return _process_image(name, data, media, sha, cfg, find_duplicate, today)
+    if media and cfg is None:
+        raise RuntimeError("Images need a vision-capable model; set DOCFLOW_PROVIDER and DOCFLOW_MODEL.")
 
-    guard = scan(document_to_text(name, data))
+    guard = scan(ocr_text if media else document_to_text(name, data))
     text = guard.sanitised_text  # the model never sees the lines the guard removed
 
     repairs = 0
@@ -79,11 +84,12 @@ def process(
             inv, issues, confidence = reconcile(answer, baseline, text)
             return inv, issues + validate(inv, today), confidence
 
-        invoice, issues, confidence = check(agent.extract(text))
+        first = agent.extract_image(data, media, ocr_text=text) if media else agent.extract(text)
+        invoice, issues, confidence = check(first)
         while repairs < MAX_REPAIRS and worth_retrying(issues, confidence):
             repairs += 1
             invoice, issues, confidence = check(agent.repair([i.message for i in issues if i.severity == Severity.ERROR]))
-        usage, used = agent.usage, f"llm:{cfg.provider}"
+        usage, used = agent.usage, (f"vision+ocr:{cfg.provider}" if media else f"llm:{cfg.provider}")
     else:
         invoice, usage, confidence = rules.extract_with_confidence(text)
         invoice, issues = reference_as_number(invoice, text)
