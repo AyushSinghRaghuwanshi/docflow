@@ -8,15 +8,33 @@ It combines an LLM extractor with deterministic business rules, a self-correctio
 
 ---
 
-## Headline result
+## Headline result: real receipts (SROIE)
 
-Measured on **40 invoices DocFlow had never seen** (independent set 5, made by a different AI tool, answer key written beforehand, code frozen before the run), using a free 3B-parameter model on a laptop CPU:
+[SROIE](https://rrc.cvc.uab.es/?ch=13) (ICDAR 2019) is a public benchmark of real scanned receipts with the correct company, date, address and total for each. DocFlow was scored on a fixed, seeded sample of **100 test receipts**, using free 3B-parameter models on a laptop CPU, with **no training on receipts** (zero-shot). Reports: `evals/results/sroie/`.
 
-| Decisions correct | Faulty invoices approved | Valid invoices held back | Prompt injections caught | Time per invoice |
-|---|---|---|---|---|
-| 77.5% | 5 of 20 | 4 of 20 | 3 of 6 | 36 s |
+| Field | Rules only | Qwen2.5 3B on the OCR text | **Qwen2.5-VL 3B on the image** |
+|---|---|---|---|
+| Company | 0.49 | 0.53 | **0.86** |
+| Date | 0.44 | 0.89 | **0.90** |
+| Address | 0.00 | 0.60 | **0.84** |
+| Total | 0.45 | 0.67 | **0.89** |
+| **Mean of the four** | 0.345 | 0.672 | **0.873** |
+| All four right on one receipt | 0.00 | 0.13 | **0.62** |
+| Time per receipt (CPU) | ~0 s | 60 s | 130 s |
 
-It isn't production-ready, and the write-up below says exactly why. The point of the project is the method: every claim is measured on data the system wasn't built against, failures are reported as they came out, and each round of fixes is checked on a fresh set.
+Correct means an exact match after normalising case, spacing and punctuation, with dates and totals compared by value. That is close to, but not the same as, the official SROIE scoring.
+
+**Honest reading**
+- **Below published results.** Models fine-tuned on SROIE's training receipts report roughly 95–98% F1. This is a zero-shot small model, so it isn't a like-for-like comparison, but it isn't competitive yet either.
+- **Reading the image beats reading the OCR text** on every field, and gets all four fields right five times as often.
+- **The trust layer is not yet trustworthy on receipts.** In text mode, 9 of the 11 receipts DocFlow auto-approved had a wrong field. Image uploads always go to a person (they can't be screened or grounded against text), so that mode is safe but not automated.
+- **Crashes, disclosed.** In the first image run, 15 receipts crashed (14 exceeded Ollama's default 4,096-token context, 1 malformed reply), giving 0.75. After raising the context to 8,192, only those 15 were re-run; the other 85 results are unchanged. Both reports are in the folder, and the original is in the commit history before the fix.
+
+**Next:** run on a GPU, improve using the train split only, fine-tune the vision model on the 626 training receipts, then score once on all 347 official test receipts.
+
+### Earlier: synthetic and AI-generated invoices
+
+Before the real-data benchmark, DocFlow was developed and tested on synthetic invoices and on independently generated test sets. On the last of those (set 5: 40 unseen invoices, half with planted faults) it got 77.5% of decisions right, with 5 of 20 faulty invoices approved. The full story is below.
 
 ## Why this project
 
