@@ -3,10 +3,42 @@
 The notebook is generated from this file so the code in it can be reviewed and linted like the rest
 of the repository.
 """
+import ast
 import json
 from pathlib import Path
 
 CELLS: list[tuple[str, str]] = []
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def _segments(path: str, names: set[str]) -> list[str]:
+    """Top-level definitions copied verbatim from the repository, so the notebook scores exactly like DocFlow."""
+    src = (ROOT / path).read_text(encoding="utf-8")
+    out = []
+    for node in ast.parse(src).body:
+        name = getattr(node, "name", None)
+        if isinstance(node, ast.Assign) and isinstance(node.targets[0], ast.Name):
+            name = node.targets[0].id
+        if name in names:
+            out.append(ast.get_source_segment(src, node))
+    assert len(out) == len(names), f"missing {names} in {path}"
+    return out
+
+
+def scorer_cell() -> str:
+    parts = ["# 3. DocFlow's SROIE loader and scorer, copied from the repository (docflow/parsing.py and",
+             "# evals/run_sroie.py) when this notebook was generated, so no GitHub access is needed.",
+             "import json, re",
+             "from datetime import date, datetime",
+             "from decimal import Decimal, InvalidOperation",
+             "from pathlib import Path",
+             "from typing import Optional", ""]
+    parts += _segments("docflow/parsing.py", {"_DATE_FORMATS", "parse_date"})
+    parts += _segments("evals/run_sroie.py", {"FIELDS", "load", "_text_key", "_money", "_date", "correct"})
+    header, defs = parts[:8], parts[8:]
+    return "\n".join(header) + "\n\n" + "\n\n\n".join(defs)
 
 
 def md(text: str) -> None:
@@ -28,7 +60,7 @@ Part of [DocFlow](https://github.com/AyushSinghRaghuwanshi/docflow). This notebo
 4. saves the reports and the adapter to your Google Drive.
 
 The test receipts are never used for training or for choosing settings. Scoring uses DocFlow's own
-scorer (`evals/run_sroie.py`), so the numbers match the rest of the project.
+scorer, copied into this notebook from `evals/run_sroie.py`, so the numbers match the rest of the project.
 
 **Before running:** Runtime → Change runtime type → **T4 GPU**. Then Runtime → **Run all**.
 It takes roughly 1.5–2.5 hours. Results are saved to Drive as they go, so if Colab disconnects,
@@ -59,12 +91,11 @@ os.makedirs(OUT, exist_ok=True)
 print("Saving to", OUT)
 """)
 
+code(scorer_cell())
+
 code("""
-# 3. Get DocFlow (for its scorer) and the SROIE dataset
-import glob, subprocess, sys
-if not os.path.exists("/content/docflow"):
-    subprocess.run(["git", "clone", "-q", "https://github.com/AyushSinghRaghuwanshi/docflow", "/content/docflow"], check=True)
-sys.path.insert(0, "/content/docflow"); sys.path.insert(0, "/content/docflow/evals")
+# 3b. Get the SROIE dataset (from your Drive if it's there, otherwise from Kaggle)
+import glob
 
 def find_sroie():
     hits = glob.glob("/content/drive/MyDrive/**/SROIE2019/test/entities", recursive=True)
@@ -80,8 +111,6 @@ print("SROIE at", ROOT)
 
 code("""
 # 4. Load both splits with DocFlow's loader and check they don't overlap
-from pathlib import Path
-from run_sroie import load, correct, FIELDS
 train, test = load(Path(ROOT) / "train"), load(Path(ROOT) / "test")
 print(len(train), "train receipts,", len(test), "test receipts")
 assert not {d["id"] for d in train} & {d["id"] for d in test}, "train and test overlap"
