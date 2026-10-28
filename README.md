@@ -290,10 +290,18 @@ export DOCFLOW_PROVIDER=ollama        # free local model (run `ollama pull llama
 
 Then run `make eval-llm` to score the LLM on both dataset splits. A full evaluation run costs a few cents with a small hosted model. Change `DOCFLOW_MODEL` to try others.
 
-Docker:
+Docker (the database, uploaded files and inbox live on the `/data` volume, so they survive restarts; CI builds the image and checks it on every push):
 
 ```bash
-docker build -t docflow . && docker run -p 8000:8000 -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY docflow
+docker build -t docflow .
+
+# with a hosted model
+docker run -p 8000:8000 -v docflow-data:/data -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY docflow
+
+# with Ollama running on the host machine
+docker run -p 8000:8000 -v docflow-data:/data \
+  -e DOCFLOW_PROVIDER=ollama -e DOCFLOW_MODEL=qwen2.5:3b -e DOCFLOW_VISION_MODEL=qwen2.5vl:3b \
+  -e OLLAMA_URL=http://host.docker.internal:11434 --add-host=host.docker.internal:host-gateway docflow
 ```
 
 ## API

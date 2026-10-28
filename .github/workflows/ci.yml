@@ -17,3 +17,31 @@ jobs:
           python evals/generate_dataset.py --split holdout --n 40
           python evals/run_eval.py --extractor rules --split dev
           python evals/run_eval.py --extractor rules --split holdout
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        run: docker build -t docflow .
+      - name: Start a container and check it serves requests
+        run: |
+          docker run -d --name docflow -p 8000:8000 -v docflow-data:/data docflow
+          for i in $(seq 1 30); do curl -fs localhost:8000/health && break; sleep 1; done
+          curl -fs localhost:8000/health
+          curl -fs -o /dev/null localhost:8000/
+          curl -fs -o /dev/null localhost:8000/static/app.js
+          curl -fs localhost:8000/benchmarks | grep -q sroie_finetune
+          printf 'Kestrel IT Solutions Ltd\nInvoice Number: INV-1\nInvoice Date: 05/03/2026\nSubtotal: 100.00\nVAT (20%%): 20.00\nTotal: 120.00\n' > inv.txt
+          id=$(curl -fs -F file=@inv.txt localhost:8000/documents | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])")
+          curl -fs -o /dev/null localhost:8000/documents/$id/file
+      - name: Data survives a restart
+        run: |
+          docker rm -f docflow
+          docker run -d --name docflow -p 8000:8000 -v docflow-data:/data docflow
+          for i in $(seq 1 30); do curl -fs localhost:8000/health && break; sleep 1; done
+          curl -fs localhost:8000/documents | python3 -c "import json,sys; d=json.load(sys.stdin); assert len(d) == 1, d"
+          curl -fs -o /dev/null localhost:8000/documents/1/file
+      - name: Logs on failure
+        if: failure()
+        run: docker logs docflow

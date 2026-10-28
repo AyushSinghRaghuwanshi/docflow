@@ -1,0 +1,16 @@
+.git
+.github
+.venv
+venv
+__pycache__
+*.pyc
+*.db
+files/
+inbox/
+notebooks/
+evals/dataset/
+evals/results/sroie/
+evals/results/sroie_finetune/
+evals/results/independent/
+*.progress.jsonl
+.env
