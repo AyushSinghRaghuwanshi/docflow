@@ -91,6 +91,21 @@ def main() -> None:
         none = sum(not a and not b for a, b in pairs)
         out.append(f"| {f} | {win} | {loss} | {both} | {none} | {mcnemar(win, loss):.2g} |")
 
+    out += ["", "## Strict scoring (closer to how papers score SROIE)", "",
+            "Our scorer ignores case and punctuation and compares dates and totals by value. Papers usually require the",
+            "exact string. Both strict rules below use all 347 receipts.", "",
+            "| Rule | Zero-shot mean | Fine-tuned mean | Fine-tuned address |", "|---|---|---|---|"]
+    strict = {"exact string (outer spaces trimmed)": lambda g, w: (g or "").strip() == w.strip(),
+              "exact, ignoring case and repeated spaces": lambda g, w: " ".join((g or "").split()).upper() == " ".join(w.split()).upper()}
+    for label, fn in strict.items():
+        def score(d, fields=FIELDS):
+            accs = []
+            for f in fields:
+                v = [fn(d[i]["got"][f], d[i]["want"][f]) for i in ids if d[i]["ok"][f] is not None]
+                accs.append(sum(v) / len(v))
+            return sum(accs) / len(accs)
+        out.append(f"| {label} | {score(zs):.3f} | **{score(ft):.3f}** | {score(ft, ['address']):.3f} |")
+
     errs = [(i, ft[i]) for i in clean if ft[i]["ok"]["address"] is False]
     kinds: dict[str, int] = {}
     for _, r in errs:

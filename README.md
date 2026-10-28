@@ -32,8 +32,23 @@ Qwen2.5-VL 3B (4-bit) with a LoRA adapter trained on the 626 training receipts i
 - **Receipt by receipt**, fine-tuning fixed far more than it broke: on addresses, 54 receipts went from wrong to right and 12 the other way. McNemar's exact test is significant for every field (address p = 2×10⁻⁷, date p = 0.04).
 - **Precision = recall = F1** because the model always returned all four fields; none were left blank.
 
+**Strict scoring.** The scorer above ignores case and punctuation and compares dates and totals by value. Under a strict exact-string match, closer to how papers score SROIE, the fine-tuned model gets **0.864** (zero-shot 0.760). The address field drops most, to 0.669, because a missing comma or full stop counts as wrong.
+
+**Compared with published results** (field-level F1; each paper's exact scoring differs, so gaps of 1–2 points aren't meaningful)
+
+| Setting | Model | SROIE F1 |
+|---|---|---|
+| Image only, no OCR | Donut (2022) | 83.2 |
+| | SeRum (2023) | 85.8 |
+| | OmniParser V2 (2025) | 85.8 |
+| | **DocFlow: Qwen2.5-VL 3B + LoRA, strict match** | **86.4** |
+| | STNet (2024) | 87.8 / 88.3 |
+| Ground-truth OCR text and boxes given as input | LayoutLMv2 / StrucTexT / GenKIE / TILT | 96.3 / 96.9 / 97.4 / 97.65 |
+
+So it is in the same range as recent OCR-free models, not state of the art, and not comparable with methods that are handed perfect OCR. Sources: [STNet (arXiv 2409.19573)](https://arxiv.org/abs/2409.19573), which collects the OCR-free numbers, and [GenKIE (arXiv 2310.16131)](https://arxiv.org/abs/2310.16131) for the OCR-based ones.
+
 **Reading it honestly**
-- **Below the best published results.** Fine-tuned SROIE models in the literature typically report around 95–97% F1. This is 91.3% from a 3B model, a single 46-minute run on free hardware, and no tuning on the test set. The scorer (exact match after normalising case, spacing and punctuation; dates and totals by value) is close to, but not the same as, the official evaluation.
+- **What it is:** a standard LoRA recipe on an existing model, a single 46-minute run on free hardware, one dataset, and no tuning on the test set. Repeating with several seeds, scoring with the official SROIE script, and adding a second dataset (CORD) would be needed before calling this a research result.
 - **Address is the weak field (0.80).** Of the 69 remaining address errors, 43 differ by only one or two words. A noticeable share of those are mistakes in SROIE's own labels, where the model reads the receipt correctly: "81750" on the receipt against "B1750" in the label, and "SEKSYEN" against "SEKYSEN". The labels were not corrected, since that would change the benchmark.
 - **A known limitation of this run:** the training library resized images to 512 px during training while testing used up to 1024 px. Training and testing at the same resolution is the first thing to try next.
 - **Slower after fine-tuning** (13.2 vs 8.7 s), because the adapter is applied on the fly; merging it into the weights removes that cost.

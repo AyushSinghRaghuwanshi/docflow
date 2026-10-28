@@ -28,6 +28,16 @@
 | address | 54 | 12 | 217 | 57 | 1.7e-07 |
 | total | 12 | 1 | 314 | 13 | 0.0034 |
 
+## Strict scoring (closer to how papers score SROIE)
+
+Our scorer ignores case and punctuation and compares dates and totals by value. Papers usually require the
+exact string. Both strict rules below use all 347 receipts.
+
+| Rule | Zero-shot mean | Fine-tuned mean | Fine-tuned address |
+|---|---|---|---|
+| exact string (outer spaces trimmed) | 0.760 | **0.864** | 0.669 |
+| exact, ignoring case and repeated spaces | 0.786 | **0.865** | 0.669 |
+
 ## Remaining address errors after fine-tuning (69 of 340)
 
 - one or two words differ (spelling / OCR-like): 43
