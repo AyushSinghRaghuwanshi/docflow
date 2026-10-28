@@ -11,7 +11,7 @@ import json
 import os
 import re
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 import httpx
 
@@ -74,6 +74,13 @@ def resolve_provider() -> ProviderConfig | None:
         api_key=os.getenv("ANTHROPIC_API_KEY") if provider == "anthropic" else os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("OLLAMA_URL", "http://localhost:11434"),
     )
+
+
+def for_images(cfg: ProviderConfig) -> ProviderConfig:
+    """The model to use for photos and scans. DOCFLOW_VISION_MODEL lets text documents use a smaller,
+    faster text model while images go to a vision model; without it, one model does both."""
+    vision = os.getenv("DOCFLOW_VISION_MODEL")
+    return replace(cfg, model=vision) if vision else cfg
 
 
 def _call(cfg: ProviderConfig, messages: list[dict]) -> tuple[str, int, int]:

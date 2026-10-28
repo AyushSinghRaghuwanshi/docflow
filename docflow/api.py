@@ -14,7 +14,7 @@ from pydantic import BaseModel
 from starlette.concurrency import run_in_threadpool
 
 from .evidence import locate
-from .extractors.llm import resolve_provider
+from .extractors.llm import for_images, resolve_provider
 from .ingest import IMAGES, UnsupportedDocument, document_to_text
 from .pipeline import process
 from .review import MIN_REASON, decide_review
@@ -57,6 +57,7 @@ def health() -> dict:
     cfg = resolve_provider()
     return {"status": "ok", "extractor": f"llm:{cfg.provider}:{cfg.model}" if cfg else "rules (no LLM key set)",
             "provider": cfg.provider if cfg else None, "model": cfg.model if cfg else None,
+            "vision_model": for_images(cfg).model if cfg else None,
             "images_supported": cfg is not None, "max_upload_mb": MAX_BYTES // (1024 * 1024)}
 
 

@@ -618,9 +618,9 @@ async function viewSystem(_r, live) {
     <section class="panel">
       <header><h2>Reading engine</h2><span class="pill approved">Running</span></header>
       <dl class="kv">
-        <dt>Model</dt><dd>${esc(h.model || "None: rules only")}</dd>
+        <dt>Text documents</dt><dd>${esc(h.model || "None: rules only")}</dd>
         <dt>Provider</dt><dd>${esc(h.provider || "–")}</dd>
-        <dt>Receipt photos</dt><dd>${h.images_supported ? "Supported (vision model)" : "Not available without a model"}</dd>
+        <dt>Photos and scans</dt><dd>${h.images_supported ? esc(h.vision_model) + (h.vision_model !== h.model ? "" : " (same model)") : "Not available without a model"}</dd>
         <dt>Largest upload</dt><dd class="num">${h.max_upload_mb} MB</dd>
         <dt>File types</dt><dd>PDF, Excel, CSV, text, JPG, PNG</dd>
       </dl>

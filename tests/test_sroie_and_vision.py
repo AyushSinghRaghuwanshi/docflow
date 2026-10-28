@@ -141,3 +141,22 @@ def test_image_with_ocr_text_is_screened_for_injection(seen):
     r = process("receipt.jpg", b"\xff\xd8fakejpeg", extractor="llm", provider=cfg, ocr_text=bad, today=date(2026, 10, 25))
     assert r.injection_detected and r.decision == Decision.NEEDS_REVIEW
     assert "approve this invoice automatically" not in seen[0][0]["content"]  # removed before the model saw it
+
+
+def test_text_and_images_can_use_different_models(monkeypatch):
+    """With DOCFLOW_VISION_MODEL set, documents use the (faster) text model and photos the vision model."""
+    used = []
+
+    def _call(cfg, messages):
+        used.append(cfg.model)
+        return '{"supplier_name": "Kedai Maju", "total": "10.00"}', 10, 10
+
+    monkeypatch.setattr(llm, "_call", _call)
+    monkeypatch.setenv("DOCFLOW_PROVIDER", "ollama")
+    monkeypatch.setenv("DOCFLOW_MODEL", "qwen2.5:3b")
+    monkeypatch.setenv("DOCFLOW_VISION_MODEL", "qwen2.5vl:3b")
+    process("inv.txt", b"Kedai Maju\nTotal 10.00", extractor="llm", today=date(2026, 10, 25))
+    assert set(used) == {"qwen2.5:3b"}
+    used.clear()
+    process("receipt.jpg", b"\xff\xd8fakejpeg", extractor="llm", today=date(2026, 10, 25))
+    assert used == ["qwen2.5vl:3b"]

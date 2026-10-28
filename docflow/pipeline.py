@@ -8,7 +8,7 @@ from typing import Callable
 from .crosscheck import reconcile, reference_as_number
 from .duplicates import Match, file_hash
 from .extractors import rules
-from .extractors.llm import LLMExtractor, ProviderConfig, resolve_provider
+from .extractors.llm import LLMExtractor, ProviderConfig, for_images, resolve_provider
 from .guard import scan
 from .ingest import document_to_text, image_type
 from .schema import Decision, ExtractionResult, Invoice, Issue, Severity
@@ -77,7 +77,7 @@ def process(
 
     repairs = 0
     if cfg is not None and extractor != "rules":
-        agent = LLMExtractor(cfg)
+        agent = LLMExtractor(for_images(cfg) if media and provider is None else cfg)
         baseline, _, _ = rules.extract_with_confidence(text)
 
         def check(answer: Invoice):
@@ -132,7 +132,7 @@ def _process_image(name, data, media, sha, cfg, find_duplicate, today) -> Extrac
     """
     if cfg is None:
         raise RuntimeError("Images need a vision-capable model; set DOCFLOW_PROVIDER and DOCFLOW_MODEL.")
-    agent = LLMExtractor(cfg)
+    agent = LLMExtractor(for_images(cfg))
     invoice = agent.extract_image(data, media)
     issues = validate(invoice, today)
     issues.append(Issue(code="IMAGE_UNVERIFIED", severity=Severity.ERROR,
