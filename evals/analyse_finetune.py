@@ -98,7 +98,7 @@ def main() -> None:
     strict = {"exact string (outer spaces trimmed)": lambda g, w: (g or "").strip() == w.strip(),
               "exact, ignoring case and repeated spaces": lambda g, w: " ".join((g or "").split()).upper() == " ".join(w.split()).upper()}
     for label, fn in strict.items():
-        def score(d, fields=FIELDS):
+        def score(d, fields=FIELDS, fn=fn):
             accs = []
             for f in fields:
                 v = [fn(d[i]["got"][f], d[i]["want"][f]) for i in ids if d[i]["ok"][f] is not None]
