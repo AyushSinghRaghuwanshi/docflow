@@ -294,7 +294,7 @@ async function viewReview(r, live) {
       <a class="btn" href="#/documents">See all documents</a></div>`;
     return;
   }
-  const [doc, ev] = await Promise.all([api(`/documents/${id}`), api(`/documents/${id}/evidence`).catch(() => ({ text: null, spans: {} }))]);
+  const [doc, ev] = await Promise.all([api(`/documents/${id}`), api(`/documents/${id}/evidence`).catch(() => ({ text: null, spans: {}, original: false }))]);
   if (!live()) return;
 
   const inv = invoiceOf(doc);
@@ -322,8 +322,9 @@ async function viewReview(r, live) {
       ${found}</div>`;
   };
 
-  const hasOriginal = true;
-  const originalView = isImage ? `<img src="/documents/${id}/file" alt="Original upload: ${esc(doc.name)}">`
+  const hasOriginal = ev.original !== false;
+  const originalView = !hasOriginal ? `<div class="empty"><h2>Original file not kept</h2><p>This document was uploaded before DocFlow started keeping originals, so only the extracted values are available. Upload it again to see the file here.</p></div>`
+    : isImage ? `<img src="/documents/${id}/file" alt="Original upload: ${esc(doc.name)}">`
     : ext === "pdf" ? `<iframe src="/documents/${id}/file#view=FitH" title="Original PDF"></iframe>`
     : ev.text != null ? `<pre class="doc-text">${esc(ev.text)}</pre>`
     : `<div class="empty"><h2>No preview for this file type</h2><a class="btn" href="/documents/${id}/file" download>Download original</a></div>`;
@@ -438,6 +439,8 @@ async function viewReview(r, live) {
       const issues = e.body?.detail?.issues || [];
       box.innerHTML = `<strong>${esc(e.message)}</strong>${issues.length ? `<ul style="margin:6px 0 0 18px;padding:0">${issues.map((i) => `<li>${esc(issueTitle(i.code))}: ${esc(i.message)}</li>`).join("")}</ul>` : ""}`;
       box.hidden = false;
+      box.scrollIntoView({ block: "nearest" });
+      if (e.status === 409) $("#reason").focus();
       $$("[data-act]").forEach((b) => (b.disabled = false));
     }
   };

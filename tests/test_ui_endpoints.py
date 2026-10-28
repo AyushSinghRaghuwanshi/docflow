@@ -75,3 +75,11 @@ def test_ui_and_static_files_load(client):
 def test_benchmarks_summary(client):
     b = client.get("/benchmarks").json()
     assert b["sroie_finetune"]["receipts"] == 347 and b["published"]
+
+
+def test_missing_original_is_reported_not_a_crash(client, tmp_path):
+    doc = client.post("/documents", files={"file": ("k.txt", DOC.encode(), "text/plain")}).json()
+    for f in (tmp_path / "files").iterdir():
+        f.unlink()
+    assert client.get(f"/documents/{doc['id']}/evidence").json() == {"text": None, "spans": {}, "original": False}
+    assert client.get(f"/documents/{doc['id']}/file").status_code == 404

@@ -112,10 +112,10 @@ def evidence(doc_id: int) -> dict:
         raise HTTPException(404, "Document not found.")
     path = _original(doc)
     if not path or path.suffix in IMAGES:
-        return {"text": None, "spans": {}}
+        return {"text": None, "spans": {}, "original": path is not None}
     text = document_to_text(doc["name"], path.read_bytes())
     inv = Invoice.model_validate(doc.get("reviewed") or doc["result"]["invoice"])
-    return {"text": text, "spans": locate(inv, text)}
+    return {"text": text, "spans": locate(inv, text), "original": True}
 
 
 @app.get("/benchmarks")
