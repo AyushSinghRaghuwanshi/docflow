@@ -20,6 +20,7 @@ BAD_TOTAL = GOOD.replace("Total Due: £120.00", "Total Due: £130.00").replace("
 @pytest.fixture
 def c(tmp_path, monkeypatch):
     monkeypatch.setenv("DOCFLOW_DB", str(tmp_path / "t.db"))
+    monkeypatch.setenv("DOCFLOW_FILES", str(tmp_path / "files"))
     for var in ["ANTHROPIC_API_KEY", "OPENAI_API_KEY", "DOCFLOW_PROVIDER"]:
         monkeypatch.delenv(var, raising=False)
     import docflow.api as api

@@ -138,11 +138,20 @@ class Store:
         n = len(rows)
         cost = sum(r["result"]["usage"]["cost_usd"] for r in rows)
         by_decision = {d.value: sum(1 for r in rows if r["decision"] == d.value) for d in Decision}
+        issues: dict[str, dict] = {}
+        for r in rows:
+            for code in {(i["code"], i["severity"]) for i in r["result"]["issues"]}:
+                entry = issues.setdefault(code[0], {"code": code[0], "severity": code[1], "documents": 0})
+                entry["documents"] += 1
+        latency = [r["result"]["usage"]["latency_ms"] for r in rows]
         return {
             "documents": n,
             "by_decision": by_decision,
+            "by_status": {s: sum(1 for r in rows if r["status"] == s) for s in ("pending", "approved", "rejected")},
             "straight_through_rate": round(by_decision["auto_approved"] / n, 3) if n else 0.0,
             "injections_blocked": sum(1 for r in rows if r["result"]["injection_detected"]),
+            "issues": sorted(issues.values(), key=lambda e: -e["documents"]),
+            "avg_seconds_per_document": round(sum(latency) / n / 1000, 1) if n else 0.0,
             "total_cost_usd": round(cost, 6),
             "avg_cost_per_document_usd": round(cost / n, 6) if n else 0.0,
         }

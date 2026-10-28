@@ -4,136 +4,60 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DocFlow</title>
-<style>
-  :root { --bg:#f6f7f9; --card:#fff; --ink:#1b1f24; --muted:#5b6470; --line:#e3e6ea; --accent:#1f3864;
-          --ok:#1e7a46; --warn:#a15c00; --bad:#b42318; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#111418; --card:#1a1f25; --ink:#e8ebef; --muted:#9aa4af;
-          --line:#2a3038; --accent:#8fb0e6; --ok:#4cc38a; --warn:#f0a94b; --bad:#ff7a70; } }
-  * { box-sizing:border-box } body { margin:0; font:15px/1.5 system-ui, sans-serif; background:var(--bg); color:var(--ink) }
-  header { padding:20px 24px; border-bottom:1px solid var(--line); display:flex; gap:16px; align-items:baseline; flex-wrap:wrap }
-  h1 { margin:0; font-size:22px; color:var(--accent) } .sub { color:var(--muted) }
-  main { max-width:1100px; margin:0 auto; padding:20px 16px; display:grid; gap:16px }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px }
-  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px }
-  .stat b { display:block; font-size:22px } .stat span { color:var(--muted); font-size:13px }
-  .drop { border:2px dashed var(--line); border-radius:10px; padding:24px; text-align:center; cursor:pointer }
-  .drop.hover { border-color:var(--accent) } button { font:inherit; padding:6px 12px; border-radius:6px; border:1px solid var(--line);
-          background:var(--card); color:var(--ink); cursor:pointer } button.primary { background:var(--accent); color:#fff; border-color:var(--accent) }
-  table { width:100%; border-collapse:collapse } td, th { padding:8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top }
-  th { color:var(--muted); font-weight:600; font-size:13px } tr.sel { outline:2px solid var(--accent) }
-  .pill { padding:2px 8px; border-radius:99px; font-size:12px; font-weight:600; white-space:nowrap }
-  .auto_approved,.approved { color:var(--ok) } .needs_review,.pending { color:var(--warn) } .rejected { color:var(--bad) }
-  .issues li { margin:4px 0 } .error { color:var(--bad) } .warning { color:var(--warn) }
-  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:8px 16px }
-  label { font-size:13px; color:var(--muted) } input { width:100%; font:inherit; padding:6px 8px; border:1px solid var(--line);
-          border-radius:6px; background:var(--bg); color:var(--ink) } .row { display:flex; gap:8px; flex-wrap:wrap }
-  .scroll { overflow-x:auto }
-</style>
+<meta name="description" content="Review invoices and receipts read by DocFlow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/app.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E4FD8'/%3E%3Cpath d='M9 7h6.5a9 9 0 0 1 0 18H9z' fill='white'/%3E%3Cpath d='M13 11v10h2.5a5 5 0 0 0 0-10z' fill='%231E4FD8'/%3E%3C/svg%3E">
 </head>
 <body>
-<header><h1>DocFlow</h1><span class="sub">AI agent for messy invoices: extract, validate, review</span>
-  <span class="sub" id="engine"></span></header>
-<main>
-  <section class="card stats" id="stats"></section>
-  <section class="card">
-    <div class="drop" id="drop">Drop an invoice or receipt (PDF, image, XLSX, CSV or TXT) here, or click to choose a file
-      <input type="file" id="file" accept=".pdf,.xlsx,.csv,.txt,.jpg,.jpeg,.png" hidden></div>
-    <p class="error" id="status" style="margin:8px 0 0"></p>
-  </section>
-  <section class="card scroll">
-    <div class="row" style="justify-content:space-between;margin-bottom:8px"><b>Documents</b>
-      <div class="row"><button data-f="">All</button><button data-f="pending">Review queue</button>
-        <button data-f="approved">Approved</button><button data-f="rejected">Rejected</button></div></div>
-    <table><thead><tr><th>#</th><th>File</th><th>Supplier</th><th>Total</th><th>Decision</th><th>Status</th><th>Time · API cost</th></tr></thead>
-      <tbody id="rows"></tbody></table>
-  </section>
-  <section class="card" id="detail" hidden></section>
-</main>
-<script>
-const $ = s => document.querySelector(s);
-const FIELDS = ["supplier_name","invoice_number","invoice_date","due_date","currency","subtotal","vat_rate","vat_amount","total"];
-let filter = "", current = null;
-const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="nav" aria-label="Main">
+    <a class="brand" href="#/overview" aria-label="DocFlow home">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--accent)"/><path d="M9 7h6.5a9 9 0 0 1 0 18H9z" fill="#fff"/><path d="M13 11v10h2.5a5 5 0 0 0 0-10z" fill="var(--accent)"/></svg>
+      <span>DocFlow</span>
+    </a>
+    <nav>
+      <a href="#/overview" data-route="overview"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 3h6v6H3zM11 3h6v4h-6zM11 9h6v8h-6zM3 11h6v6H3z"/></svg>Overview</a>
+      <a href="#/review" data-route="review"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3h9l3 3v11H4z M7 9h6M7 12h6M7 15h4"/></svg>Review queue<span class="count" id="nav-pending" hidden></span></a>
+      <a href="#/documents" data-route="documents"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>Documents</a>
+      <a href="#/benchmarks" data-route="benchmarks"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16V9M8 16V4M12 16v-5M16 16V7"/></svg>Benchmarks</a>
+      <a href="#/system" data-route="system"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="2.5"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4"/></svg>System</a>
+    </nav>
+    <div class="nav-foot">
+      <div class="engine" id="engine" title="Model reading the documents"><span class="dot"></span><span id="engine-name">Connecting…</span></div>
+      <button class="theme" id="theme" type="button" aria-label="Switch between light and dark">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 12.5A6.5 6.5 0 0 1 7.5 4.5a6.5 6.5 0 1 0 8 8z"/></svg>
+      </button>
+    </div>
+  </aside>
 
-async function refresh() {
-  const [docs, m, h] = await Promise.all([fetch("/documents" + (filter ? "?status=" + filter : "")).then(r => r.json()),
-                                          fetch("/metrics").then(r => r.json()), fetch("/health").then(r => r.json())]);
-  $("#engine").textContent = "Engine: " + h.extractor;
-  $("#stats").innerHTML = [["Documents", m.documents], ["Straight-through", Math.round(m.straight_through_rate * 100) + "%"],
-    ["Waiting for review", m.by_decision.needs_review], ["Injections blocked", m.injections_blocked],
-    ["Avg API cost / doc (excl. local compute)", "$" + m.avg_cost_per_document_usd.toFixed(4)]]
-    .map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
-  $("#rows").innerHTML = docs.map(d => `<tr data-id="${d.id}" class="${current === d.id ? "sel" : ""}" style="cursor:pointer">
-    <td>${d.id}</td><td>${esc(d.name)}</td><td>${esc(d.result.invoice.supplier_name)}</td>
-    <td>${esc(d.result.invoice.currency)} ${esc(d.result.invoice.total)}</td>
-    <td><span class="pill ${d.decision}">${d.decision.replace("_", " ")}</span></td>
-    <td><span class="pill ${d.status}">${d.status}</span></td><td>${(d.result.usage.latency_ms / 1000).toFixed(1)}s · $${d.result.usage.cost_usd.toFixed(4)}</td></tr>`).join("");
-  document.querySelectorAll("#rows tr").forEach(tr => tr.onclick = () => show(+tr.dataset.id));
-}
+  <div class="main-col">
+    <header class="top">
+      <button class="menu" id="menu" type="button" aria-label="Open menu"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg></button>
+      <form class="search" id="search" role="search">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="5.5"/><path d="M13 13l4 4"/></svg>
+        <input id="search-input" type="search" placeholder="Search supplier, invoice number or file" aria-label="Search documents">
+        <kbd>/</kbd>
+      </form>
+      <button class="btn primary" id="upload-btn" type="button">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 14V4M6 8l4-4 4 4M4 16h12"/></svg>Upload
+      </button>
+      <input type="file" id="file-input" multiple accept=".pdf,.xlsx,.csv,.txt,.jpg,.jpeg,.png" hidden>
+    </header>
+    <main id="main" tabindex="-1"></main>
+  </div>
+</div>
 
-async function show(id) {
-  current = id;
-  const d = await fetch("/documents/" + id).then(r => r.json());
-  const inv = d.reviewed || d.result.invoice;
-  $("#detail").hidden = false;
-  $("#detail").innerHTML = `<b>${esc(d.name)}</b> <span class="pill ${d.decision}">${d.decision.replace("_", " ")}</span> <span class="pill ${d.status}">${d.status}</span>
-    <span class="sub">via ${esc(d.result.extractor)} · ${d.result.usage.llm_calls} LLM call(s) · repair attempts ${d.result.repair_attempts}
-      ${d.result.field_confidence && d.result.field_confidence.supplier_name ? " · supplier confidence " + esc(d.result.field_confidence.supplier_name) : ""}</span>
-    <ul class="issues">${d.result.issues.map(i => `<li class="${i.severity}">[${i.code}] ${esc(i.message)}</li>`).join("") || "<li>No issues found.</li>"}</ul>
-    <div class="grid2">${FIELDS.map(f => `<div><label>${f}${d.result.field_confidence && d.result.field_confidence[f] ? " · " + esc(d.result.field_confidence[f]) + " confidence" : ""}</label><input id="f_${f}" value="${esc(inv[f])}"></div>`).join("")}</div>
-    <p class="sub">Line items: ${inv.line_items.map(li => `${esc(li.description)} (${li.quantity} × ${li.unit_price} = ${li.amount})`).join("; ") || "none"}</p>
-    ${d.status === "pending" ? `<div style="margin:8px 0"><label>Reason (stored in the audit log; required to approve while errors remain)</label>
-      <input id="reason" placeholder="e.g. Supplier confirmed by phone that the total on the PDF is correct"></div>
-      <ul class="issues" id="blocked"></ul>
-      <div class="row"><button class="primary" id="approve">Approve</button><button id="reject">Reject</button></div>` : ""}
-    ${d.audit && d.audit.length ? `<p class="sub" style="margin-bottom:0">Audit log</p><ul class="issues">${d.audit.map(a =>
-      `<li>${esc(a.at.slice(0, 19).replace("T", " "))} · <b>${esc(a.action.replaceAll("_", " "))}</b>${a.reason ? " · " + esc(a.reason) : ""}
-       ${Object.keys(a.changes).length ? " · changed " + Object.entries(a.changes).map(([k, v]) => `${esc(k)}: ${esc(v[0])} → ${esc(v[1])}`).join(", ") : ""}
-       ${a.issues.filter(i => i.severity === "error").length ? " · open errors: " + a.issues.filter(i => i.severity === "error").map(i => esc(i.code)).join(", ") : ""}</li>`).join("")}</ul>` : ""}`;
-  if (d.status === "pending") {
-    $("#approve").onclick = () => decide(id, true, inv);
-    $("#reject").onclick = () => decide(id, false, null);
-  }
-  refresh();
-}
+<div class="drop-overlay" id="drop-overlay" hidden><div>Drop invoices or receipts to upload them</div></div>
+<section class="uploads" id="uploads" aria-live="polite" hidden>
+  <header><strong>Uploads</strong><button type="button" class="link" id="uploads-close">Close</button></header>
+  <ol id="upload-list"></ol>
+</section>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-async function decide(id, approve, inv) {
-  let corrected = null;
-  if (inv) { corrected = { ...inv }; FIELDS.forEach(f => corrected[f] = $("#f_" + f).value.trim() || null); }
-  const r = await fetch(`/documents/${id}/review`, { method: "POST", headers: { "Content-Type": "application/json" },
-                                           body: JSON.stringify({ approve, corrected, reason: $("#reason").value || null }) });
-  if (r.ok) return show(id);
-  const body = await r.json();
-  const d = body.detail || {};
-  const lines = typeof d === "string" ? [d] : Array.isArray(d) ? d.map(e => `${(e.loc || []).slice(-1)}: ${e.msg}`)
-    : [d.message, ...(d.issues || []).map(i => `[${i.code}] ${i.message}`)];
-  $("#blocked").innerHTML = lines.map(l => `<li class="error">${esc(l)}</li>`).join("");
-  refresh();
-}
-
-async function upload(file) {
-  const fd = new FormData(); fd.append("file", file);
-  const label = drop.firstChild.textContent;
-  drop.firstChild.textContent = `Processing ${file.name}… (a local model on CPU can take a minute or two)`;
-  drop.style.pointerEvents = "none";
-  try {
-    const r = await fetch("/documents", { method: "POST", body: fd });
-    const body = await r.json();
-    if (!r.ok) { $("#status").textContent = "Upload failed: " + (body.detail || r.status); return; }
-    $("#status").textContent = "";
-    show(body.id);
-  } catch (e) { $("#status").textContent = "Upload failed: " + e; }
-  finally { drop.firstChild.textContent = label; drop.style.pointerEvents = ""; $("#file").value = ""; }
-}
-
-const drop = $("#drop");
-drop.onclick = () => $("#file").click();
-$("#file").onchange = e => e.target.files[0] && upload(e.target.files[0]);
-drop.ondragover = e => { e.preventDefault(); drop.classList.add("hover"); };
-drop.ondragleave = () => drop.classList.remove("hover");
-drop.ondrop = e => { e.preventDefault(); drop.classList.remove("hover"); e.dataTransfer.files[0] && upload(e.dataTransfer.files[0]); };
-document.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { filter = b.dataset.f; refresh(); });
-refresh();
-</script>
+<script src="/static/app.js"></script>
 </body>
 </html>

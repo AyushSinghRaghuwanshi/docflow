@@ -9,11 +9,13 @@ from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from starlette.concurrency import run_in_threadpool
 
+from .evidence import locate
 from .extractors.llm import resolve_provider
-from .ingest import UnsupportedDocument
+from .ingest import IMAGES, UnsupportedDocument, document_to_text
 from .pipeline import process
 from .review import MIN_REASON, decide_review
 from .schema import Invoice
@@ -21,10 +23,22 @@ from .store import Store
 
 MAX_BYTES = 5 * 1024 * 1024
 STATIC = Path(__file__).parent / "static"
+FILES = Path(os.getenv("DOCFLOW_FILES", "files"))  # originals, kept so a reviewer can see what was read
+BENCHMARKS = Path(__file__).resolve().parents[1] / "evals" / "results" / "dashboard.json"
+MEDIA = {".pdf": "application/pdf", ".txt": "text/plain; charset=utf-8", ".md": "text/plain; charset=utf-8",
+         ".csv": "text/plain; charset=utf-8", ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+         **IMAGES}
 
 app = FastAPI(title="DocFlow", version="0.1.0",
               description="AI agent that turns messy invoices into validated, structured data.")
 store = Store(os.getenv("DOCFLOW_DB", "docflow.db"))
+app.mount("/static", StaticFiles(directory=STATIC), name="static")
+
+
+def _original(doc: dict) -> Path | None:
+    sha, name = doc["result"].get("file_sha256"), doc["name"]
+    path = FILES / f"{sha}{Path(name).suffix.lower()}" if sha else None
+    return path if path and path.exists() else None
 
 
 class ReviewRequest(BaseModel):
@@ -41,7 +55,9 @@ def ui() -> FileResponse:
 @app.get("/health")
 def health() -> dict:
     cfg = resolve_provider()
-    return {"status": "ok", "extractor": f"llm:{cfg.provider}:{cfg.model}" if cfg else "rules (no LLM key set)"}
+    return {"status": "ok", "extractor": f"llm:{cfg.provider}:{cfg.model}" if cfg else "rules (no LLM key set)",
+            "provider": cfg.provider if cfg else None, "model": cfg.model if cfg else None,
+            "images_supported": cfg is not None, "max_upload_mb": MAX_BYTES // (1024 * 1024)}
 
 
 @app.post("/documents", status_code=201)
@@ -57,6 +73,8 @@ async def upload(file: UploadFile = File(...), extractor: str = Query("auto", pa
         raise HTTPException(415, str(e)) from e
     except RuntimeError as e:
         raise HTTPException(400, str(e)) from e
+    FILES.mkdir(parents=True, exist_ok=True)
+    (FILES / f"{result.file_sha256}{Path(file.filename or '').suffix.lower()}").write_bytes(data)
     doc_id = store.add(result)
     return store.get(doc_id)
 
@@ -72,6 +90,41 @@ def get_document(doc_id: int) -> dict:
     if not doc:
         raise HTTPException(404, "Document not found.")
     return {**doc, "audit": store.audit(doc_id)}
+
+
+@app.get("/documents/{doc_id}/file", include_in_schema=False)
+def original_file(doc_id: int) -> FileResponse:
+    """The uploaded file, shown inline next to the extracted fields."""
+    doc = store.get(doc_id)
+    path = _original(doc) if doc else None
+    if not path:
+        raise HTTPException(404, "The original file wasn't kept for this document.")
+    return FileResponse(path, media_type=MEDIA.get(path.suffix, "application/octet-stream"),
+                        headers={"Content-Disposition": f'inline; filename="{doc["name"]}"'})
+
+
+@app.get("/documents/{doc_id}/evidence")
+def evidence(doc_id: int) -> dict:
+    """The document text DocFlow read, and where each extracted value appears in it."""
+    doc = store.get(doc_id)
+    if not doc:
+        raise HTTPException(404, "Document not found.")
+    path = _original(doc)
+    if not path or path.suffix in IMAGES:
+        return {"text": None, "spans": {}}
+    text = document_to_text(doc["name"], path.read_bytes())
+    inv = Invoice.model_validate(doc.get("reviewed") or doc["result"]["invoice"])
+    return {"text": text, "spans": locate(inv, text)}
+
+
+@app.get("/benchmarks")
+def benchmarks() -> dict:
+    """Published evaluation results (built by evals/build_dashboard_data.py)."""
+    if not BENCHMARKS.exists():
+        raise HTTPException(404, "No benchmark summary yet: run python evals/build_dashboard_data.py")
+    import json
+
+    return json.loads(BENCHMARKS.read_text(encoding="utf-8"))
 
 
 @app.post("/documents/{doc_id}/review")

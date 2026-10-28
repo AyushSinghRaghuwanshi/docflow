@@ -23,6 +23,7 @@ from .schema import Invoice
 from .store import Store
 
 INBOX = Path(os.getenv("DOCFLOW_INBOX", "inbox")).resolve()
+FILES = Path(os.getenv("DOCFLOW_FILES", "files"))
 store = Store(os.getenv("DOCFLOW_DB", "docflow.db"))
 server = MCPServer(name="docflow", instructions=(
     "DocFlow extracts and checks invoices and receipts. Put files in the inbox folder, call process_document "
@@ -55,7 +56,10 @@ def list_inbox() -> list[str]:
 def process_document(file_name: str) -> dict:
     """Extract, check and decide on one invoice or receipt from the inbox. Returns the decision and every issue."""
     path = _inbox_file(file_name)
-    result = process(path.name, path.read_bytes(), find_duplicate=store.find_duplicate)
+    data = path.read_bytes()
+    result = process(path.name, data, find_duplicate=store.find_duplicate)
+    FILES.mkdir(parents=True, exist_ok=True)  # kept so the document can be reviewed in the web app too
+    (FILES / f"{result.file_sha256}{path.suffix.lower()}").write_bytes(data)
     return _summary(store.get(store.add(result)))
 
 

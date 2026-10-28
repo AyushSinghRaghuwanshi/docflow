@@ -27,6 +27,7 @@ def srv(tmp_path, monkeypatch):
     (tmp_path / "secret.txt").write_text("not an invoice", encoding="utf-8")
     monkeypatch.setenv("DOCFLOW_INBOX", str(inbox))
     monkeypatch.setenv("DOCFLOW_DB", str(tmp_path / "mcp.db"))
+    monkeypatch.setenv("DOCFLOW_FILES", str(tmp_path / "files"))
     for var in ["ANTHROPIC_API_KEY", "OPENAI_API_KEY", "DOCFLOW_PROVIDER"]:
         monkeypatch.delenv(var, raising=False)
     import docflow.mcp_server as m

@@ -14,6 +14,7 @@ Total Due: £120.00
 
 def make_client(tmp_path, monkeypatch) -> TestClient:
     monkeypatch.setenv("DOCFLOW_DB", str(tmp_path / "test.db"))
+    monkeypatch.setenv("DOCFLOW_FILES", str(tmp_path / "files"))
     for var in ["ANTHROPIC_API_KEY", "OPENAI_API_KEY", "DOCFLOW_PROVIDER"]:
         monkeypatch.delenv(var, raising=False)
     import docflow.api as api
