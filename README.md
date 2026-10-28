@@ -4,7 +4,13 @@ DocFlow turns invoices that arrive as PDFs, spreadsheets, CSV exports or plain t
 
 It combines an LLM extractor with deterministic business rules, a self-correction loop, prompt-injection defences, duplicate detection, cost tracking and a human review queue. It ships with a labelled evaluation suite so every claim about accuracy is measured, not guessed.
 
-![DocFlow review queue](docs/screenshot.png)
+![DocFlow review workspace: each extracted value is highlighted where it was found, with the failed check and the editable fields alongside](docs/screenshot.png)
+
+*The review workspace. Every extracted value is highlighted where it was found in the document, the check that stopped the invoice is explained in plain English, and the reviewer can correct a field or switch to the original file before approving.*
+
+![DocFlow overview: documents processed, straight-through rate, review queue and the checks that stopped documents](docs/overview.png)
+
+*The overview: what was processed, how much went straight through without a person, what is waiting for review and why documents were stopped.*
 
 ---
 
@@ -102,7 +108,7 @@ flowchart LR
 | **Self-repair** (`docflow/pipeline.py`) | If validation finds arithmetic or missing-field errors, the agent shows the model exactly what failed and asks it to re-read once. Real document errors are kept, not "fixed". |
 | **Decide** | Clean records are auto-approved, uncertain ones go to the review queue, duplicates (same supplier and invoice number) are rejected. |
 | **Review** (`docflow/review.py`) | A person's approval is held to the same rules: the server re-validates the final values (edited or not) and re-checks duplicates. Approval is refused while any error remains unless the reviewer gives an override reason; injection findings always need one. Every approval, rejection and blocked attempt is written to an append-only audit log with the fields changed and the errors still open. |
-| **Metrics** (`docflow/api.py`, `docflow/store.py`) | FastAPI service and review UI. Metrics include straight-through rate, injections blocked, time per document and API cost per document (local-model compute is not counted in the API cost). |
+| **Metrics** (`docflow/api.py`, `docflow/store.py`) | FastAPI service and a web console with an overview, a review workspace with evidence highlighting and the original file side by side, a searchable document list, benchmarks and system status (light and dark themes). Metrics include straight-through rate, injections blocked, time per document and API cost per document (local-model compute is not counted in the API cost). |
 
 ## Results
 
@@ -269,7 +275,7 @@ cd docflow
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 make install          # or: pip install -r requirements-dev.txt
 make data             # generate the labelled dataset
-make test             # 91 tests
+make test             # 131 tests
 make eval             # offline evaluation (no API key needed)
 make run              # open http://localhost:8000
 ```
@@ -365,9 +371,9 @@ docflow/
   pipeline.py      guard -> extract -> cross-check -> validate -> retry if unsure -> decide
   store.py         SQLite store and review queue
   api.py           FastAPI service
-  static/          review UI
+  static/          web console (overview, review workspace, documents, benchmarks, system)
 evals/             dataset generator, evaluation harness, independent-set scorer, perfect-model simulation
-tests/             91 pytest tests, incl. regressions from the independent test (LLM mocked, runs offline)
+tests/             131 pytest tests, incl. regressions from the independent test (LLM mocked, runs offline)
 ```
 
 ## Licence
