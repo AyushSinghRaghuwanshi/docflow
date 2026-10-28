@@ -10,27 +10,44 @@ It combines an LLM extractor with deterministic business rules, a self-correctio
 
 ## Headline result: real receipts (SROIE)
 
-[SROIE](https://rrc.cvc.uab.es/?ch=13) (ICDAR 2019) is a public benchmark of real scanned receipts with the correct company, date, address and total for each. DocFlow was scored on a fixed, seeded sample of **100 test receipts**, using free 3B-parameter models on a laptop CPU, with **no training on receipts** (zero-shot). Reports: `evals/results/sroie/`.
+[SROIE](https://rrc.cvc.uab.es/?ch=13) (ICDAR 2019) is a public benchmark of real scanned receipts, each labelled with the seller's company name, the date, the seller's address and the total.
 
-| Field | Rules only | Qwen2.5 3B on the OCR text | **Qwen2.5-VL 3B on the image** |
+### Fine-tuned vision model: all 347 test receipts
+
+Qwen2.5-VL 3B (4-bit) with a LoRA adapter trained on the 626 training receipts in 46 minutes on a free Colab T4 GPU, changing 1.1% of the weights. Settings were fixed before training (rank 16, 2 epochs, learning rate 2e-4), and the test set was scored once. Notebook with outputs: `notebooks/finetune_sroie_executed.ipynb`; per-receipt results and analysis: `evals/results/sroie_finetune/`.
+
+| | Zero-shot (same model, no training) | **Fine-tuned** |
+|---|---|---|
+| Company | 0.879 | **0.934** |
+| Date | 0.939 | **0.960** |
+| Address | 0.674 | **0.798** |
+| Total | 0.928 | **0.960** |
+| **Mean of the four (= micro F1)** | 0.855 | **0.913** |
+| All four right on one receipt | 0.556 | **0.703** |
+| Seconds per receipt (T4) | 8.7 | 13.2 |
+
+**Checks on the result**
+- **Train/test overlap.** Seven test images are byte-identical to training images, a quirk of SROIE itself. Without them (340 receipts) the fine-tuned mean is 0.912, so the overlap didn't inflate the result. For three of those seven pairs, SROIE gives *different* labels for the same image.
+- **Confidence intervals** (bootstrap, 340 clean receipts): mean 0.833–0.874 zero-shot vs **0.897–0.928** fine-tuned. They don't overlap.
+- **Receipt by receipt**, fine-tuning fixed far more than it broke: on addresses, 54 receipts went from wrong to right and 12 the other way. McNemar's exact test is significant for every field (address p = 2×10⁻⁷, date p = 0.04).
+- **Precision = recall = F1** because the model always returned all four fields; none were left blank.
+
+**Reading it honestly**
+- **Below the best published results.** Fine-tuned SROIE models in the literature typically report around 95–97% F1. This is 91.3% from a 3B model, a single 46-minute run on free hardware, and no tuning on the test set. The scorer (exact match after normalising case, spacing and punctuation; dates and totals by value) is close to, but not the same as, the official evaluation.
+- **Address is the weak field (0.80).** Of the 69 remaining address errors, 43 differ by only one or two words. A noticeable share of those are mistakes in SROIE's own labels, where the model reads the receipt correctly: "81750" on the receipt against "B1750" in the label, and "SEKSYEN" against "SEKYSEN". The labels were not corrected, since that would change the benchmark.
+- **A known limitation of this run:** the training library resized images to 512 px during training while testing used up to 1024 px. Training and testing at the same resolution is the first thing to try next.
+- **Slower after fine-tuning** (13.2 vs 8.7 s), because the adapter is applied on the fly; merging it into the weights removes that cost.
+
+### Zero-shot comparison on a 100-receipt sample (local laptop, Ollama)
+
+Before fine-tuning, three ways of reading receipts were compared on a fixed sample of 100 test receipts with no training at all. Reports: `evals/results/sroie/`.
+
+| Field | Rules only | Qwen2.5 3B on the OCR text | Qwen2.5-VL 3B on the image |
 |---|---|---|---|
-| Company | 0.49 | 0.53 | **0.86** |
-| Date | 0.44 | 0.89 | **0.90** |
-| Address | 0.00 | 0.60 | **0.84** |
-| Total | 0.45 | 0.67 | **0.89** |
-| **Mean of the four** | 0.345 | 0.672 | **0.873** |
-| All four right on one receipt | 0.00 | 0.13 | **0.62** |
-| Time per receipt (CPU) | ~0 s | 60 s | 130 s |
+| Mean of the four | 0.345 | 0.672 | 0.873 |
+| All four right on one receipt | 0.00 | 0.13 | 0.62 |
 
-Correct means an exact match after normalising case, spacing and punctuation, with dates and totals compared by value. That is close to, but not the same as, the official SROIE scoring.
-
-**Honest reading**
-- **Below published results.** Models fine-tuned on SROIE's training receipts report roughly 95–98% F1. This is a zero-shot small model, so it isn't a like-for-like comparison, but it isn't competitive yet either.
-- **Reading the image beats reading the OCR text** on every field, and gets all four fields right five times as often.
-- **The trust layer is not yet trustworthy on receipts.** In text mode, 9 of the 11 receipts DocFlow auto-approved had a wrong field. Image uploads always go to a person (they can't be screened or grounded against text), so that mode is safe but not automated.
-- **Crashes, disclosed.** In the first image run, 15 receipts crashed (14 exceeded Ollama's default 4,096-token context, 1 malformed reply), giving 0.75. After raising the context to 8,192, only those 15 were re-run; the other 85 results are unchanged. Both reports are in the folder, and the original is in the commit history before the fix.
-
-**Next:** run on a GPU, improve using the train split only, fine-tune the vision model on the 626 training receipts, then score once on all 347 official test receipts.
+Reading the image beat reading the OCR text on every field. In text mode, 9 of the 11 receipts DocFlow auto-approved had a wrong field, so its trust layer is not yet reliable on receipts; image uploads without a text layer always go to a person. In the first image run, 15 receipts crashed on Ollama's default 4,096-token context and were re-run after raising it; both reports are kept. (These numbers came from a different runtime, quantisation and prompt than the Colab run, so they aren't directly comparable with the table above.)
 
 ### Earlier: synthetic and AI-generated invoices
 
